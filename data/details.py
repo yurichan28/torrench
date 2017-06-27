@@ -35,15 +35,21 @@ def get_details(url, index):
 	unique_id = url.split('/')[-1]
 	file_name = unique_id+".html"
 	soup = BeautifulSoup(raw, "lxml")
+	
 	content = soup.find('div', id="details")
 	nfo = str(content.find_all('div', class_="nfo")[0])
-	dt = content.find_all('dt')
-	dd = content.find_all('dd')
+	dt = content.find_all('dt')	# Torrent info table headers
+	dd = content.find_all('dd')	# info table values
 	title = "(Index: "+index+") - "+str(soup.find('div', id="title").string)
 	name = str(soup.find('div', id="title"))
 	magnet = soup.find('div', class_="download").a["href"]
 	comment = soup.find_all('div', class_='comment')
 	commenter = soup.find(id="comments").find_all('p')
+	torrent_hash = soup.find('div', class_="download").a["href"].split('&')[0].split(':')[-1]
+	torrent_hash = torrent_hash.upper()
+	
+	## Set torrent hash explicitly as it is not fetched directly as other dd elements
+	dd[-1].string = torrent_hash
 	
 	# Check Uploader-Status
 	style_tag = "<style> pre {white-space: pre-wrap; text-align: left} h2, .center {text-align: center;} .vip {color: #336600} .trusted {color: #FF00CC}  body {margin:0 auto; width:70%;} table, td, th {border: 1px solid black;} td, th {text-align: center; vertical-align: middle; font-size: 15px; padding: 6px} .boxed{border: 1px solid black; padding: 3px} </style> "
@@ -58,7 +64,7 @@ def get_details(url, index):
 	f.write("<h2><u><a href="+url+" target='_blank'>"+name+"</a></u></h2><br />")
 	f.write("<table align='center'>")
 
-	# The info table
+	# Torrent info table
 	for i in dt:
 		dt_str = str(i.get_text()).replace(":", "")
 		f.write("<th>"+dt_str+"</th>")
@@ -72,8 +78,9 @@ def get_details(url, index):
 			elif j.img['title'] == 'Trusted':
 				dd_str = "<div class='trusted'>"+dd_str+"</div>" + uploader_icon[1];	
 		f.write("<td>"+dd_str+"</td>")
-
+		
 	f.write("</tr></table><br />")
+	
 	# Magnetic link
 	f.write("<div class='center'><a href="+magnet+" target='_blank'>[Magnetic Link (Download)]</a></div><br />")
 

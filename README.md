@@ -37,16 +37,15 @@ $ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
 3. Simple copy-paste the following in terminal for installation
 ```bash
 $ git clone https://github.com/kryptxy/torrench.git ~/.torrench
-# Create symlink
-$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
 # Make executable
 $ chmod a+x $HOME/.torrench/data/torrench.py
 
 ## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
 # Add torrench to PATH. Change the *rc file according to shell you use
+$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
 $ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
 ## OR ##
-# Symlink torrench in /usr/local/bin [Requires root privilidges]
+# Symlink torrench in /usr/local/bin [Requires root]
 $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ```
 4. That's it!

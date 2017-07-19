@@ -79,8 +79,8 @@ $ torrench "the flash s03e16" - Fetches torrents for 'the flash s03e16' from fir
 	* Search again. The second time generally works fine.
 ### Note
 * Each and every detail you will see on the terminal/HTML page is fetched from the website. If some info is missing/unintended, it's probably how its available on website.
-* An important note about **comments** - The comments in torrent website are divided into pages. By default, torrent website displays the **most recent** comments, that is, the _last_ comments page. That is how it's fetched by the tool as well.
-Example: If a torrent has 100 comments, and the comments are divided into 4 pages, the comments available on _4th page_ are only fetched. For some reason, the comments on previous pages are not being loaded by website itself. Thus, they are not being fetched by tool.
+* ~~An important note about **comments** - The comments in torrent website are divided into pages. By default, torrent website displays the **most recent** comments, that is, the _last_ comments page. That is how it's fetched by the tool as well.
+Example: If a torrent has 100 comments, and the comments are divided into 4 pages, the comments available on _4th page_ are only fetched. For some reason, the comments on previous pages are not being loaded by website itself. Thus, they are not being fetched by tool.~~ Comments fixed. All torrent comments can be fetched. Please refer [changelogs - 19/07/2017](https://github.com/kryptxy/torrench/blob/master/changelogs) for more info about the same.
 
 ## Disclaimer
 This tool only fetches torrent and details from already existing torrent website(s). (thepiratebay proxy site(s)). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched. The day website(s) (proxies) goes down, the tool becomes in-effective.

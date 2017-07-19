@@ -1,0 +1,17 @@
+[19/07/2017] Torrench V1.2
+
+	(1)	Fixed comments fetch. It's possible to now fetch all the comments a torrent has. 
+		
+		NOTE:
+		Comments are divided into pages. 1 page can have MAX 25 comments. 
+		Now if a torrent has <=50 comments (2 pages), no prompt occurs.
+		If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.
+		Options:
+		(fetch all): Fetch all pages
+		(enter n): Enter number of pages to fetch
+		(d): "display anyway" - Do not fetch any extra pages. By default the latest comments (comments on last page) are fetched. 
+		
+		Fetching comments pages can be time-costly. For every comment page, entire new HTML page is fetched.
+		
+	(2)	More verbose. Show proxy in use, time taken for fetch, colorify output, etc.
+	(3) Bug fixes

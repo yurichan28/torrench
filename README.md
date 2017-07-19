@@ -1,4 +1,4 @@
-# Torrench - Torrent search made simple
+# Torrench - Search torrents from terminal
 Torrench is a simple command-line tool that fetches torrents and displays results **within terminal window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please **update me**._
@@ -28,21 +28,25 @@ _If you find this tool helpful, spread the word please. Thank you!_
 $ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
 # OR
 ## using package managers
-# Ubuntu (>=16.04)
+# Apt-based (Tested on Ubuntu >=16.04)
 $ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
-# Fedora (Tested on F25)
+# RPM-based (Tested on F25)
 $ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
 # Arch :: (Use pip)
 ```
 3. Simple copy-paste the following in terminal for installation
 ```bash
 $ git clone https://github.com/kryptxy/torrench.git ~/.torrench
-# Create symlink
-$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
 # Make executable
 $ chmod a+x $HOME/.torrench/data/torrench.py
+
+## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
 # Add torrench to PATH. Change the *rc file according to shell you use
+$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
 $ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
+## OR ##
+# Symlink torrench in /usr/local/bin [Requires root]
+$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ```
 4. That's it!
 

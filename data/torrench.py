@@ -24,6 +24,7 @@ import sys
 import argparse
 
 def init(args):
+	#print("On it 1")
 	# Resolve arguments - BEGIN
 	input_title = args.search
 	page_limit = args.limit
@@ -54,53 +55,67 @@ def main(input_title, page_limit):
 	try:
 		## Adding imports here since they are only required if this function is called.
 		import requests
+		import time
 		from bs4 import BeautifulSoup
 		from tabulate import tabulate
 		from termcolor import colored
-		import find_url
 	except ImportError as e:
 		print(e);
 		print("Please install and retry.\n")
 		sys.exit()
-		
-	# Get proxy list
-	url_list = []
-	url_list = find_url.find_url_list()
-	
-	title = input_title.replace(" ", "+")
-	total_result_count = 0
-	page_result_count = 9999
-	details_link = {}
-	details_name = {}
-	masterlist = []
-	
+
+	## MAIN CODE EXECUTION BEGINS HERE	
 	try:
+		# Get proxy list
+		print("Obtaining proxies...")
+		import find_url
+		url_list = []
+		url_list = find_url.find_url_list()
+		print (">>> "+url_list[0]+"\n>>> "+url_list[1])
+		print("\n>>> Using "+colored(url_list[0], 'yellow'))
+		
+		title = input_title.replace(" ", "%20")
+		total_result_count = 0
+		page_result_count = 9999
+		details_link = {}
+		details_name = {}
+		masterlist = []
+		page_fetch_time=0
+		total_page_fetch_time=0
+	
 		# Traverse on basis of page_limit input
 		for p in range(page_limit):
+			
+			#initially page_result_count=9999
 			# If results in a page are <30, break loop (no more remaining pages are fetched)
 			if page_result_count < 30:
 				break;
 			
 			if page_limit > 1:
 				fetch_status_str = "\nFetching from page: "+str(p+1)
+				print(fetch_status_str);
 			else:
-				fetch_status_str = "\n(Optional) Use [-p] option to specify pages.\n\nFetching results (Max: 30)...\n(Might take longer. Be patient)" 
-			print(fetch_status_str);
+				print("Fetching results...")
 			
 			page_result_count = 0
-			# Determine proxy site to use - list to proxy sites is obtained from find_url module
 			url_list_count = 0
 			url = url_list[url_list_count]
 			search = {'q':title, 'category': '0', 'page': p, 'orderby':'99'}
+			
 			while(url_list_count < len(url_list)):
 				try:
+					start_time = time.time()
 					raw = requests.get(url+"/s/", params=search)
+					page_fetch_time = time.time() - start_time
+					#print("[%.2f sec]" %())
+					time.sleep(1)
 					raw = raw.content
 					break;
 				except requests.exceptions.ConnectionError as e:
-					print("Link Not reachable... Trying next proxy...");
+					print("Connection error... ");
 					url_list_count += 1
 					url = url_list[url_list_count]
+					print("Trying "+url)
 			# End determining proxy site
 			soup = BeautifulSoup(raw, "lxml")
 			# Result found or not? 
@@ -113,6 +128,7 @@ def main(input_title, page_limit):
 					
 			data = content.find_all('tr')
 			mylist = []
+			temp_url=url.split('//')[-1]
 			### Extraction begins here ###
 			for i in data:
 				name = i.find('a', class_="detLink")
@@ -154,16 +170,24 @@ def main(input_title, page_limit):
 				# Dictationary to map torrent name with corresponding link (Used later)
 				details_link[str(total_result_count)] = link
 				details_name[str(total_result_count)] = name
-			print(">> "+str(page_result_count)+" torrents");
+				
+			if(page_limit == 1):
+				total_page_fetch_time = page_fetch_time
+			else:
+				print(">> "+str(page_result_count)+" torrents");
+				print ("[%.2f sec]" %(page_fetch_time))
+				total_page_fetch_time += page_fetch_time
+				
 	except KeyboardInterrupt:
 		print("\nAborted!\n")
-	
+		sys.exit()
+		
     # Print Results and fetch torrent details
 	if(total_result_count > 0):
 		print("\n\nS=Seeds; L=Leeches; C=Comments");
 		final_output = tabulate(masterlist, headers=['TYPE', 'NAME', 'INDEX', 'UPLOADER', 'SIZE','S','L', 'UPLOADED', "C"], tablefmt="grid")
 		print(final_output);
-		print("\nTotal: "+str(total_result_count)+" torrents");
+		print("\nTotal: "+str(total_result_count)+" torrents"+" [in %.2f sec]" %(total_page_fetch_time));
 		exact_no_of_pages = total_result_count//30
 		has_extra_page = total_result_count%30
 		if has_extra_page > 0:
@@ -188,7 +212,8 @@ def main(input_title, page_limit):
 					selected_name = details_name[str(option)]
 					print("Fetching details for torrent index [%d] : %s" %(option, selected_name));
 					file_url = details.get_details(selected_link, str(option))
-					print("\nFile URL: "+file_url+"\n\n"); 
+					file_url = colored(file_url, 'yellow')
+					print("\nFile URL: "+file_url+"\n\n");			 
 			except KeyboardInterrupt:
 				break;
 			except ValueError:
@@ -200,6 +225,6 @@ if __name__ == "__main__":
 	parser.add_argument("search", help="Enter search string", nargs="?", default=None)
 	parser.add_argument("-p", "--page-limit", type=int, help="Number of pages to fetch results from (1 page = 30 results).\n [default: 1]", default=1, dest="limit")
 	parser.add_argument("-c", "--clear-html", action="store_true", default=False, help="Clear all torrent description HTML files and exit.")
-	parser.add_argument("-v", "--version", action='version', version='%(prog)s v1.0', help="Display version and exit.")
+	parser.add_argument("-v", "--version", action='version', version='%(prog)s v1.2', help="Display version and exit.")
 	args = parser.parse_args()
 	init(args);

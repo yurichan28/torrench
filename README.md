@@ -86,9 +86,9 @@ Example: If a torrent has 100 comments, and the comments are divided into 4 page
 If (suppose) a torrent has <=50 comments (2 pages), no prompt occurs.
 If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.
 Options:
-*(fetch all): Fetch all pages*
-*(enter n): Enter number of pages to fetch*
-*(d): "display anyway" - Do not fetch any extra pages.* By default the latest comments (comments on last page) 			are fetched.
+1. *(fetch all): Fetch all pages*
+2. *(enter n): Enter number of pages to fetch*
+3. *(d): "display anyway" - Do not fetch any extra pages.* By default the latest comments (comments on last page) 			are fetched.
 Fetching comments pages can be time-costly. For every comment page, entire new HTML page is fetched.
 
 ## Disclaimer

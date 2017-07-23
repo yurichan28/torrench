@@ -25,7 +25,8 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 
 ## Requirements and Installation
-### [LINUX]
+
+	### [LINUX]
 	1. Requires [Python3](https://www.python.org/downloads/)
 	2. Install following packages
 	```bash 

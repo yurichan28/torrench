@@ -22,9 +22,9 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 import os
 import sys
 import argparse
-	
-def init(args):
 
+def init(args):
+	#print("On it 1")
 	# Resolve arguments - BEGIN
 	input_title = args.search
 	page_limit = args.limit
@@ -56,19 +56,9 @@ def main(input_title, page_limit):
 		## Adding imports here since they are only required if this function is called.
 		import requests
 		import time
-		import platform
 		from bs4 import BeautifulSoup
 		from tabulate import tabulate
 		from termcolor import colored
-		OS_WIN=False
-		if platform.system()=='Windows': #Determine platform
-			import colorama;
-			import ctypes
-			from multiprocessing import Queue
-			colorama.init()
-			os.system("mode CON: COLS=180 LINES=300");
-			ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 3)
-			OS_WIN=True
 	except ImportError as e:
 		print(e);
 		print("Please install and retry.\n")
@@ -83,7 +73,7 @@ def main(input_title, page_limit):
 		url_list = find_url.find_url_list()
 		print (">>> "+url_list[0]+"\n>>> "+url_list[1])
 		print("\n>>> Using "+colored(url_list[0], 'yellow'))
-
+		
 		title = input_title.replace(" ", "%20")
 		total_result_count = 0
 		page_result_count = 9999
@@ -110,14 +100,12 @@ def main(input_title, page_limit):
 			page_result_count = 0
 			url_list_count = 0
 			url = url_list[url_list_count]
-			url_for_comments = url.split('//')[-1] #required for fetching comments
-			#search = {'q':title, 'category': '0', 'page': p, 'orderby':'99'}
-			search = "/search/%s/%d/99/0" %(title, p)
+			search = {'q':title, 'category': '0', 'page': p, 'orderby':'99'}
 			
 			while(url_list_count < len(url_list)):
 				try:
 					start_time = time.time()
-					raw = requests.get(url+search)
+					raw = requests.get(url+"/s/", params=search)
 					page_fetch_time = time.time() - start_time
 					#print("[%.2f sec]" %())
 					time.sleep(1)
@@ -143,24 +131,17 @@ def main(input_title, page_limit):
 			temp_url=url.split('//')[-1]
 			### Extraction begins here ###
 			for i in data:
-				name = i.find('a', class_='detLink')
+				name = i.find('a', class_="detLink")
 				uploader = i.find('a', class_="detDesc")
-				if name != None and uploader != None:
-					if OS_WIN: 
-						try:
-							name = name.string.encode('ascii', 'replace').decode() #Handling Unicode characters in windows.
-						except AttributeError: #Occured once for some weird reason. Let it be.
-							name = name.string
-					else:
-						name = name.string
-					uploader = uploader.string 
-				else:
-					continue
-				comments = i.find('img', {'src': '//%s/static/img/icon_comment.gif' %(url_for_comments)})
+				comments = i.find('img', {'src': '/static/img/icon_comment.gif'})
 				if comments != None:
 					comment = comments['alt'].split(" ")[-2] #Total number of comments
 				else:
 					comment = "0"
+				if name == None or uploader == None:
+					continue;
+				name = name.string
+				uploader = uploader.string 
 				total_result_count+=1		
 				page_result_count+=1
 				categ = i.find('td', class_="vertTh").find_all('a')[0].string
@@ -171,13 +152,8 @@ def main(input_title, page_limit):
 					name = colored(name, "green")
 					uploader = colored(uploader, 'green')
 				elif(is_trusted != None):
-					if OS_WIN:
-						asterik = colored('**', 'cyan')
-						name = asterik+name+asterik
-						uploader = asterik+uploader+asterik
-					else:
-						name = colored(name, 'magenta')
-						uploader = colored(uploader, 'magenta')
+					name = colored(name, 'magenta')
+					uploader = colored(uploader, 'magenta')
 				seeds = i.find_all('td', align="right")[0].string
 				leeches = i.find_all('td', align="right")[1].string
 				date = i.find('font', class_="detDesc").get_text().split(' ')[1].replace(',', "")
@@ -210,7 +186,7 @@ def main(input_title, page_limit):
 	if(total_result_count > 0):
 		print("\n\nS=Seeds; L=Leeches; C=Comments");
 		final_output = tabulate(masterlist, headers=['TYPE', 'NAME', 'INDEX', 'UPLOADER', 'SIZE','S','L', 'UPLOADED', "C"], tablefmt="grid")
-		print(final_output)
+		print(final_output);
 		print("\nTotal: "+str(total_result_count)+" torrents"+" [in %.2f sec]" %(total_page_fetch_time));
 		exact_no_of_pages = total_result_count//30
 		has_extra_page = total_result_count%30
@@ -224,7 +200,7 @@ def main(input_title, page_limit):
 		print("Enter torrent's index value to fetch details (Maximum one index)\n");
 		option = 9999
 		while(option != 0):
-			try:	
+			try:
 				option = int(input("(0 = exit)\nindex > "));
 				if option > total_result_count or option < 0 or option == "":
 					print("**Enter valid index**\n\n");
@@ -237,7 +213,7 @@ def main(input_title, page_limit):
 					print("Fetching details for torrent index [%d] : %s" %(option, selected_name));
 					file_url = details.get_details(selected_link, str(option))
 					file_url = colored(file_url, 'yellow')
-					print("File URL: "+file_url+"\n\n");			 
+					print("\nFile URL: "+file_url+"\n\n");			 
 			except KeyboardInterrupt:
 				break;
 			except ValueError:

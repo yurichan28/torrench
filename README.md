@@ -1,13 +1,13 @@
 # Torrench - Command-line torrent search tool
-Torrench is a simple command-line tool that fetches torrents and displays results **within terminal window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
+Torrench is a simple command-line tool that fetches torrents and displays results **within console window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please **let me know**._
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._
 
 _I'll continue updating it, add new features and try making it better and more efficient._
 _If you find this tool helpful, spread the word please. Thank you!_
 
 ## Compatibility
-It's compatible under Linix and Windows operating systems. 
+It's compatible under **Linux and Windows** operating systems. 
 As for MacOS, I don't own any mac hardware. If anyone wants to help porting it onto apple, feel free to do so.
 
 ## Features
@@ -61,12 +61,14 @@ $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
 
-* Download the zip bundle.
-* Unzip software to preferred location.
-* That's it. Open cmd/powershell, and access it through 'torrench.exe'.
-* Enjoy!
+1. Download the zip bundle.
+2. Unzip to preferred location.
+3. That's it. Open cmd/powershell, and access it through 'torrench.exe'.
+4. Enjoy!
 
-	* Note - In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+* Note: 
+	* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+	* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan color (*) in front and at the back of TORRENT NAME and UPLOADER NAME. 
 
 ## Usage (with example)
 ```bash

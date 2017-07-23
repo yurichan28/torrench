@@ -66,9 +66,9 @@ Windows does not require any additional packages. Everything required to run thi
 * That's it. Open cmd/powershell, and access it through 'torrench.exe'.
 * Enjoy!
 
-* Note - In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+	* Note - In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
 
-## Usage (example below)
+## Usage (with example)
 ```bash
 usage: torrench [-h] [-p LIMIT] [-c] [-v] [search]
 

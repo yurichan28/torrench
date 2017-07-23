@@ -1,13 +1,13 @@
 # Torrench - Command-line torrent search tool
-Torrench is a simple command-line tool that fetches torrents and displays results **within terminal window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
+Torrench is a simple command-line tool that fetches torrents and displays results **within console window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please **let me know**._
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._
 
 _I'll continue updating it, add new features and try making it better and more efficient._
 _If you find this tool helpful, spread the word please. Thank you!_
 
 ## Compatibility
-It's compatible under Linix and Windows operating systems. 
+It's compatible under **Linux and Windows** operating systems. 
 As for MacOS, I don't own any mac hardware. If anyone wants to help porting it onto apple, feel free to do so.
 
 ## Features
@@ -25,6 +25,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 
 ## Requirements and Installation
+<<<<<<< HEAD
 
 	### [LINUX]
 	1. Requires [Python3](https://www.python.org/downloads/)
@@ -58,16 +59,54 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 	4. That's it!
 
 ### [WINDOWS]
+=======
+### Linux
+1. Requires [Python3](https://www.python.org/downloads/)
+2. Install following packages
+```bash 
+## [Using pip (Distro-independent)(Recommended)]
+## [pip comes pre-installed with python 3.4+]
+$ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
+# OR
+## using package managers
+# Apt-based (Tested on Ubuntu >=16.04)
+$ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
+# RPM-based (Tested on F25)
+$ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
+# Arch :: (Use pip)
+```
+3. Simple copy-paste the following in terminal for installation
+```bash
+(Using git)
+$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
+(Using wget)
+# Make executable
+$ chmod a+x $HOME/.torrench/data/torrench.py
+
+## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
+# Add torrench to PATH. Change the *rc file according to shell you use
+$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
+$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
+## OR ##
+# Symlink torrench in /usr/local/bin [Requires root]
+$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
+```
+4. That's it!
+
+### Windows
+>>>>>>> fc0208e3ec285dff8be8c2916aa2fb293408bafe
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
 
-	* Download the zip bundle.
-	* Unzip software to preferred location.
-	* That's it. Open cmd/powershell, and access it through 'torrench.exe'.
-	* Enjoy!
-* Note
-In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+1. Download the zip bundle.
+2. Unzip to preferred location.
+3. That's it. Open cmd/powershell, and access it through 'torrench.exe'.
+4. Enjoy!
 
-## Usage (example below)
+* NOTE: 
+	* Windows powershell is unable to display <font color='magenta'>magenta</font> color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
+	* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+
+## Usage (with example)
 ```bash
 usage: torrench [-h] [-p LIMIT] [-c] [-v] [search]
 
@@ -98,15 +137,15 @@ $ torrench "the flash s03e16" - Fetches torrents for 'the flash s03e16' from fir
 * Each and every detail you will see on the terminal/HTML page is fetched from the website. If some info is missing/unintended, it's probably how its available on website.
 * ~~An important note about **comments** - The comments in torrent website are divided into pages. By default, torrent website displays the **most recent** comments, that is, the _last_ comments page. That is how it's fetched by the tool as well.
 Example: If a torrent has 100 comments, and the comments are divided into 4 pages, the comments available on _4th page_ are only fetched. For some reason, the comments on previous pages are not being loaded by website itself. Thus, they are not being fetched by tool.~~ **Comments fixed**. All torrent comments can be fetched.
-* Comments are divided into pages. 1 page can have MAX 25 comments. 
-If (suppose) a torrent has <=50 comments (2 pages), no prompt occurs.
-If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.
-Options:
-	* (fetch all): Fetch all pages
-	* (enter n): Enter number of pages to fetch
-	* (d): "display anyway" - Do not fetch any extra pages. By default the latest comments (comments on last page) 			are fetched.
+	* Comments are divided into pages. 1 page can have MAX 25 comments. 
+	If (suppose) a torrent has <=50 comments (2 pages), no prompt occurs.
+	If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.
+	Options:
+		* (fetch all): Fetch all pages
+		* (enter n): Enter number of pages to fetch
+		* (d): "display anyway" - Do not fetch any extra pages. By default the latest comments (comments on last page are fetched).
 
-Fetching comments pages can be time-costly. For every comment page, entire new HTML page is fetched.
+	Fetching comments pages can be time-costly. For every comment page, entire new HTML page is fetched.
 
 ## Disclaimer
 This tool only fetches torrent and details from already existing torrent website(s). (thepiratebay proxy site(s)). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched. The day website(s) (proxies) goes down, the tool becomes in-effective.

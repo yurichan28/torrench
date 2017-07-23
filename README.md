@@ -25,7 +25,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 
 ## Requirements and Installation
-### [LINUX]
+### Linux
 1. Requires [Python3](https://www.python.org/downloads/)
 2. Install following packages
 ```bash 
@@ -42,7 +42,9 @@ $ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
 ```
 3. Simple copy-paste the following in terminal for installation
 ```bash
+(Using git)
 $ git clone https://github.com/kryptxy/torrench.git ~/.torrench
+(Using wget)
 # Make executable
 $ chmod a+x $HOME/.torrench/data/torrench.py
 
@@ -56,15 +58,15 @@ $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ```
 4. That's it!
 
-### [WINDOWS]
+### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
 
-	* Download the zip bundle.
-	* Unzip software to preferred location.
-	* That's it. Open cmd/powershell, and access it through 'torrench.exe'.
-	* Enjoy!
-* Note
-In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
+* Download the zip bundle.
+* Unzip software to preferred location.
+* That's it. Open cmd/powershell, and access it through 'torrench.exe'.
+* Enjoy!
+
+* Note - In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
 
 ## Usage (example below)
 ```bash

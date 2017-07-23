@@ -26,35 +26,35 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 ## Requirements and Installation
 ### [LINUX]
-	1. Requires [Python3](https://www.python.org/downloads/)
-	2. Install following packages
-	```bash 
-	## [Using pip (Distro-independent)(Recommended)]
-	## [pip comes pre-installed with python 3.4+]
-	$ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
-	# OR
-	## using package managers
-	# Apt-based (Tested on Ubuntu >=16.04)
-	$ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
-	# RPM-based (Tested on F25)
-	$ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
-	# Arch :: (Use pip)
-	```
-	3. Simple copy-paste the following in terminal for installation
-	```bash
-	$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
-	# Make executable
-	$ chmod a+x $HOME/.torrench/data/torrench.py
+1. Requires [Python3](https://www.python.org/downloads/)
+2. Install following packages
+```bash 
+## [Using pip (Distro-independent)(Recommended)]
+## [pip comes pre-installed with python 3.4+]
+$ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
+# OR
+## using package managers
+# Apt-based (Tested on Ubuntu >=16.04)
+$ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
+# RPM-based (Tested on F25)
+$ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
+# Arch :: (Use pip)
+```
+3. Simple copy-paste the following in terminal for installation
+```bash
+$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
+# Make executable
+$ chmod a+x $HOME/.torrench/data/torrench.py
 
-	## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
-	# Add torrench to PATH. Change the *rc file according to shell you use
-	$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
-	$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
-	## OR ##
-	# Symlink torrench in /usr/local/bin [Requires root]
-	$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
-	```
-	4. That's it!
+## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
+# Add torrench to PATH. Change the *rc file according to shell you use
+$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
+$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
+## OR ##
+# Symlink torrench in /usr/local/bin [Requires root]
+$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
+```
+4. That's it!
 
 ### [WINDOWS]
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).

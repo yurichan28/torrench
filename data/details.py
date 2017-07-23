@@ -21,14 +21,21 @@ from bs4 import BeautifulSoup
 import requests
 import os;
 import time
+import platform
+import io
+if platform.system()=='Windows':
+	charset=""
+else:
+	charset="<meta charset='utf-8'>"
 
 def get_details(url, index):
 	
 	home = os.path.expanduser('~')
 	main_dir = home+"/.torrench/"
 	temp_dir = main_dir+"temp/"
-	
+	initial_time=time.time()
 	raw = requests.get(url);
+	initial_end_time = time.time() - initial_time;
 	raw = raw.content
 	unique_id = url.split('/')[-1]
 	file_name = unique_id+".html"
@@ -54,6 +61,8 @@ def get_details(url, index):
 	
 	#Determine if any other comment pages are present. 
 	total_comments_pages = soup.find('div', class_='browse-coms') #Total number of comment pages
+	opt=''
+	total_time=0
 	if total_comments_pages!=None:
 		total_comments_pages = int(soup.find('div', class_='browse-coms').strong.string)
 		print("\n%d comment pages (1 page = 25 comments (MAX))" %(total_comments_pages))			
@@ -76,7 +85,7 @@ def get_details(url, index):
 							temp=False
 						else:
 							print("Bad Input")	
-				elif opt=='d':
+				elif opt=='d' or opt=='D':
 					pg_count=total_comments_pages
 					temp=False
 				else:
@@ -96,9 +105,9 @@ def get_details(url, index):
 			commenter = soup2.find(id="comments").find_all('p')
 			comments_list.append(comments)
 			commenter_list.append(commenter)
+			total_time += end_time
 			total_comments_pages-=1
 			
-	
 	torrent_hash = soup.find('div', class_="download").a["href"].split('&')[0].split(':')[-1]
 	torrent_hash = torrent_hash.upper()
 	
@@ -107,17 +116,18 @@ def get_details(url, index):
 	
 	# Check Uploader-Status
 	style_tag = "<style> pre {white-space: pre-wrap; text-align: left} h2, .center {text-align: center;} .vip {color: #32CD32} .trusted {color: #FF00CC}  body {margin:0 auto; width:70%;} table, td, th {border: 1px solid black;} td, th {text-align: center; vertical-align: middle; font-size: 15px; padding: 6px} .boxed{border: 1px solid black; padding: 3px} </style> "
-	begin_tags = "<!DOCTYPE html><html><head><meta http-equiv='Content-type' content='text/html;charset=utf-8'> <title>"+title+"</title>"+style_tag+"</head><body>"
+	begin_tags = "<!DOCTYPE html><html><head>"+charset+"<meta http-equiv='Content-type'> <title>"+title+"</title>"+style_tag+"</head><body>"
 	end_tags = "</body></html>"
 
 	# File opens here
 	if not os.path.exists(temp_dir):
 		os.makedirs(temp_dir)	
-	f = open(temp_dir+unique_id+".html", "w")
+
+	f = io.open(temp_dir+unique_id+".html", "w", encoding="utf-8")
 	f.write(begin_tags)
 	f.write("<h2><u><a href="+url+" target='_blank'>"+name+"</a></u></h2><br />")
 	f.write("<table align='center'>")
-
+	
 	# Torrent info table
 	for i in dt:
 		dt_str = str(i.get_text()).replace(":", "")
@@ -134,7 +144,6 @@ def get_details(url, index):
 				dd_str = "<div class='trusted'>"+dd_str+"</div>"
 				status='trusted'	
 		f.write("<td>"+dd_str+"</td>")
-		
 	f.write("</tr></table>")
 	
 	if status=='vip':
@@ -143,10 +152,10 @@ def get_details(url, index):
 		f.write("<div class='trusted'> *Trusted Uploader </div>")
 	
 	f.write("<br />")
-		
+	
 	# Magnetic link[1]
 	f.write("<div class='center'><a href="+magnet+" target='_blank'>[Magnetic Link (Download)]</a></div><br />")
-
+	
 	# Printing Description
 	f.write("<div class='boxed'>")
 	f.write("<h2><u> DESCRIPTION </u></h2>")
@@ -157,7 +166,8 @@ def get_details(url, index):
 	f.write("<h2><u> COMMENTS </u></h2>")
 	#End Description
 	
-	count=1
+	count=0
+	
 	#Printing Comments
 	if commenter_list != [] and commenter_list[0]!=[]:
 		f.write("<table align='center'>")
@@ -166,20 +176,26 @@ def get_details(url, index):
 				f.write("<tr><th>"+str(i.get_text())+"</th>")
 				f.write("<td><pre>"+str(j.get_text())+"</pre></td></tr>")
 				count+=1
+		f.write("<div class=center> (Total %d comments) </div><br />" %(count))
 		f.write("</table><br />");
-		f.write("<div class=center> (Total %d comments) </div>" %(count))
+		f.write("<div class=center> (Total %d comments) </div><br />" %(count))
+		
 	else:
-		f.write("<pre class='center>No comments found!</pre></div>") 
-		f.write("</div><br />");
+		f.write("<pre class='center'>No comments found!</pre></div>") 
+	f.write("</div><br />");
+	#f.write("</div>")
 	# End Comments
 	# Magnetic link[2]
-	f.write("<br /><div class='center'><a href="+magnet+" target='_blank'>[Magnetic Link (Download)]</a></div><br /><br />")
 	f.write(end_tags);
+	f.write("<br /><div class='center'><a href="+magnet+" target='_blank'>[Magnetic Link (Download)]</a></div><br /><br />")
 	f.close();
 	
 	file_url = "file://"+temp_dir+file_name
+	if opt=='d' or opt=='D' or opt=='':
+		print("\n[in %.2f sec]" %(initial_end_time))
+	else:
+		print("\n[in %.2f sec]" %(total_time))
 	return file_url
 	
 if __name__ == "__main__":
 	print("It's a module. Can only be imported!");
-	

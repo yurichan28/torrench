@@ -66,9 +66,9 @@ Windows does not require any additional packages. Everything required to run thi
 3. That's it. Open cmd/powershell, and access it through 'torrench.exe'.
 4. Enjoy!
 
-* Note: 
+* NOTE: 
+	* Windows powershell is unable to display <font color='magenta'>magenta</font> color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
 	* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
-	* Windows powershell is unable to display <font color='magenta'>magenta</font> color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a <font color='magenta'>cyan (*)</font> in front and at the back of TORRENT NAME and UPLOADER NAME. 
 
 ## Usage (with example)
 ```bash

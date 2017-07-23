@@ -1,55 +1,70 @@
-# Torrench - Search torrents from terminal
+# Torrench - Command-line torrent search tool
 Torrench is a simple command-line tool that fetches torrents and displays results **within terminal window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please **update me**._
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please **let me know**._
 
 _I'll continue updating it, add new features and try making it better and more efficient._
 _If you find this tool helpful, spread the word please. Thank you!_
 
+## Compatibility
+It's compatible under Linix and Windows operating systems. 
+As for MacOS, I don't own any mac hardware. If anyone wants to help porting it onto apple, feel free to do so.
+
 ## Features
 * ~~ads ads ads~~ Now surf torrents **Ad-free**
 * Simple to use.
-* Display search results in tabular form.
+* Display search results in organized, tabular form, sorted on basis of Seeds (High -> Low).
 * Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
 * Display colored results on basis of _uploader's_ status (Very useful when choosing torrent). (If you are familiar with _thepiratebay_, you must be knowing that it divides _uploaders_ into 3 categories)
   * VIP Uploader ![VIP Uploader](/icons/vip.gif)
   * Trusted Uploader ![Trusted Uploader](/icons/trusted.png)
   * General Uploader
-* Fetch torrents on basis of pages [1 page yields 30 results (max)].
-* Fetch comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
+* Fetch _Torrents_ on basis of pages [1 page yields 30 results (max)].
+* Fetch _Comments_ on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
 * More to come...
 
 
 ## Requirements and Installation
-1. Requires [Python3](https://www.python.org/downloads/)
-2. Install following packages
-```bash 
-## [Using pip (Distro-independent)(Recommended)]
-## [pip comes pre-installed with python 3.4+]
-$ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
-# OR
-## using package managers
-# Apt-based (Tested on Ubuntu >=16.04)
-$ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
-# RPM-based (Tested on F25)
-$ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
-# Arch :: (Use pip)
-```
-3. Simple copy-paste the following in terminal for installation
-```bash
-$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
-# Make executable
-$ chmod a+x $HOME/.torrench/data/torrench.py
+### [LINUX]
+	1. Requires [Python3](https://www.python.org/downloads/)
+	2. Install following packages
+	```bash 
+	## [Using pip (Distro-independent)(Recommended)]
+	## [pip comes pre-installed with python 3.4+]
+	$ (sudo) python3 -m pip install requests bs4 lxml tabulate termcolor
+	# OR
+	## using package managers
+	# Apt-based (Tested on Ubuntu >=16.04)
+	$ sudo apt install python3-{requests,bs4,lxml,tabulate,termcolor}
+	# RPM-based (Tested on F25)
+	$ sudo dnf install python3-{requests,bs4,lxml,tabulate,termcolor}
+	# Arch :: (Use pip)
+	```
+	3. Simple copy-paste the following in terminal for installation
+	```bash
+	$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
+	# Make executable
+	$ chmod a+x $HOME/.torrench/data/torrench.py
 
-## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
-# Add torrench to PATH. Change the *rc file according to shell you use
-$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
-$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
-## OR ##
-# Symlink torrench in /usr/local/bin [Requires root]
-$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
-```
-4. That's it!
+	## You may add torrench to $PATH OR symlink torrench in /usr/local/bin (requires sudo)
+	# Add torrench to PATH. Change the *rc file according to shell you use
+	$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
+	$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
+	## OR ##
+	# Symlink torrench in /usr/local/bin [Requires root]
+	$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
+	```
+	4. That's it!
+
+### [WINDOWS]
+Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
+
+	* Download the zip bundle.
+	* Unzip software to preferred location.
+	* That's it. Open cmd/powershell, and access it through 'torrench.exe'.
+	* Enjoy!
+* Note
+In windows, the default location for storing html files is ```C:\Users\<user>\.torrench```
 
 ## Usage (example below)
 ```bash
@@ -81,7 +96,7 @@ $ torrench "the flash s03e16" - Fetches torrents for 'the flash s03e16' from fir
 ### Note
 * Each and every detail you will see on the terminal/HTML page is fetched from the website. If some info is missing/unintended, it's probably how its available on website.
 * ~~An important note about **comments** - The comments in torrent website are divided into pages. By default, torrent website displays the **most recent** comments, that is, the _last_ comments page. That is how it's fetched by the tool as well.
-Example: If a torrent has 100 comments, and the comments are divided into 4 pages, the comments available on _4th page_ are only fetched. For some reason, the comments on previous pages are not being loaded by website itself. Thus, they are not being fetched by tool.~~ **Comments fixed**. All torrent comments can be fetched. Please refer [changelogs - 19/07/2017](https://github.com/kryptxy/torrench/blob/master/changelogs) for more info about the same.
+Example: If a torrent has 100 comments, and the comments are divided into 4 pages, the comments available on _4th page_ are only fetched. For some reason, the comments on previous pages are not being loaded by website itself. Thus, they are not being fetched by tool.~~ **Comments fixed**. All torrent comments can be fetched.
 * Comments are divided into pages. 1 page can have MAX 25 comments. 
 If (suppose) a torrent has <=50 comments (2 pages), no prompt occurs.
 If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.

@@ -89,6 +89,7 @@ def main(input_title, page_limit):
 		page_result_count = 9999
 		details_link = {}
 		details_name = {}
+		magnetic_link_dict = {}
 		masterlist = []
 		page_fetch_time=0
 		total_page_fetch_time=0
@@ -142,7 +143,7 @@ def main(input_title, page_limit):
 			mylist = []
 			temp_url=url.split('//')[-1]
 			### Extraction begins here ###
-			for i in data:
+			for i in data[1:]:
 				name = i.find('a', class_='detLink')
 				uploader = i.find('a', class_="detDesc")
 				if name != None and uploader != None:
@@ -192,9 +193,10 @@ def main(input_title, page_limit):
 				# Further, appending mylist to a masterlist. This masterlist stores the required result
 				masterlist.append(mylist)
 				
-				# Dictationary to map torrent name with corresponding link (Used later)
+				# Dictationary to map torrent name with corresponding link and magnet-link (Used later)
 				details_link[str(total_result_count)] = link
 				details_name[str(total_result_count)] = name
+				magnetic_link_dict[str(total_result_count)] = magnet
 				
 			if(page_limit == 1):
 				total_page_fetch_time = page_fetch_time
@@ -236,15 +238,16 @@ def main(input_title, page_limit):
 				else:
 					selected_link = details_link[str(option)]
 					selected_name = details_name[str(option)]
+					required_magnetic_link = magnetic_link_dict[str(option)]
 					
 					print("\nSelected - "+selected_name+"\n")
 					option2 = input("1. Download this torrent using magnet [d]\n2. Get torrent details [g]\n\nOption [d/g]: ")
 					if option2 == 'd' or option2 == 'g':
 						if option2 == 'd':
-							print("\nMagnetic link - "+magnet+"\n")
+							print("\nMagnetic link - "+required_magnetic_link+"\n")
 							import webbrowser
 							try:
-								webbrowser.open_new_tab(magnet)
+								webbrowser.open_new_tab(required_magnetic_link)
 							except e:
 								print(e)
 							continue

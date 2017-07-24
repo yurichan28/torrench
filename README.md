@@ -1,6 +1,8 @@
 # Torrench - Command-line torrent search tool
 Torrench is a simple command-line tool that fetches torrents and displays results **within console window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
+_Current version - V1.3_
+
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._
 
 _I'll continue updating it, add new features and try making it better and more efficient._
@@ -62,7 +64,7 @@ $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
 
-1. [Download](https://ln.sync.com/dl/2b9851a40/2n2x3hjb-eb4fs6r3-ygjv2q6h-b4cxcwda) the zip bundle. (Hosted on sync.com)
+1. [Download](https://ln.sync.com/dl/9663e3ea0/wkak76j4-yyemd5h9-ffw6icix-i7xjxr99) the zip bundle. (Hosted on sync.com)
 2. Unzip to preferred location.
 3. That's it. Open cmd/powershell, and access it through 'torrench.exe'.
 4. Enjoy!
@@ -119,13 +121,9 @@ $ torrench "game of thrones s07e02"
 ![Screen-windows](/misc./screenshots/win-2.PNG)
 
 ### Dynamic-HTML page displaying torrent details
-
-**Sample details for "Windows 10 Pro v.1511 En-us x64 July2016 Pre-Activated-=TEAM OS="**
+_Sample details for "Windows 10 Pro v.1511 En-us x64 July2016 Pre-Activated-=TEAM OS="_
 
 ![Screen-html](/misc./screenshots/html-1.png)
-
-**COMMENTS**
-
 ![Screen-html](/misc./screenshots/html-2.png)
 
 

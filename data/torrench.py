@@ -184,6 +184,7 @@ def main(input_title, page_limit):
 				size = i.find('font', class_="detDesc").get_text().split(' ')[3].replace(',', "")
 				torr_id = i.find('a', {'class': 'detLink'})["href"].split('/')[2];
 				link = url+"/torrent/"+torr_id		
+				magnet = i.find_all('a', {'title': 'Download this torrent using magnet'})[0]['href']
 				### Extraction ends here ###
 				
 				# Storing each row result in mylist
@@ -223,6 +224,7 @@ def main(input_title, page_limit):
 		import details
 		print("Enter torrent's index value to fetch details (Maximum one index)\n");
 		option = 9999
+		option2 = 0
 		while(option != 0):
 			try:	
 				option = int(input("(0 = exit)\nindex > "));
@@ -234,15 +236,31 @@ def main(input_title, page_limit):
 				else:
 					selected_link = details_link[str(option)]
 					selected_name = details_name[str(option)]
-					print("Fetching details for torrent index [%d] : %s" %(option, selected_name));
-					file_url = details.get_details(selected_link, str(option))
-					file_url = colored(file_url, 'yellow')
-					print("File URL: "+file_url+"\n\n");			 
+					
+					print("\nSelected - "+selected_name+"\n")
+					option2 = input("1. Download this torrent using magnet [d]\n2. Get torrent details [g]\n\nOption [d/g]: ")
+					if option2 == 'd' or option2 == 'g':
+						if option2 == 'd':
+							print("\nMagnetic link - "+magnet+"\n")
+							import webbrowser
+							try:
+								webbrowser.open_new_tab(magnet)
+							except e:
+								print(e)
+							continue
+						elif option2 == 'g':
+							print("Fetching details for torrent index [%d] : %s" %(option, selected_name));
+							file_url = details.get_details(selected_link, str(option))
+							file_url = colored(file_url, 'yellow')
+							print("File URL: "+file_url+"\n\n");	
+					else:
+						print("Bad Input!\n")
+						continue		 
 			except KeyboardInterrupt:
 				break;
 			except ValueError:
 				print("Check input! (Enter one (integer) index at a time)\n\n");
-		print("\nBye");
+		print("\nBye!\n");
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="A simple torrent search tool.")

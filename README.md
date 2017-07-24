@@ -119,13 +119,9 @@ $ torrench "game of thrones s07e02"
 ![Screen-windows](/misc./screenshots/win-2.PNG)
 
 ### Dynamic-HTML page displaying torrent details
-
-**Sample details for "Windows 10 Pro v.1511 En-us x64 July2016 Pre-Activated-=TEAM OS="**
+_Sample details for "Windows 10 Pro v.1511 En-us x64 July2016 Pre-Activated-=TEAM OS="_
 
 ![Screen-html](/misc./screenshots/html-1.png)
-
-**COMMENTS**
-
 ![Screen-html](/misc./screenshots/html-2.png)
 
 

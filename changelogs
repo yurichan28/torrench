@@ -17,3 +17,7 @@ Fetching comments pages can be time-costly. For every comment page, entire new H
 2. Fix encodings
 3. Fix empty-name display
 4. Other bug fixes
+
+[24/07/2017] Torrench V1.3
+1. Added option to download torrent (magnet) directly from console without fetching details.
+2. Update torrench to v1.4 

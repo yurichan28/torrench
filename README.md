@@ -1,4 +1,4 @@
-# Torrench - Command-line torrent search tool
+# Torrench - Command-line torrent search tool [v1.3]
 Torrench is a simple command-line tool that fetches torrents and displays results **within console window**. It does this by scrapping _thepiratebay (proxy) sites_. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download (magnetic) link. (Basically everything required to choose a torrent).
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._

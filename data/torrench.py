@@ -267,6 +267,6 @@ if __name__ == "__main__":
 	parser.add_argument("search", help="Enter search string", nargs="?", default=None)
 	parser.add_argument("-p", "--page-limit", type=int, help="Number of pages to fetch results from (1 page = 30 results).\n [default: 1]", default=1, dest="limit")
 	parser.add_argument("-c", "--clear-html", action="store_true", default=False, help="Clear all torrent description HTML files and exit.")
-	parser.add_argument("-v", "--version", action='version', version='%(prog)s v1.2', help="Display version and exit.")
+	parser.add_argument("-v", "--version", action='version', version='%(prog)s v1.3', help="Display version and exit.")
 	args = parser.parse_args()
 	init(args);

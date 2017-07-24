@@ -61,7 +61,7 @@ $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in the bundle (Does not even require python pre-installed).
 
-1. Download the zip bundle.
+1. [Download](https://ln.sync.com/dl/2b9851a40/2n2x3hjb-eb4fs6r3-ygjv2q6h-b4cxcwda) the zip bundle. (Hosted on sync.com)
 2. Unzip to preferred location.
 3. That's it. Open cmd/powershell, and access it through 'torrench.exe'.
 4. Enjoy!

@@ -15,9 +15,10 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 * Simple to use.
 * Display search results in organized, tabular form, sorted on basis of Seeds (High -> Low).
 * Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
+* Download torrent (magnet) directly from console and add it automatically to torrent client (If torrent details are not intended)
 * Display colored results on basis of _uploader's_ status (Very useful when choosing torrent). (If you are familiar with _thepiratebay_, you must be knowing that it divides _uploaders_ into 3 categories)
-  * VIP Uploader ![VIP Uploader](/icons/vip.gif)
-  * Trusted Uploader ![Trusted Uploader](/icons/trusted.png)
+  * VIP Uploader ![VIP Uploader](/misc./icons/vip.gif)
+  * Trusted Uploader ![Trusted Uploader](/misc./icons/trusted.png)
   * General Uploader
 * Fetch _Torrents_ on basis of pages [1 page yields 30 results (max)].
 * Fetch _Comments_ on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
@@ -91,6 +92,43 @@ EXAMPLE:
 $ torrench -p 5 "suits s01e01" - Fetches torrents for 'suits s01e01' from first 5 pages
 $ torrench "the flash s03e16" - Fetches torrents for 'the flash s03e16' from first page only
 ```
+
+## Screenshots
+### Linux
+```bash
+$ torrench "windows"
+```
+![Screen-linux](/misc./screenshots/linux-1.png)
+
+```bash
+$ torrench "game of thrones s07e02"
+```
+
+![Screen-linux](/misc./screenshots/linux-2.png)
+
+### Windows
+```
+> torrench.exe "suits s05e08" [cmd]
+```
+![Screen-windows](/misc./screenshots/win-1.PNG)
+
+```
+> torrench.exe "windows" [powershell]
+```
+
+![Screen-windows](/misc./screenshots/win-2.PNG)
+
+### Dynamic-HTML page displaying torrent details
+
+**Sample details for "Windows 10 Pro v.1511 En-us x64 July2016 Pre-Activated-=TEAM OS="**
+
+![Screen-html](/misc./screenshots/html-1.png)
+
+**COMMENTS**
+
+![Screen-html](/misc./screenshots/html-2.png)
+
+
 ## Known Issues (and Workarounds)
 1. Results overlap with each other
 	* Workaround - **If enlarging the terminal does not solve this ofc** - (Recommended) Reduce the output parametes [In torrench.py -> alter _mylist_ and _final_output_ accordingly] OR reduce terminal font size.

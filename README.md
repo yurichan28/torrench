@@ -98,7 +98,7 @@ $ torrench "the flash s03e16" - Fetches torrents for 'the flash s03e16' from fir
 ## Screenshots
 ### Linux
 ```bash
-$ torrench "windows"
+$ torrench "fast 8"
 ```
 ![Screen-linux](/misc./screenshots/linux-1.png)
 
@@ -115,7 +115,7 @@ $ torrench "game of thrones s07e02"
 ![Screen-windows](/misc./screenshots/win-1.PNG)
 
 ```
-> torrench.exe "windows" [powershell]
+> torrench.exe "fast 8" [powershell]
 ```
 
 ![Screen-windows](/misc./screenshots/win-2.PNG)

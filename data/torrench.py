@@ -25,7 +25,7 @@ import argparse
 
 def init(args):
     
-    ''' Parse the command line arguments.
+    ''' Resolve the command line arguments.
     :param args: argparse.Namespace
     :rtype: None
     '''
@@ -40,21 +40,21 @@ def init(args):
 
         if not files:
             print("\nNothing to remove\n")
-
+        # Remove temp files.
         else:
             for count, file_name in enumerate(files):
                 os.remove(os.path.join(temp_dir, file_name));
 
-            print("\nRemoved %d file(s).\n" %count)
-        sys.exit()
+            print("\nRemoved {} file(s).\n".format(count))
+        sys.exit(0)
 
     if input_title == None:
         print("\nInput string expected.\nUse --help for more\n");
-        sys.exit();
+        sys.exit(0);
 
     elif page_limit <= 0 or page_limit > 50:
         print("Enter valid page input [0<p<=50]")
-        sys.exit();
+        sys.exit(0);
 
     else:
         main(input_title, page_limit);
@@ -69,15 +69,16 @@ def main(input_title, page_limit):
         from bs4 import BeautifulSoup
         from tabulate import tabulate
         from termcolor import colored
-        OS_WIN=False
-        if platform.system()=='Windows': #Determine platform
+        OS_WIN = False
+        if platform.system() == 'Windows': #Determine platform
             import colorama;
             import ctypes
             from multiprocessing import Queue
             colorama.init()
             os.system("mode CON: COLS=180 LINES=300");
             ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 3)
-            OS_WIN=True
+            OS_WIN = True
+			
     except ImportError as e:
         print(e);
         print("Please install and retry.\n")

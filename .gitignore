@@ -1,5 +1,10 @@
 data/*.pyc
 data/__pycache__
+data/tpb/*.pyc
+data/tpb/__pycache__
+data/tpb/conf
+data/linuxtracker/__pycache__
+data/linuxtracker/*.pyc
 bin/
 temp/
 

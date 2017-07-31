@@ -13,7 +13,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 ## Websites Supported
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**
-2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#Should-I-use-ThePirateBay?) (Optional)
+2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay) (Optional)
 
 ## Requirements and Installation
 ### Linux
@@ -47,9 +47,9 @@ $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
-
-* Download [torrench.exe](https://ln.sync.com/dl/bea8abc90/bbtdxg2w-3inaqjb4-z4btacg5-9e8i9a3b) executable
-* That's it. Run using cmd/powershell [```> torrench.exe <search>```]
+	
+	* Download [torrench.exe](https://ln.sync.com/dl/bea8abc90/bbtdxg2w-3inaqjb4-z4btacg5-9e8i9a3b) executable
+	* That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 * NOTE: 
 	* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
@@ -62,7 +62,7 @@ But, before moving to configuration, note the following:
 
 * Using TPB in many countries is illegal. Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
-* Examples of [illegal contents](https://github.com/kryptxy/torrench#Illegal-searches) on TPB. 
+* Examples of [illegal contents](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced) on TPB. 
 * If you use, use with proper precautions.
 
 #### Configuration instructions:
@@ -118,26 +118,38 @@ $ torrench "arch linux" - Fetches torrents for Arch Linux
 # Samples
 ## Linux
 
-```$ torrench "opensuse"```
+```bash
+$ torrench "opensuse"
+```
 ![linux-1](/images/screenshots/legal-1-linux.png)
 ![linux-2](/images/screenshots/legal-2-linux.png)
 
 ## Windows
-``` > torrench.exe "ubuntu"```
+``` 
+> torrench.exe "ubuntu"
+```
 ![windows-1](/images/screenshots/legal-1.PNG)
 
-``` > torrench.exe "fedora workstation 26"```
+```
+> torrench.exe "fedora workstation 26"
+```
 ![windows-1](/images/screenshots/powershell-1.PNG)
 ![windows-2](/images/screenshots/powershell-2.PNG)
 
 ## Illegal searches (Should not be practiced)
-```> torrench.exe -t "fast 8"```
+```
+> torrench.exe -t "fast 8"
+```
 ![windows-1-illegal](/images/screenshots/win-1-illegal.PNG)
 
-```> torrench.exe -t "suits s05e08"```
+```
+> torrench.exe -t "suits s05e08"
+```
 ![windows-2-illegal](/images/screenshots/win-2-illegal.PNG)
 
-```$ torrench -t "windows"```
+```bash
+$ torrench -t "windows"
+```
 ![linux-illegal](/images/screenshots/illegal.png)
 
 ## Known Issues (and Workarounds)
@@ -174,6 +186,7 @@ or contact me directly.
 E-mail : kryptxy@protonmail.com
 
 ## Licence
+
 ```
 Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
 

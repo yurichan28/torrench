@@ -19,6 +19,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 ### Linux
 1. Requires [Python3](https://www.python.org/downloads/)
 2. Install required packages
+
 ```bash 
 ## [Using pip]
 ## [pip comes pre-installed with python 3.4+]
@@ -26,7 +27,9 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 $ sudo apt-get install python3-pip
 $ (sudo) python3 -m pip install -r requirements.txt
 ```
+
 3. Simple copy-paste the following in terminal for installation
+
 ```bash
 $ git clone https://github.com/kryptxy/torrench.git ~/.torrench
 ## Make executable
@@ -43,17 +46,18 @@ $ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $H
 # Symlink torrench in /usr/local/bin [Requires root]
 $ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
 ```
+
 4. That's it!
 
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
-	
-	* Download [torrench.exe](https://ln.sync.com/dl/bea8abc90/bbtdxg2w-3inaqjb4-z4btacg5-9e8i9a3b) executable
-	* That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
-* NOTE: 
-	* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
-	* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
+* Download [torrench.exe](https://ln.sync.com/dl/bea8abc90/bbtdxg2w-3inaqjb4-z4btacg5-9e8i9a3b) executable
+* That's it. Run using cmd/powershell [```> torrench.exe <search>```]
+
+	* NOTE: 
+		* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
+		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 
 ## Should I use ThePirateBay?

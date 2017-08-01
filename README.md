@@ -13,7 +13,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 ## Websites Supported
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**
-2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay) (Optional)
+2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay)
 
 ## Requirements and Installation
 ### Linux
@@ -180,10 +180,7 @@ This tool only fetches torrent and details from already existing torrent website
 Found a bug? Please report and help improving this tool. You can [Open Issue](https://github.com/kryptxy/torrench/issues/new) or contact me directly.
 
 ## Feedback/Suggestions/Feature Requests 
-Feedbacks are much appreciated. They help in improving the tool, and keep me motivated. 
-
-I am open to suggestions. Please [Open Issue](https://github.com/kryptxy/torrench/issues/new)
-or contact me directly.
+Feedbacks/Suggestions are much appreciated. They help in improving the tool, and keep me motivated. 
 
 ## Contact
 E-mail : kryptxy@protonmail.com

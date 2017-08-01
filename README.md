@@ -64,12 +64,11 @@ Windows does not require any additional packages. Everything required to run thi
 By default, searching thepiratebay (TPB) from torrench is disabled. Some configuration is required to be done by user to enable TPB.
 But, before moving to configuration, note the following:
 
-* Using TPB in many countries is illegal. Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Using TPB in many countries is illegal. Using TPB can get you into in-intended torubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
 * Examples of [illegal contents](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced) on TPB. 
-* If you use, use with proper precautions.
 
-#### Configuration instructions:
+#### Configuration instructions (If you decided to use it anyways):
 1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.torrench\tpb\conf\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.torrench/data/tpb/conf/``` (Create any missing directories)

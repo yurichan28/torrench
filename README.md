@@ -15,19 +15,19 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 ## Installation
 ### Linux
-* Requires [Python3](https://www.python.org/downloads/) and python3-pip,
-* Installation
-	* Arch Users - [AUR](https://aur.archlinux.org/packages/torrench/)
+* Requires [Python3](https://www.python.org/downloads/)
+
+* Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
+
+* Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
+```
+sudo -H python3 -m pip install torrench
+```
 	
-	* Other distro users (Ubuntu,Fedora,Suse...) can use pip
-	```
-	sudo -H python3 -m pip install torrench
-	```
-	
-	* Alternatively, build from source
-	```bash
-	$ sudo python3 setup.py install
-	```
+* Alternatively, build from source (python-setuptools)
+```bash
+$ sudo python3 setup.py install
+```
 	
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).

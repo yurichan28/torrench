@@ -60,7 +60,7 @@ def main():
 	parser.add_argument("search", help="Enter search string", nargs="?", default=None)
 	parser.add_argument("-p", "--page-limit", type=int, help="Number of pages to fetch results from (1 page = 30 results).\n [default: 1]", default=1, dest="limit")
 	parser.add_argument("-c", "--clear-html", action="store_true", default=False, help="Clear all [TPB] torrent description HTML files and exit.")
-	parser.add_argument("-v", "--version", action='version', version='%(prog)s 1.0.01.20170807', 
+	parser.add_argument("-v", "--version", action='version', version='%(prog)s 1.0.1.20170807', 
 help="Display version and exit.")
 	args = parser.parse_args()
 	resolve_args(args)

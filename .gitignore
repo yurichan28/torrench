@@ -1,10 +1,19 @@
-data/*.pyc
-data/__pycache__
-data/tpb/*.pyc
-data/tpb/__pycache__
-data/tpb/conf
-data/linuxtracker/__pycache__
-data/linuxtracker/*.pyc
+torrench/*.pyc
+torrench/__pycache__
+torrench/__init__.py
+torrench/tpb/*.pyc
+torrench/tpb/__pycache__
+torrench/tpb/conf
+torrench/linuxtracker/__pycache__
+torrench/linuxtracker/*.pyc
+
 bin/
 temp/
+env/
+__pycache__/
 
+# Virtualenv specific
+env/
+build/
+dist/
+torrench.egg-info/

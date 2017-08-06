@@ -33,7 +33,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download [torrench.exe](https://ln.sync.com/dl/bea8abc90/bbtdxg2w-3inaqjb4-z4btacg5-9e8i9a3b) executable
+* Download [torrench executable](https://ln.sync.com/dl/40dd8b8f0/ay5unrza-hey22h8x-ggp7dwub-ae89vw8c) executable
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE: 

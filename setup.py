@@ -7,7 +7,7 @@ except ImportError:
 	
 DESCRIPTION = 'Command-line torrent search tool for Windows and Linux OS'
 LONG_DESCRIPTION = 'Program to search and download torrents from existing torrent-hosting sites.'
-VERSION = '1.0.0.20170806'
+VERSION = '1.0.01.20170807'
 
 setup(
     name = "torrench",

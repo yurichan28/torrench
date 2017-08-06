@@ -17,16 +17,14 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 ### Linux
 * Requires [Python3](https://www.python.org/downloads/) and python3-pip,
 * Installation
+	* Arch Users - [AUR](https://aur.archlinux.org/packages/torrench/)
 	
-	* Arch Users
-	Get [AUR Package](https://aur.archlinux.org/packages/torrench/)
-	
-	* Using pip ([PyPI](https://pypi.python.org/pypi/torrench/))
+	* Other distro users (Ubuntu,Fedora,Suse...) can use pip
 	```
 	sudo -H python3 -m pip install torrench
 	```
 	
-	* From source
+	* Alternatively, build from source
 	```bash
 	$ sudo python3 setup.py install
 	```

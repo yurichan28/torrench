@@ -1,7 +1,7 @@
 # Torrench - Command-line torrent search tool
 Torrench is a command-line torrent search tool that fetches torrents and displays results **within console window**. It does this by scrapping torrent-hosting websites (list below). Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download link/file.
 
-_Current version - V1.0_
+_Current version - v1.0.0.20170806_
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._
 
@@ -15,40 +15,21 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**
 2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay)
 
-## Requirements and Installation
+## Installation
 ### Linux
-1. Requires [Python3](https://www.python.org/downloads/)
-2. Install required packages
+1. Requires [Python3](https://www.python.org/downloads/) and python3-pip,
+2. Installing
 
-```bash 
-## [Using pip]
-## [pip comes pre-installed with python 3.4+]
-## If not installed - install the **python3-pip** package
-$ sudo apt-get install python3-pip
-$ (sudo) python3 -m pip install -r requirements.txt
-```
-
-3. Simple copy-paste the following in terminal for installation
-
-```bash
-$ git clone https://github.com/kryptxy/torrench.git ~/.torrench
-## Make executable
-$ chmod a+x $HOME/.torrench/data/torrench.py
-
-## You may add torrench to $PATH 
-## OR 
-## symlink torrench in /usr/local/bin (requires sudo)
-
-# Add torrench to PATH. Change the *rc file according to shell you use
-$ mkdir $HOME/.torrench/bin && ln -s $HOME/.torrench/data/torrench.py $HOME/.torrench/bin/torrench
-$ printf "#Torrench\nPATH=$HOME/.torrench/bin:$PATH" >> $HOME/.bashrc; source $HOME/.bashrc
-## OR ##
-# Symlink torrench in /usr/local/bin [Requires root]
-$ sudo ln -s $HOME/.torrench/data/torrench.py /usr/local/bin/torrench
-```
-
-4. That's it!
-
+	2.1 From source
+	```bash
+	$ sudo python3 setup.py install
+	```
+	
+	2.2 Using pip
+	```
+	sudo -H python3 -m pip install torrench
+	```
+	
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
@@ -64,14 +45,14 @@ Windows does not require any additional packages. Everything required to run thi
 By default, searching thepiratebay (TPB) from torrench is disabled. Some configuration is required to be done by user to enable TPB.
 But, before moving to configuration, note the following:
 
-* Using TPB in many countries is illegal. Using TPB can get you into in-intended torubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
 * Examples of [illegal contents](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced) on TPB. 
 
 #### Configuration instructions (If you decided to use it anyways):
 1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
-	* **Windows -** Copy the config file in ```C:\Users\<user>\.torrench\tpb\conf\``` (create any missing directories)
-	* **Linux -** Copy the config file to ```$HOME/.torrench/data/tpb/conf/``` (Create any missing directories)
+	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\tpb\``` (create any missing directories)
+	* **Linux -** Copy the config file to ```$HOME/.config/tpb/``` (Create any missing directories)
 2. Config file needs to be enabled
 	* Open config.ini file
 	* Set ```enable=1```
@@ -201,5 +182,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Kernel Adiutor.  If not, see <http://www.gnu.org/licenses/>.
+along with Torrench.  If not, see <http://www.gnu.org/licenses/>.
 ```

@@ -2,4 +2,9 @@
 1. Added linuxtracker.org to search linux distro torrent [default]
 2. Indexing torrents from TPB requires special configuration. It won't work without it. 
    See documentation for more. (Read carefully!)
+   
+[06/08/2017] Torrench v1.0.0.20170806
+1. Added setup.py script [uploaded torrench on pypi]
+2. Re-structured entire software.
+3. Minor code-fixes
 

@@ -18,7 +18,7 @@ setup(
     license = "GPL",
     url = "https://github.com/kryptxy/torrench",
     packages=['torrench', 'torrench.tpb', 'torrench.linuxtracker'],
-    install_requires=['bs4','lxml','requests','tabulate','termcolor'],
+    install_requires=['beautifulsoup4','lxml','requests','tabulate','termcolor'],
     long_description=(LONG_DESCRIPTION),
     entry_points = {'console_scripts': ['torrench = torrench.__main__:main']},
     zip_safe = False,

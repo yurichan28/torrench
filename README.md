@@ -20,12 +20,12 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 1. Requires [Python3](https://www.python.org/downloads/) and python3-pip,
 2. Installing
 
-	2.1 From source
+	* From source
 	```bash
 	$ sudo python3 setup.py install
 	```
 	
-	2.2 Using pip ([PyPI](https://pypi.python.org/pypi/torrench/))
+	* Using pip ([PyPI](https://pypi.python.org/pypi/torrench/))
 	```
 	sudo -H python3 -m pip install torrench
 	```

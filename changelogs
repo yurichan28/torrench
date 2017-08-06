@@ -1,4 +1,4 @@
-[01/08/2017] Torrench v1.0
+[01/08/2017]
 1. Added linuxtracker.org to search linux distro torrent [default]
 2. Indexing torrents from TPB requires special configuration. It won't work without it. 
    See documentation for more. (Read carefully!)
@@ -9,3 +9,5 @@
 3. [TPB] Changed config file directory to ~/.config/tpb/ (Linux) and ~\.config\tpb\ (Windows)
 3. Minor code-fixes
 
+[06/08/2017] Torrench v1.0.01.20170807
+1. setup.py - replaced bs4 to beautifulsoup4

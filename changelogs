@@ -9,5 +9,5 @@
 3. [TPB] Changed config file directory to ~/.config/tpb/ (Linux) and ~\.config\tpb\ (Windows)
 3. Minor code-fixes
 
-[06/08/2017] Torrench v1.0.01.20170807
+[06/08/2017] Torrench v1.0.1.20170807
 1. setup.py - replaced bs4 to beautifulsoup4

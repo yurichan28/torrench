@@ -15,23 +15,26 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 
 ## Installation
 ### Linux
-1. Requires [Python3](https://www.python.org/downloads/) and python3-pip,
-2. Installing
-
-	* From source
-	```bash
-	$ sudo python3 setup.py install
-	```
+* Requires [Python3](https://www.python.org/downloads/) and python3-pip,
+* Installation
+	
+	* Arch Users
+	Get [AUR Package](https://aur.archlinux.org/packages/torrench/)
 	
 	* Using pip ([PyPI](https://pypi.python.org/pypi/torrench/))
 	```
 	sudo -H python3 -m pip install torrench
 	```
 	
+	* From source
+	```bash
+	$ sudo python3 setup.py install
+	```
+	
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.0.20170806/torrench-1.0.0.20170806.exe)
+* Download [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.1.20170807/torrench-1.0.1.20170807.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE: 

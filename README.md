@@ -25,7 +25,7 @@ As for MacOS, I don't own any mac hardware. If anyone wants to help porting it o
 	$ sudo python3 setup.py install
 	```
 	
-	2.2 Using pip
+	2.2 Using pip ([PyPI](https://pypi.python.org/pypi/torrench/))
 	```
 	sudo -H python3 -m pip install torrench
 	```

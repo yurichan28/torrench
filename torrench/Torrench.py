@@ -22,7 +22,7 @@ OS_WIN = False
 if platform.system() == 'Windows':
 	from multiprocessing import Queue
 	
-	# Windows conf file resides in ~\.torrench\tpb\conf\
+	# Windows conf file resides in ~\.config\tpb\
 	home = os.path.expanduser('~\.torrench')
 	config_dir = os.path.expanduser('~\.config')
 	sub_dir = "tpb\\"

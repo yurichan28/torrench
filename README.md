@@ -1,29 +1,46 @@
-# Torrench - Command-line torrent search tool
-Torrench is a command-line torrent search tool that fetches torrents and displays results **within console window**. It does this by scrapping torrent-hosting websites (list below). Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download link/file.
+# Torrench
+![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
+---
+![ubuntu-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.gif)
+---
+## Index
+* [ABOUT](https://github.com/kryptxy/torrench#about)
+* [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installation-and-building)
+* [FEATURES](https://github.com/kryptxy/torrench#features)
+* [OPTIONS](https://github.com/kryptxy/torrench#options)
+* [EXAMPLES](https://github.com/kryptxy/torrench#examples)
+* [DISCLAIMER](https://github.com/kryptxy/torrench#disclaimer)
+* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bug-report-andor-feedback)
+* [CONTACT](https://github.com/kryptxy/torrench#contact)
+* [LICENCE](https://github.com/kryptxy/torrench#licence)
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a better/efficient way. If you find any, please [let me know](https://github.com/kryptxy/torrench#contact)._
+## ABOUT
+Torrench is a command-line program that fetches torrents and displays results **within console window**. It does this by scrapping torrent-hosting websites. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download link/file.
 
-_I'll continue updating it, add new features and try making it better and more efficient._
-
-## Compatibility
 It's compatible under **Linux and Windows** operating systems. 
-As for MacOS, I don't own any mac hardware. If anyone wants to help porting it onto apple, feel free to do so.
 
-## Websites Supported
-1. linuxtracker.org - Download linux distros ISO torrents **[default]**
-2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay)
+#### Websites Supported
+Following websites are supported:
+1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
+2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay) (Example below)
 
-## Installation
+#### Using ThePirateBay(TPB)
+By default, searching thepiratebay (TPB) from torrench is disabled. Some configuration is required to be done by user to enable TPB.
+But, before moving to configuration, note the following:
+
+* Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
+* [Examples]()
+
+## Installation/Building from Source
 ### Linux
 * Requires [Python3](https://www.python.org/downloads/)
 
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
-
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
 ```
 sudo -H python3 -m pip install torrench
 ```
-	
 * Alternatively, build from source (python-setuptools)
 ```bash
 $ sudo python3 setup.py install
@@ -39,16 +56,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
-
-## Should I use ThePirateBay?
-By default, searching thepiratebay (TPB) from torrench is disabled. Some configuration is required to be done by user to enable TPB.
-But, before moving to configuration, note the following:
-
-* Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
-* Examples of [illegal contents](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced) on TPB. 
-
-#### Configuration instructions (If you decided to use it anyways):
+### ThePirateBay Configuration:
 1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\tpb\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/tpb/``` (Create any missing directories)
@@ -58,24 +66,22 @@ But, before moving to configuration, note the following:
 	* Save and exit
 3. That's it. Use with ``` (-t) flag```
 
-# Features 
+## Features
 * Supports all \*nix distros
-* Simple to use.
-* Display search results in organized, tabular form.
-* Supports filtering search using categories
-* **[TPB_Specific]** Surf torrents Ad-free
-* **[TPB-Specific]** Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
-* **[TPB-Specific]** Display colored results on basis of uploader's status (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
-	* VIP Uploader [_green-skull_]
-	* Trusted Uploader [_magenta-skull_]
-	* General Uploader
-* **[TPB-Specific]** Fetch Torrents on basis of pages [1 page yields 30 results (max)].
-* **[TPB-Specific]** Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
-
-## Usage (with example)
+* Displays results in organized, tabular form.
+* [linuxtracker] Supports filtering search using categories
+* **[TPB_Specific]** 
+	* Surf torrents Ad-free
+	* Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
+	* Display colored results on basis of uploader's status (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
+		* VIP Uploader [_green-skull_]
+		* Trusted Uploader [_magenta-skull_]
+		* General Uploader	
+	* Fetch Torrents on basis of pages [1 page yields 30 results (max)].
+	* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
+	
+## Options
 ```bash
-## Input should to precise to get better/expected results
-
 usage: torrench [-h] [-t] [-p LIMIT] [-c] [-v] [search]
 
 Command-line torrent search tool.
@@ -85,88 +91,50 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t, --thepiratebay    Search ThePirateBay (TPB)
+  -t, --thepiratebay    Search thepiratebay
   -p LIMIT, --page-limit LIMIT
                         Number of pages to fetch results from (1 page = 30
                         results). [default: 1]
   -c, --clear-html      Clear all [TPB] torrent description HTML files and
                         exit.
   -v, --version         Display version and exit.
-  
-EXAMPLE: 
-$ torrench "ubuntu 16.10" - Fetches torrents for ubuntu 16.10
-$ torrench "arch linux" - Fetches torrents for Arch Linux
-```
+ ```
 
-# Samples
-## Linux
+## Examples
 
 ```bash
-$ torrench "opensuse"
+$ torrench -h	## Display help
+$ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
+$ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```
-![linux-1](/images/screenshots/legal-1-linux.png)
-![linux-2](/images/screenshots/legal-2-linux.png)
 
-## Windows
-``` 
-> torrench.exe "ubuntu"
-```
-![windows-1](/images/screenshots/legal-1.PNG)
+![linux](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
 
-```
-> torrench.exe "fedora workstation 26"
-```
-![windows-1](/images/screenshots/powershell-1.PNG)
-![windows-2](/images/screenshots/powershell-2.PNG)
-
-## Illegal searches (Should not be practiced)
-```
-> torrench.exe -t "fast 8"
-```
-![windows-1-illegal](/images/screenshots/win-1-illegal.PNG)
-
-```
-> torrench.exe -t "suits s05e08"
-```
-![windows-2-illegal](/images/screenshots/win-2-illegal.PNG)
+### Illegal searches (Should not be practiced)
 
 ```bash
-$ torrench -t "windows"
+$ torrench -t "windows 10"
+$ torrench -t "game of thrones s05" -p 3
 ```
-![linux-illegal](/images/screenshots/illegal.png)
-
-## Known Issues (and Workarounds)
-1. A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
-	* Abort the ongoing search [Ctrl+C]
-	* Search again. The second time generally works fine.
-
-### Note
-* Each and every detail you will see on the terminal/HTML page is fetched from the website. If some info is  missing/unintended, it's probably how its available on website.
-* **[TPB-specific]** All torrent comments can be fetched.
-	* Comments are divided into pages. 1 page can have MAX 25 comments. 
-	If (suppose) a torrent has <=50 comments (2 pages), no prompt occurs.
-	If a torrent has more than 50 comments, you will get a prompt asking number of pages to fetch.
-	Options:
-		* (fetch all): Fetch all pages
-		* (enter n): Enter number of pages to fetch
-		* (d): "display anyway" - Do not fetch any extra pages. By default the latest comments (comments on last page are fetched).
-
-	Fetching comments pages can be time-costly. For every comment page, entire new HTML page is fetched.
+(Click to expand)
+![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 
 ## Disclaimer
 This tool only fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
-## Bug Report
+## Bug Report and/or Feedback
 Found a bug? Please report and help improving this tool. You can [Open Issue](https://github.com/kryptxy/torrench/issues/new) or contact me directly.
-
-## Feedback/Suggestions/Feature Requests 
 Feedbacks/Suggestions are much appreciated. They help in improving the tool, and keep me motivated. 
 
 ## Contact
 E-mail : kryptxy@protonmail.com
 
-## Licence
+### Note
+* A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
+	* Abort the ongoing search [Ctrl+C]
+	* Search again. The second time generally works fine.
 
+## Licence
 ```
 Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
 

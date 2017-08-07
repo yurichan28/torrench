@@ -35,6 +35,8 @@ But, before moving to configuration, note the following:
 * Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
 * [Examples]()
 
+---
+
 ## Installation/Building from Source
 ### Linux
 * Requires [Python3](https://www.python.org/downloads/)
@@ -82,7 +84,14 @@ Windows does not require any additional packages. Everything required to run thi
 		* General Uploader	
 	* Fetch Torrents on basis of pages [1 page yields 30 results (max)].
 	* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
-	
+
+### Note
+* A torrent might take long to fetch results. I have generally faced this issue when running torrench for the first time. When this happens:
+	* Abort the ongoing search [Ctrl+C]
+	* Search again. The second time generally works fine.
+
+---
+
 ## Options
 ```bash
 usage: torrench [-h] [-t] [-p LIMIT] [-c] [-v] [search]
@@ -103,6 +112,8 @@ optional arguments:
   -v, --version         Display version and exit.
  ```
 
+---
+
 ## Examples
 
 ```bash
@@ -111,16 +122,17 @@ $ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
 $ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```
 ![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
-![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.gif)
-
+---
 ### Illegal searches (Should not be practiced)
 
 ```bash
 $ torrench -t "windows 10"
 $ torrench -t "game of thrones s05" -p 3
 ```
-(Click to expand)
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
+_(Click to expand)_
+
+---
 
 ## Disclaimer
 This tool only fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
@@ -131,11 +143,6 @@ Feedbacks/Suggestions are much appreciated. They help in improving the tool, and
 
 ## Contact
 E-mail : kryptxy@protonmail.com
-
-### Note
-* A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
-	* Abort the ongoing search [Ctrl+C]
-	* Search again. The second time generally works fine.
 
 ## Licence
 ```

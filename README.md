@@ -71,6 +71,8 @@ Windows does not require any additional packages. Everything required to run thi
 	* Save and exit
 3. That's it. Use with ``` (-t) flag```
 
+---
+
 ## Features
 * Supports all \*nix distros
 * Displays results in organized, tabular form.

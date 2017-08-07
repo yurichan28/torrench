@@ -1,3 +1,12 @@
 language: python
-rvm:
- - 3
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  # PyPy versions
+  - "pypy3" # Pypy3 2.4.0
+# command to install dependencies
+install:
+  - pip install .
+# command to run tests
+script: torrench "ubuntu 16.04"

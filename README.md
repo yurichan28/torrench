@@ -1,19 +1,18 @@
+# Torrench
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
-# Torrench - Command-line torrent search program
-![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
-
-***
+---
+![ubuntu-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.gif)
+---
 ## Index
 * [ABOUT](https://github.com/kryptxy/torrench#about)
 * [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installation-and-building)
 * [FEATURES](https://github.com/kryptxy/torrench#features)
+* [OPTIONS](https://github.com/kryptxy/torrench#options)
 * [EXAMPLES](https://github.com/kryptxy/torrench#examples)
-* [KNOWN ISSUES](https://github.com/kryptxy/torrench#known-issues-and-workaround)
 * [DISCLAIMER](https://github.com/kryptxy/torrench#disclaimer)
-* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bugs)
+* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bug-report-andor-feedback)
 * [CONTACT](https://github.com/kryptxy/torrench#contact)
 * [LICENCE](https://github.com/kryptxy/torrench#licence)
-
 
 ## ABOUT
 Torrench is a command-line program that fetches torrents and displays results **within console window**. It does this by scrapping torrent-hosting websites. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download link/file.
@@ -22,7 +21,6 @@ It's compatible under **Linux and Windows** operating systems.
 
 #### Websites Supported
 Following websites are supported:
-
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
 2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay) (Example below)
 
@@ -81,6 +79,26 @@ Windows does not require any additional packages. Everything required to run thi
 		* General Uploader	
 	* Fetch Torrents on basis of pages [1 page yields 30 results (max)].
 	* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
+	
+## Options
+```bash
+usage: torrench [-h] [-t] [-p LIMIT] [-c] [-v] [search]
+
+Command-line torrent search tool.
+
+positional arguments:
+  search                Enter search string
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t, --thepiratebay    Search thepiratebay
+  -p LIMIT, --page-limit LIMIT
+                        Number of pages to fetch results from (1 page = 30
+                        results). [default: 1]
+  -c, --clear-html      Clear all [TPB] torrent description HTML files and
+                        exit.
+  -v, --version         Display version and exit.
+ ```
 
 ## Examples
 
@@ -101,11 +119,6 @@ $ torrench -t "game of thrones s05" -p 3
 (Click to expand)
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 
-## Known Issues (and workaround)
-1. A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
-	* Abort the ongoing search [Ctrl+C]
-	* Search again. The second time generally works fine.
-
 ## Disclaimer
 This tool only fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
@@ -115,6 +128,11 @@ Feedbacks/Suggestions are much appreciated. They help in improving the tool, and
 
 ## Contact
 E-mail : kryptxy@protonmail.com
+
+### Note
+* A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
+	* Abort the ongoing search [Ctrl+C]
+	* Search again. The second time generally works fine.
 
 ## Licence
 ```

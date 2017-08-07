@@ -7,10 +7,10 @@
 * [ABOUT](https://github.com/kryptxy/torrench#about)
 * [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installation-and-building)
 * [FEATURES](https://github.com/kryptxy/torrench#features)
-* [EXAMPLES](https://github.com/kryptxy/torrench#samples)
-* [KNOWN ISSUES](https://github.com/kryptxy/torrench#known-issues)
+* [EXAMPLES](https://github.com/kryptxy/torrench#examples)
+* [KNOWN ISSUES](https://github.com/kryptxy/torrench#known-issues-and-workaround)
 * [DISCLAIMER](https://github.com/kryptxy/torrench#disclaimer)
-* [BUGS](https://github.com/kryptxy/torrench#bugs)
+* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bugs)
 * [CONTACT](https://github.com/kryptxy/torrench#contact)
 * [LICENCE](https://github.com/kryptxy/torrench#licence)
 
@@ -101,7 +101,7 @@ $ torrench -t "game of thrones s05" -p 3
 (Click to expand)
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 
-## Known Issues (and workarounds)
+## Known Issues (and workaround)
 1. A torrent might take very long to fetch results. I have generally faced this issue when running torrench for the first time. I still got to figure this out. Till then, here is what I do:
 	* Abort the ongoing search [Ctrl+C]
 	* Search again. The second time generally works fine.

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 language: python
 python:
   - "3.4"
@@ -10,7 +10,4 @@ python:
 install:
   - pip install .
 # command to run tests
-script: torrench "ubuntu 16.04"
-=======
-language: python3
->>>>>>> 33cd6862e349eb13f0eeaf91d289a6f288655dca
+script: torrench -v

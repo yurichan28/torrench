@@ -1,11 +1,14 @@
-# Torrench
+# Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
+
+![both-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
+_(click to expand)_
+
 ---
-![ubuntu-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.gif)
----
+
 ## Index
 * [ABOUT](https://github.com/kryptxy/torrench#about)
-* [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installation-and-building)
+* [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [FEATURES](https://github.com/kryptxy/torrench#features)
 * [OPTIONS](https://github.com/kryptxy/torrench#options)
 * [EXAMPLES](https://github.com/kryptxy/torrench#examples)
@@ -107,8 +110,8 @@ $ torrench -h	## Display help
 $ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
 $ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```
-
-![linux](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
+![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
+![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.gif)
 
 ### Illegal searches (Should not be practiced)
 

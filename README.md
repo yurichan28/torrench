@@ -33,7 +33,7 @@ But, before moving to configuration, note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
-* [Examples]()
+* [Examples](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
 
 ---
 

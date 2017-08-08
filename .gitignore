@@ -6,11 +6,11 @@ torrench/tpb/__pycache__
 torrench/tpb/conf
 torrench/linuxtracker/__pycache__
 torrench/linuxtracker/*.pyc
+torrench/*.spec
 
-bin/
-temp/
-env/
-__pycache__/
+bin
+temp
+__pycache__
 
 # Virtualenv specific
 env/

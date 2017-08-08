@@ -26,7 +26,7 @@ Torrents can be downloaded from following websites:
 2. The Pirate Bay (TPB)**\***
 3. More to come...
 
-#### \* The Pirate Bay(TPB)
+#### \* The Pirate Bay (TPB)
 By default, searching thepiratebay (TPB) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)

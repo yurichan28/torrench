@@ -13,7 +13,7 @@
 * [LICENCE](https://github.com/kryptxy/torrench#licence)
 
 ## ABOUT
-Torrench is a command-line program to search and download torrents from various torrent-hosting websites. It's compatible under **Linux and Windows** operating systems. 
+Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
 Torrents can be downloaded from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
 2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below)

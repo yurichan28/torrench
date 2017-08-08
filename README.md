@@ -23,7 +23,7 @@ _(click to expand)_
 Torrench is a command-line program to search and download torrents from various torrent-hosting websites. It's compatible under **Linux and Windows** operating systems. 
 Torrents can be downloaded from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB)**\***: (Read below)
+2. The Pirate Bay (TPB)**\***
 3. More to come...
 
 #### \* The Pirate Bay(TPB)

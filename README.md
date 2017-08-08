@@ -1,16 +1,9 @@
 # Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
 
-![both-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
-_(click to expand)_
-
-**Note:** Using thepiratebay (TPB) requires some configuration to be done. Please do not skip the TPB readme section.
-
----
-
-## Index
 * [ABOUT](https://github.com/kryptxy/torrench#about)
 * [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installationbuilding-from-source)
+* [USAGE](https://github.com/kryptxy/torrench#usage)
 * [OPTIONS](https://github.com/kryptxy/torrench#options)
 * [FEATURES](https://github.com/kryptxy/torrench#features)
 * [EXAMPLES](https://github.com/kryptxy/torrench#examples)
@@ -23,7 +16,7 @@ _(click to expand)_
 Torrench is a command-line program to search and download torrents from various torrent-hosting websites. It's compatible under **Linux and Windows** operating systems. 
 Torrents can be downloaded from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB)**\***
+2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below)
 3. More to come...
 
 #### \* The Pirate Bay (TPB)
@@ -72,23 +65,24 @@ Windows does not require any additional packages. Everything required to run thi
 
 ---
 
+## Usage
+```bash
+$ torrench SEARCH_STRING  ## Search linuxtracker
+$ torrench -t SEARCH_STRING ## Search thepiratebay
+$ torrench [Options] SEARCH_STRING
+```
+
 ## Options
 ```bash
-usage: torrench [-h] [-t] [-p LIMIT] [-c] [-v] [search]
-
-Command-line torrent search tool.
-
-positional arguments:
-  search                Enter search string
-
-optional arguments:
   -h, --help            show this help message and exit
+  
   -t, --thepiratebay    Search thepiratebay
+  
   -p LIMIT, --page-limit LIMIT
-                        Number of pages to fetch results from (1 page = 30
-                        results). [default: 1]
-  -c, --clear-html      Clear all [TPB] torrent description HTML files and
-                        exit.
+                        Number of pages to fetch results from (1 page = 30 results). [default: 1] [TPB]
+						
+  -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+						
   -v, --version         Display version and exit.
  ```
 
@@ -118,7 +112,6 @@ optional arguments:
 ## Examples
 
 ```bash
-$ torrench -h	## Display help
 $ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
 $ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```

@@ -4,7 +4,7 @@
 ![both-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
 _(click to expand)_
 
-**Note:** Please do not skip thepiratebay (TPB) Readme section. TPB needs some configuration to work.
+**Note:** Using thepiratebay (TPB) requires some configuration to be done. Please do not skip the TPB readme section.
 
 ---
 
@@ -20,14 +20,13 @@ _(click to expand)_
 * [LICENCE](https://github.com/kryptxy/torrench#licence)
 
 ## ABOUT
-Torrench is a command-line program to search torrents (and torrent details) from various torrent-hosting websites. The following websites are supported:
+Torrench is a command-line program to search and download torrents from various torrent-hosting websites. It's compatible under **Linux and Windows** operating systems. 
+Torrents can be downloaded from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB)**\*** ([How-to](https://github.com/kryptxy/torrench#the-pirate-baytpb-how-to))
+2. The Pirate Bay (TPB)**\***: (Read below)
 3. More to come...
 
-It's compatible under **Linux and Windows** operating systems. 
-
-#### \* The Pirate Bay(TPB) [How-to]
+#### \* The Pirate Bay(TPB)
 By default, searching thepiratebay (TPB) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)

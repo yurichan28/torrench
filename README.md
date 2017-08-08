@@ -1,46 +1,31 @@
 # Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
+[![GitHub release](https://img.shields.io/github/release/kryptxy/torrench.svg)]()
+[![PyPI version](https://badge.fury.io/py/torrench.svg)](https://pypi.python.org/pypi/torrench)
+[![AUR](https://img.shields.io/aur/version/torrench.svg)](https://aur.archlinux.org/packages/torrench/)
+[![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
+[![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
-![both-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
-_(click to expand)_
+Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
+Torrents can be downloaded from following websites:
+1. linuxtracker.org - Download linux distros ISO torrents.
+2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below).
+3. More to come...
 
----
-
-## Index
-* [ABOUT](https://github.com/kryptxy/torrench#about)
-* [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installationbuilding-from-source)
-* [FEATURES](https://github.com/kryptxy/torrench#features)
-* [OPTIONS](https://github.com/kryptxy/torrench#options)
-* [EXAMPLES](https://github.com/kryptxy/torrench#examples)
-* [DISCLAIMER](https://github.com/kryptxy/torrench#disclaimer)
-* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bug-report-andor-feedback)
-* [CONTACT](https://github.com/kryptxy/torrench#contact)
-* [LICENCE](https://github.com/kryptxy/torrench#licence)
-
-## ABOUT
-Torrench is a command-line program that fetches torrents and displays results **within console window**. It does this by scrapping torrent-hosting websites. Once torrent results are fetched, torrench can further fetch torrent details as well. Details include torrent Description, comments, as well as download link/file.
-
-It's compatible under **Linux and Windows** operating systems. 
-
-#### Websites Supported
-Following websites are supported:
-1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB) - [REQUIRES CONFIGURATION. READ CAREFULLY BEFORE USING](https://github.com/kryptxy/torrench#should-i-use-thepiratebay) (Example below)
-
-#### Using ThePirateBay(TPB)
-By default, searching thepiratebay (TPB) from torrench is disabled. Some configuration is required to be done by user to enable TPB.
-But, before moving to configuration, note the following:
+#### \* The Pirate Bay (TPB)
+By default, searching thepiratebay (TPB) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
-* [Examples]()
+* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB from torrench.
+* Illegal searches [example](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
+* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
 
 ---
 
 ## Installation/Building from Source
 ### Linux
-* Requires [Python3](https://www.python.org/downloads/)
 
+* Requires [Python3](https://www.python.org/downloads/)
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
 ```
@@ -65,11 +50,34 @@ Windows does not require any additional packages. Everything required to run thi
 1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\tpb\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/tpb/``` (Create any missing directories)
-2. Config file needs to be enabled
+2. Enable it
 	* Open config.ini file
 	* Set ```enable=1```
 	* Save and exit
 3. That's it. Use with ``` (-t) flag```
+
+---
+
+## Usage
+```bash
+$ torrench SEARCH_STRING  ## Search linuxtracker
+$ torrench -t SEARCH_STRING ## Search thepiratebay
+$ torrench [Options] SEARCH_STRING
+```
+
+## Options
+```bash
+  -h, --help            show this help message and exit
+  
+  -t, --thepiratebay    Search thepiratebay
+  
+  -p LIMIT, --page-limit LIMIT
+                        Number of pages to fetch results from (1 page = 30 results). [default: 1] [TPB]
+						
+  -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+						
+  -v, --version         Display version and exit.
+ ```
 
 ---
 
@@ -94,32 +102,9 @@ Windows does not require any additional packages. Everything required to run thi
 
 ---
 
-## Options
-```bash
-usage: torrench [-h] [-t] [-p LIMIT] [-c] [-v] [search]
-
-Command-line torrent search tool.
-
-positional arguments:
-  search                Enter search string
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -t, --thepiratebay    Search thepiratebay
-  -p LIMIT, --page-limit LIMIT
-                        Number of pages to fetch results from (1 page = 30
-                        results). [default: 1]
-  -c, --clear-html      Clear all [TPB] torrent description HTML files and
-                        exit.
-  -v, --version         Display version and exit.
- ```
-
----
-
 ## Examples
 
 ```bash
-$ torrench -h	## Display help
 $ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
 $ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```

@@ -9,16 +9,21 @@ import platform
 import requests
 from bs4 import BeautifulSoup
 from tabulate import tabulate
-from termcolor import colored
+import colorama
+
+colorama.init()
+YELLOW = colorama.Fore.YELLOW + colorama.Style.BRIGHT
+GREEN = colorama.Fore.GREEN + colorama.Style.BRIGHT
+MAGENTA = colorama.Fore.MAGENTA + colorama.Style.BRIGHT
+CYAN = colorama.Fore.CYAN + colorama.Style.BRIGHT
+RESET = colorama.Style.RESET_ALL
 
 OS_WIN = False
 
 if platform.system() == 'Windows': # Determine platform
-	import colorama
 	import ctypes
-	colorama.init()
-	os.system("mode CON: COLS=180 LINES=300")
 	ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 3)
+	os.system("mode CON: COLS=180 LINES=350") # Expand windows console window so output does not overlap (font==default). Change accordingly if necessary
 	OS_WIN = True
 
 def main(input_title, page_limit):
@@ -31,9 +36,8 @@ def main(input_title, page_limit):
         url_list = []
         url_list = find_url.find_url_list()
         print (">>> "+url_list[0]+"\n>>> "+url_list[1])
-        print("\n>>> Using "+colored(url_list[0], 'yellow'))
-
-        title = input_title.replace(" ", "%20")
+        print("\n>>> Using " + YELLOW + url_list[0] + RESET)
+        
         total_result_count = 0
         page_result_count = 9999
         details_link = {}
@@ -42,6 +46,8 @@ def main(input_title, page_limit):
         masterlist = []
         page_fetch_time=0
         total_page_fetch_time=0
+
+        title = input_title.replace(" ", "%20")
 
         # Traverse on basis of page_limit input
         for p in range(page_limit):
@@ -79,7 +85,7 @@ def main(input_title, page_limit):
             # End determining proxy site
             soup = BeautifulSoup(raw, "lxml")
             
-            # Result found or not?
+            # Result for given input found or not?
             try:
                 content = soup.find_all('table', id="searchResult")[0]
             except IndexError:
@@ -99,7 +105,7 @@ def main(input_title, page_limit):
                     if OS_WIN:
                         try:
                             name = name.string.encode('ascii', 'replace').decode() #Handling Unicode characters in windows.
-                        except AttributeError: #Occured once for some weird reason. Let it be.
+                        except AttributeError: 
                             name = name.string
                     else:
                         name = name.string
@@ -113,21 +119,16 @@ def main(input_title, page_limit):
                     comment = "0"
                 total_result_count+=1
                 page_result_count+=1
-                categ = i.find('td', class_="vertTh").find_all('a')[0].string
-                sub_categ = i.find('td', class_="vertTh").find_all('a')[1].string
                 is_vip = i.find('img', {'title': "VIP"})
                 is_trusted = i.find('img', {'title': 'Trusted'})
                 if(is_vip != None):
-                    name = colored(name, "green")
-                    uploader = colored(uploader, 'green')
+                    name = GREEN + name + RESET
+                    uploader = GREEN + uploader + RESET
                 elif(is_trusted != None):
-                    if OS_WIN:
-                        asterik = colored('**', 'cyan')
-                        name = asterik+name+asterik
-                        uploader = asterik+uploader+asterik
-                    else:
-                        name = colored(name, 'magenta')
-                        uploader = colored(uploader, 'magenta')
+                    name = MAGENTA + name + RESET
+                    uploader = MAGENTA + uploader + RESET	
+                categ = i.find('td', class_="vertTh").find_all('a')[0].string
+                sub_categ = i.find('td', class_="vertTh").find_all('a')[1].string
                 seeds = i.find_all('td', align="right")[0].string
                 leeches = i.find_all('td', align="right")[1].string
                 date = i.find('font', class_="detDesc").get_text().split(' ')[1].replace(',', "")
@@ -203,7 +204,7 @@ def main(input_title, page_limit):
                         elif option2 == 'g':
                             print("Fetching details for torrent index [%d] : %s" %(option, selected_name))
                             file_url = details.get_details(selected_link, str(option))
-                            file_url = colored(file_url, 'yellow')
+                            file_url = YELLOW + file_url + RESET
                             print("File URL: "+file_url+"\n\n")
                     else:
                         print("Bad Input!\n")
@@ -216,4 +217,3 @@ def main(input_title, page_limit):
 
 if __name__ == "__main__":
     print("It's a module.")
-

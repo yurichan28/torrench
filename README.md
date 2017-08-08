@@ -4,7 +4,7 @@
 ![both-search](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
 _(click to expand)_
 
-**Note:** Please do not skip the TPB Readme section. Read it carefully as it (TPB) needs some configuration to work.
+**Note:** Please do not skip thepiratebay (TPB) Readme section. TPB needs some configuration to work.
 
 ---
 
@@ -22,25 +22,25 @@ _(click to expand)_
 ## ABOUT
 Torrench is a command-line program to search torrents (and torrent details) from various torrent-hosting websites. The following websites are supported:
 1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB)**\*** (Please read below about its usage)
+2. The Pirate Bay (TPB)**\*** ([How-to](https://github.com/kryptxy/torrench#the-pirate-baytpb-how-to))
 3. More to come...
 
 It's compatible under **Linux and Windows** operating systems. 
 
-#### \* Using The Pirate Bay(TPB)
-By default, searching thepiratebay (TPB) from torrench is disabled. It needs to be configured, and can be enabled easily using a config file (provided below). But, before moving to configuration, please note the following:
+#### \* The Pirate Bay(TPB) [How-to]
+By default, searching thepiratebay (TPB) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool will be held responsible for any action taken against user for using TPB from torrench.
-* [Examples](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
-* That's it. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
+* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB from torrench.
+* Illegal searches [example](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
+* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
 
 ---
 
 ## Installation/Building from Source
 ### Linux
-* Requires [Python3](https://www.python.org/downloads/)
 
+* Requires [Python3](https://www.python.org/downloads/)
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
 ```

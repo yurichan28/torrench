@@ -1,22 +1,15 @@
 # Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
+[![GitHub release](https://img.shields.io/github/release/kryptxy/torrench.svg)]()
+[![PyPI version](https://badge.fury.io/py/torrench.svg)](https://pypi.python.org/pypi/torrench)
+[![AUR](https://img.shields.io/aur/version/torrench.svg)](https://aur.archlinux.org/packages/torrench/)
+[![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
+[![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
-* [ABOUT](https://github.com/kryptxy/torrench#about)
-* [INSTALLATION/BUILDING](https://github.com/kryptxy/torrench#installationbuilding-from-source)
-* [USAGE](https://github.com/kryptxy/torrench#usage)
-* [OPTIONS](https://github.com/kryptxy/torrench#options)
-* [FEATURES](https://github.com/kryptxy/torrench#features)
-* [EXAMPLES](https://github.com/kryptxy/torrench#examples)
-* [DISCLAIMER](https://github.com/kryptxy/torrench#disclaimer)
-* [BUGS/FEEDBACK](https://github.com/kryptxy/torrench#bug-report-andor-feedback)
-* [CONTACT](https://github.com/kryptxy/torrench#contact)
-* [LICENCE](https://github.com/kryptxy/torrench#licence)
-
-## ABOUT
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
 Torrents can be downloaded from following websites:
-1. linuxtracker.org - Download linux distros ISO torrents **[default]**	
-2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below)
+1. linuxtracker.org - Download linux distros ISO torrents.
+2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below).
 3. More to come...
 
 #### \* The Pirate Bay (TPB)

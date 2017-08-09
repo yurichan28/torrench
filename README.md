@@ -92,12 +92,12 @@ $ torrench [Options] <SEARCH_STRING>
 * [linuxtracker] Supports filtering search using categories
 * **[TPB_Specific]** 
 	* Surf torrents Ad-free
-	* Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
-	* Display colored results on basis of uploader's status (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
+	* Get complete torrent details (Description, comments, torrent download). **Torrent details are available in dynamically-generated HTML pages.**
+	* **Display colored results on basis of uploader's status** (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
 		* VIP Uploader [_green-skull_]
 		* Trusted Uploader [_magenta-skull_]
 		* General Uploader	
-	* Fetch Torrents on basis of pages [1 page yields 30 results (max)].
+	* Fetch Torrents on basis of pages [1 page = 30 results (max)].
 	* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
 
 ### Note
@@ -129,7 +129,6 @@ _(Dynamically-generated Torrent description HTML page)_
 
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
-
 ---
 
 ## Disclaimer

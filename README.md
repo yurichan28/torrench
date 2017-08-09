@@ -1,7 +1,7 @@
 # Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
 [![GitHub release](https://img.shields.io/github/release/kryptxy/torrench.svg)]()
-[![PyPI version](https://badge.fury.io/py/torrench.svg)](https://pypi.python.org/pypi/torrench)
+[![PyPI](https://img.shields.io/pypi/v/torrench.svg)](https://pypi.python.org/pypi/torrench/)
 [![AUR](https://img.shields.io/aur/version/torrench.svg)](https://aur.archlinux.org/packages/torrench/)
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
@@ -12,13 +12,19 @@ Torrents can be downloaded from following websites:
 2. The Pirate Bay (TPB)**\*** (Due to illegality of TPB, some configuration is to be done by user. Please Read below).
 3. More to come...
 
-#### \* The Pirate Bay (TPB)
+![both](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
+_(Click to expand) (Sample shows why TPB is disabled by default.)_
+
+#### \* Using The Pirate Bay (TPB)
 By default, searching thepiratebay (TPB) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using TPB from torrench.
 * Illegal searches [example](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
 * This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
+
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. Alternatively, you can also send a pull request. 
+I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to)_
 
 ---
 
@@ -29,7 +35,7 @@ By default, searching thepiratebay (TPB) from torrench is disabled. The user sho
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
 ```
-sudo -H python3 -m pip install torrench
+sudo python3 -m pip install torrench
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -39,11 +45,10 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.1.20170807/torrench-1.0.1.20170807.exe)
+* Download [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.2/torrench-1.0.2.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE: 
-		* Windows powershell is unable to display magenta color. When I tried, the _name_ field was appearing empty. So to distinguish trusted uploaders, I have added a cyan-colored (\**) in front and at the back of TORRENT NAME and UPLOADER NAME. 
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### ThePirateBay Configuration:
@@ -62,7 +67,7 @@ Windows does not require any additional packages. Everything required to run thi
 ```bash
 $ torrench SEARCH_STRING  ## Search linuxtracker
 $ torrench -t SEARCH_STRING ## Search thepiratebay
-$ torrench [Options] SEARCH_STRING
+$ torrench [Options] <SEARCH_STRING>
 ```
 
 ## Options
@@ -110,7 +115,7 @@ $ torrench "fedora 25 workstation"	## Search for F25 distro ISO
 ```
 ![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
 ---
-### Illegal searches (Should not be practiced)
+### Searches considered illegal
 
 ```bash
 $ torrench -t "windows 10"

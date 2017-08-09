@@ -52,7 +52,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### ThePirateBay Configuration:
-1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
+1. Download [config.ini](https://ln.sy2nc.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\tpb\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/tpb/``` (Create any missing directories)
 2. Enable it
@@ -110,17 +110,23 @@ $ torrench [Options] <SEARCH_STRING>
 ## Examples
 
 ```bash
-$ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
-$ torrench "fedora 25 workstation"	## Search for F25 distro ISO
+$ torrench "ubuntu desktop 16.04"	## Search for Ubuntu Desktop 16.04 distro ISO
+$ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 ```
+![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.png)
 ![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
 ---
 ### Searches considered illegal
 
 ```bash
-$ torrench -t "windows 10"
-$ torrench -t "game of thrones s05" -p 3
+$ torrench -t "windows 7"	## Search win7 TPB
+$ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
 ```
+![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/windows.png)
+
+![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/html.png)
+_(Dynamically-generated Torrent description HTML page)_ 
+
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
 

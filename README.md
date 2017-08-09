@@ -129,6 +129,7 @@ _(Dynamically-generated Torrent description HTML page)_
 
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
+
 ---
 
 ## Disclaimer

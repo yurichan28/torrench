@@ -23,8 +23,8 @@ By default, searching thepiratebay (TPB) from torrench is disabled. The user sho
 * Illegal searches [example](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
 * This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue]() if you come across any. Alternatively, you can also send a pull request. 
-I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to and what I need help with for now)_
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. Alternatively, you can also send a pull request. 
+I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to)_
 
 ---
 

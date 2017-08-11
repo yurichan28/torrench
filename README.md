@@ -52,7 +52,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### ThePirateBay Configuration:
-1. Download [config.ini](https://ln.sy2nc.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
+1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\tpb\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/tpb/``` (Create any missing directories)
 2. Enable it

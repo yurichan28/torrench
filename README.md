@@ -92,12 +92,12 @@ $ torrench [Options] <SEARCH_STRING>
 * [linuxtracker] Supports filtering search using categories
 * **[TPB_Specific]** 
 	* Surf torrents Ad-free
-	* Get complete torrent details (Description, comments, torrent download). Torrent details are available in dynamically-generated HTML pages.
-	* Display colored results on basis of uploader's status (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
+	* Get complete torrent details (Description, comments, torrent download). **Torrent details are available in dynamically-generated HTML pages.**
+	* **Display colored results on basis of uploader's status** (Very useful when choosing torrent). (If you are familiar with thepiratebay, you must be knowing that it divides uploaders into 3 categories)
 		* VIP Uploader [_green-skull_]
 		* Trusted Uploader [_magenta-skull_]
 		* General Uploader	
-	* Fetch Torrents on basis of pages [1 page yields 30 results (max)].
+	* Fetch Torrents on basis of pages [1 page = 30 results (max)].
 	* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
 
 ### Note
@@ -110,17 +110,23 @@ $ torrench [Options] <SEARCH_STRING>
 ## Examples
 
 ```bash
-$ torrench "ubuntu 17.10"	## Search for ubuntu 17.10 distro ISO
-$ torrench "fedora 25 workstation"	## Search for F25 distro ISO
+$ torrench "ubuntu desktop 16.04"	## Search for Ubuntu Desktop 16.04 distro ISO
+$ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 ```
+![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.png)
 ![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
 ---
 ### Searches considered illegal
 
 ```bash
-$ torrench -t "windows 10"
-$ torrench -t "game of thrones s05" -p 3
+$ torrench -t "windows 7"	## Search win7 TPB
+$ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
 ```
+![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/windows.png)
+
+![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/html.png)
+_(Dynamically-generated Torrent description HTML page)_ 
+
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
 

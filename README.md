@@ -7,7 +7,8 @@
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
-Torrents can be downloaded from following websites:
+
+Torrents can be fetched from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents.
 2. The Pirate Bay (TPB)**\***
 3. KickassTorrents (KAT)**\***
@@ -16,16 +17,18 @@ Torrents can be downloaded from following websites:
 ![both](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
 _(Click to expand)_
 
-#### \* Using TPB/KAT
+### \* Using ThepirateBay(TPB) / KickassTorrents(KAT)
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using TPB from torrench.
-* Illegal searches [example](https://github.com/kryptxy/torrench#illegal-searches-should-not-be-practiced)
-* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#thepiratebay-configuration) to enable TPB.
+* Illegal searches [example](https://github.com/kryptxy/torrench#searches-considered-illegal)
+* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB.
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. Alternatively, you can also send a pull request. 
-I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to)_
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. 
+Alternatively, you can also send a pull request._
+
+_I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to)_
 
 ---
 
@@ -95,7 +98,7 @@ $ torrench [Options] <SEARCH_STRING>
 * Displays results in organized, tabular form.
 * [linuxtracker] Supports filtering search using categories
 
-* **[Common to bot TPB/KAT]** 
+### **[Common to both TPB/KAT]** 
 	* Surf torrents Ad-free
 	* Fetch Torrents on basis of pages [1 page = 30 results (max)] [(-p) argument].
 	* **Display colored results on basis of uploader's status** (Very useful when choosing torrent).
@@ -136,7 +139,7 @@ $ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 ### Searches considered illegal
 #### ThePirateBay
 ```bash
-$ torrench -t "windows 7"	## Search win7 TPB
+$ torrench -t "suicide squad"	## Search suicide squad TPB
 $ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
 ```
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/tpb.png)
@@ -153,7 +156,9 @@ $ torrench -k "doctor strange"
 $ torrench -t "guardians of the galaxy"
 ```
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/kat.png)
+
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/kat.gif)
+_(Click to expand)_
 
 ---
 

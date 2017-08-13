@@ -1,7 +1,8 @@
-'''
-Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
 
-'''
+## TPB Module to fetch torrent details 
+## Details are saved in a custom HTML page
+## HTML files are saved in ~/.torrench/temp directory
+## HTML files can be cleared with (-c) argument [To be used with -t ]
 
 from bs4 import BeautifulSoup
 import requests
@@ -9,15 +10,18 @@ import os;
 import time
 import platform
 import io
+
 if platform.system()=='Windows':
 	charset=""
+	home = os.path.expanduser('~\.torrench')
+	temp_dir = os.path.join(home, "temp\\")
 else:
 	charset="<meta charset='utf-8'>"
+	home = os.path.expanduser('~/.torrench')
+	temp_dir = os.path.join(home, "temp/")
 
 def get_details(url, index):
 	
-	home = os.path.expanduser('~/.torrench')
-	temp_dir = os.path.join(home, "temp/")
 	initial_time=time.time()
 	raw = requests.get(url);
 	initial_end_time = time.time() - initial_time;

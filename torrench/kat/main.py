@@ -81,14 +81,15 @@ def main(title, page_limit):
 			
 			soup = BeautifulSoup(raw, "lxml")		
 			
-			# Check if result for given input is found?
-			try:
-				content = soup.find_all('table', class_='data')[0]
-			except IndexError:
-				print("\nNo results found for given input!\n")
-				return
+			content = soup.find_all('table', class_='data')[0]
 			
 			data = content.find_all('tr', class_='odd')
+			
+			# Results for given input found or not?
+			if data == []:
+				print("\nNo results found for given input!\n")
+				return
+				
 			mylist = []
 			## Torrent fetch begins here
 			for i in data:
@@ -184,7 +185,7 @@ def main(title, page_limit):
 							print(e)
 							continue
 					elif option == 'g' or option == 'G':
-						print("\nTorrent link: %s" %(YELLOW + url+req_torr_link + RESET))
+						print("\nTorrent link: %s\n" %(YELLOW + url+req_torr_link + RESET))
 						uinput = input("Open in browser? [y/n]: ")
 						if uinput == 'y' or uinput == 'Y':
 							webbrowser.open_new_tab(url+req_torr_link)

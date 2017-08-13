@@ -1,11 +1,22 @@
 '''
 Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
+Licence: GPL(3)
 '''
+
+## LinuxTracker.org Module
 
 import os
 import requests
 from bs4 import BeautifulSoup
 from tabulate import tabulate
+
+print("""
+######################
+#                    #
+#    LinuxTracker    #                       
+#                    #
+######################
+""")
 
 URL = "http://linuxtracker.org/"
 mylist = []
@@ -16,10 +27,9 @@ categories_dict = {}
 categories_dict2 = {}
 categ_url_code = 9999
 
-def main(input_title):
+def main(title):
 	try:
-		print("Search input : "+input_title)
-		title = input_title.replace(" ", "+")
+		print("Fetching...")
 		raw = requests.get("http://linuxtracker.org/index.php?page=torrents")
 		raw = raw.content
 		soup = BeautifulSoup(raw, 'lxml')
@@ -118,7 +128,6 @@ def main(input_title):
 		print(e)
 	
 	
-
 def download(dload_url):
 	try:
 		raw = requests.get(dload_url)

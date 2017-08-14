@@ -153,7 +153,7 @@ _(Click to expand)_
 #### KickAssTorrents (KAT)
 ```bash
 $ torrench -k "doctor strange"
-$ torrench -t "guardians of the galaxy"
+$ torrench -k "guardians of the galaxy"
 ```
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/kat.png)
 

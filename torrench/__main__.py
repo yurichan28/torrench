@@ -21,6 +21,7 @@ if platform.system() == 'Windows':
 
 def main():
 	parser = argparse.ArgumentParser(description="Command-line torrent search tool.")
+	parser.add_argument("-d", "--distrowatch", action="store_true", help="Search distrowatch")
 	parser.add_argument("-t", "--thepiratebay", action="store_true", help="Search thepiratebay")
 	parser.add_argument("-k", "--kickasstorrent", action="store_true", help="Search KickassTorrent (KAT)")
 	parser.add_argument("search", help="Enter search string", nargs="?", default=None)
@@ -67,6 +68,8 @@ def resolve_args(args):
 				Torrench.main(input_title, page_limit, 1) ## 1 means TPB
 			elif args.kickasstorrent:
 				Torrench.main(input_title, page_limit, 2) ## 2 means KAT
+		elif args.distrowatch:
+			Torrench.main(input_title, 0, 3)
 		else:
 			Torrench.main(input_title, None, None)
 

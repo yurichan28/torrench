@@ -6,6 +6,7 @@ Licence: GPL(3)
 ## Module to select which website to fetch data from
 
 import platform
+
 def main(title, page, site): ## site means which site to use
 	title = title.replace(" ", "+")
 	
@@ -23,6 +24,9 @@ def main(title, page, site): ## site means which site to use
 	elif site == 2: ## For KAT
 		import torrench.kat.main as kat
 		kat.main(title, page)
+	elif site == 3: ## For Distrowatch
+		import torrench.distrowatch.main as distrowatch
+		distrowatch.main(title)
 	else:
 		import torrench.linuxtracker.main as LTracker
 		LTracker.main(title)

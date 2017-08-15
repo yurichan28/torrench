@@ -10,9 +10,10 @@ Torrench is a command-line program to search and download torrents from torrent-
 
 Torrents can be fetched from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents.
-2. The Pirate Bay (TPB)**\***
-3. KickassTorrents (KAT)**\***
-3. More to come...
+2. DistroWatch - Another linux distro ISOs repository.
+3. The Pirate Bay (TPB)**\***
+4. KickassTorrents (KAT)**\***
+5. _More to come..._
 
 ![both](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
 _(Click to expand)_
@@ -70,14 +71,15 @@ Windows does not require any additional packages. Everything required to run thi
 ## Usage
 ```bash
 $ torrench SEARCH_STRING  ## Search linuxtracker
-$ torrench -t SEARCH_STRING ## Search thepiratebay
-$ torrench -k SEARCH_STRING ## Search kickasstorrents
+$ torrench -d SEARCH_STRING ## Search distrowatch
 $ torrench [Options] <SEARCH_STRING>
 ```
 
 ## Options
 ```bash
   -h, --help            show this help message and exit
+  
+  -d, --distrowatch     Search distrowatch
   
   -t, --thepiratebay    Search thepiratebay
   
@@ -130,14 +132,23 @@ $ torrench [Options] <SEARCH_STRING>
 ## Examples
 
 ```bash
-$ torrench "ubuntu desktop 16.04"	## Search for Ubuntu Desktop 16.04 distro ISO
+$ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.04 distro ISO
 $ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
+$ torrench -d "opensuse" ## Search distrowatch for opensuse ISO
+$ torrench -d "solus" ## Search distrowatch for solus ISO
 ```
+#### Linuxtracker
+
 ![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.png)
 ![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
+
+#### DistroWatch
+
+![distrowatch](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/distrowatch.png)
+![distrowatch](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/distrowatch.gif)
 ---
 ### Searches considered illegal
-#### ThePirateBay
+#### ThePirateBay (Examples)
 ```bash
 $ torrench -t "suicide squad"	## Search suicide squad TPB
 $ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
@@ -150,7 +161,7 @@ _(Dynamically-generated Torrent description HTML page)_
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
 
-#### KickAssTorrents (KAT)
+#### KickAssTorrents (Examples)
 ```bash
 $ torrench -k "doctor strange"
 $ torrench -k "guardians of the galaxy"

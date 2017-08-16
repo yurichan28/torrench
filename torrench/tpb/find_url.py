@@ -1,8 +1,3 @@
-'''
-Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
-Licence: GPL(3)
-'''
-
 ## Module for finding TPB Proxies
 ## URL is fetched from check_config module
 

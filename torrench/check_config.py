@@ -1,8 +1,3 @@
-'''
-Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
-Licence: GPL(3)
-'''
-
 ## To check if configuration file is present and enabled to use TPB/KAT
 ## Also defines config files's directory structure.
 
@@ -17,15 +12,9 @@ config = SafeConfigParser()
 
 def main():
 
-	config_dir = os.path.expanduser('~/.config')
-	sub_config_dir = "torrench/"
+	config_dir = os.path.expanduser(os.path.join('~', '.config'))
+	full_config_dir = os.path.join(config_dir, 'torrench')
 	config_file_name = "config.ini"
-	if platform.system() == 'Windows':	
-		# Windows conf file resides in ~\.config\tpb\
-		config_dir = os.path.expanduser('~\.config')
-		sub_config_dir = "torrench\\"
-		
-	full_config_dir = os.path.join(config_dir, sub_config_dir) # Joining config_dir and sub_config_dir
 	
 	if not os.path.exists(full_config_dir):
 		os.makedirs(full_config_dir) # Create ~/.config/torrench directory if it doesn't exist

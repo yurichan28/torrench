@@ -19,6 +19,11 @@ print("""
 """)
 
 URL = "http://linuxtracker.org/"
+
+# Torrent's .torrent files are downloaded in $HOME/Downloads/torrench directory
+home = os.path.expanduser(os.path.join('~', 'Downloads'))
+downloads_dir = os.path.join(home, 'torrench')
+
 mylist = []
 masterlist = []
 index_to_name = {}
@@ -137,16 +142,15 @@ def download(dload_url):
 		dload_response = requests.get(URL+link)
 		torrent_name = link.split('&')[1].split('=')[1]
 		
-		download_location = os.path.expanduser('~/Downloads/torrench/')
-		if not os.path.exists(download_location):
-			os.makedirs(download_location)
+		if not os.path.exists(downloads_dir):
+			os.makedirs(downloads_dir)
 		
-		with open(download_location+torrent_name, "wb") as file:
+		with open(os.path.join(downloads_dir, torrent_name), "wb") as file:
 			print("Downloading...")
 			response = requests.get(URL+link)
 			file.write(response.content)
 			print("Download complete!")
-			print("\nSaved in "+download_location+"\n")
+			print("\nSaved in %s \n" %(downloads_dir))
 	except KeyboardInterrupt:
 		print("Aborted!")
 

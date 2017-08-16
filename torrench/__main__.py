@@ -1,8 +1,3 @@
-'''
-Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
-Licence: GPL(3)
-'''
-
 #! /usr/bin/python3
 
 import platform
@@ -13,11 +8,10 @@ import torrench.check_config as check_config
 import torrench.Torrench as Torrench
 
 # temp directory to store TPB custom HTML files
-home = os.path.expanduser('~/.torrench')
+home = os.path.expanduser(os.path.join('~', '.torrench'))
 temp_dir = os.path.join(home, "temp")	
 if platform.system() == 'Windows':
 	from multiprocessing import Queue
-	home = os.path.expanduser('~\.torrench')
 
 def main():
 	parser = argparse.ArgumentParser(description="Command-line torrent search tool.")

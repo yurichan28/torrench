@@ -1,4 +1,3 @@
-
 ## TPB Module to fetch torrent details 
 ## Details are saved in a custom HTML page
 ## HTML files are saved in ~/.torrench/temp directory
@@ -11,14 +10,13 @@ import time
 import platform
 import io
 
+home = os.path.expanduser(os.path.join('~', '.torrench'))
+temp_dir = os.path.expanduser(os.path.join(home, 'temp'))
+
 if platform.system()=='Windows':
 	charset=""
-	home = os.path.expanduser('~\.torrench')
-	temp_dir = os.path.join(home, "temp\\")
 else:
 	charset="<meta charset='utf-8'>"
-	home = os.path.expanduser('~/.torrench')
-	temp_dir = os.path.join(home, "temp/")
 
 def get_details(url, index):
 	
@@ -111,8 +109,9 @@ def get_details(url, index):
 	# File opens here
 	if not os.path.exists(temp_dir):
 		os.makedirs(temp_dir)	
-
-	f = io.open(temp_dir+unique_id+".html", "w", encoding="utf-8")
+	
+	html_file = os.path.join(temp_dir, unique_id+".html")
+	f = io.open(html_file, "w", encoding="utf-8")
 	f.write(begin_tags)
 	f.write("<h2><u><a href="+url+" target='_blank'>"+name+"</a></u></h2><br />")
 	f.write("<table align='center'>")
@@ -179,7 +178,7 @@ def get_details(url, index):
 	f.write("<br /><div class='center'><a href="+magnet+" target='_blank'>[Magnetic Link (Download)]</a></div><br /><br />")
 	f.close();
 	
-	file_url = "file://"+temp_dir+file_name
+	file_url = "file://"+html_file
 	if opt=='d' or opt=='D' or opt=='':
 		print("\n[in %.2f sec]" %(initial_end_time))
 	else:

@@ -1,8 +1,3 @@
-'''
-Copyright (C) 2017 Rijul Gulati <kryptxy@protonmail.com>
-Licence: GPL(3)
-'''
-
 ## Module to select which website to fetch data from
 
 import platform

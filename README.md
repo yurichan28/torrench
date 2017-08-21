@@ -21,7 +21,7 @@ Torrents can be fetched from following websites:
 ![both](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
 _(Click to expand)_
 
-### \* Using ThepirateBay(TPB) / KickassTorrents(KAT)
+### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT)
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
@@ -60,7 +60,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm)/[tinyupload](http://s000.tinyupload.com/index.php?file_id=64522222946297111057)
+1. Download **config.ini** from [sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [tinyupload](http://s000.tinyupload.com/index.php?file_id=64522222946297111057)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/torrench/``` (Create any missing directories)
 2. Enable it

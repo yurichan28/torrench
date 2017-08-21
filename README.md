@@ -9,6 +9,7 @@
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
 
 * MacOS Users: I don't own a Mac hardware, so unable to test on it. But, I think it should work fine, considering the code is written keeping cross-platform in mind. Try and report back maybe? Thanks.
+	* _UPDATE: Tested on Yosemite by me as well as by a user. Worked as expected_
 
 Torrents can be fetched from following websites:
 1. linuxtracker.org - Download linux distros ISO torrents.
@@ -52,14 +53,14 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.3/torrench-1.0.3.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/1.0.41/torrench-1.0.41.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE: 
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download [config.ini](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)
+1. Download **config.ini** [[sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) file (Hosted on sync)/[tinyupload]](http://s000.tinyupload.com/index.php?file_id=64522222946297111057)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/torrench/``` (Create any missing directories)
 2. Enable it

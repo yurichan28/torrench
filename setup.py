@@ -1,9 +1,11 @@
 #! /usr/bin/python3
+import sys
 
 try:
 	from setuptools import setup
 except ImportError:
-	print("Missing package setuptools. Please install to continue\n(https://pypi.python.org/pypi/setuptools)")
+        print("Missing package setuptools. Please install to continue\n(https://pypi.python.org/pypi/setuptools)")
+        sys.exit('Exiting now!!')
 
 DESCRIPTION = 'Command-line torrent search tool for Windows and Linux OS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs. I will try to get them here ASAP.'

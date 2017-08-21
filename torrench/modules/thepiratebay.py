@@ -38,7 +38,7 @@ map_name_index = {}
 map_magnet_index = {}
 map_torrentlink_index = {}
 
-if platform.system == "Windows":
+if platform.system() == "Windows":
 	OS_WIN = True
 
 '''

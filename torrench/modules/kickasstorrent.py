@@ -40,7 +40,7 @@ page_fetch_time = 0
 total_fetch_time = 0
 torrent_count = 9999
 
-if platform.system == "Windows":
+if platform.system() == "Windows":
 	OS_WIN = True
 
 '''

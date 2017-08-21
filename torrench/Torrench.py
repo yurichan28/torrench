@@ -4,7 +4,7 @@ import sys
 import argparse
 import torrench.utilities.check_config as check_config
 
-__version__ = "Torrench (1.0.4)"
+__version__ = "Torrench (1.0.41)"
 	
 if platform.system() == 'Windows':
 	

@@ -10,7 +10,7 @@ except ImportError:
 
 DESCRIPTION = 'Command-line torrent search tool for Windows and Linux OS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs.'
-VERSION = '1.0.4'
+VERSION = '1.0.41'
 
 setup(
     name = "torrench",

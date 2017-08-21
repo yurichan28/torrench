@@ -99,12 +99,10 @@ def download(dload_url):
 	downloads_dir = os.path.join(home, 'torrench')
 	if not os.path.exists(downloads_dir):
 		os.makedirs(downloads_dir)
-	
-	print("Downloading ", dload_url)
-	dload_response = requests.get(dload_url)
 	torrent_name = dload_url.split('/')[5]
 	
 	with open(os.path.join(downloads_dir, torrent_name), "wb") as file:
+		print("Downloading ", dload_url)
 		response = requests.get(dload_url)
 		file.write(response.content)
 		print("Download complete!")

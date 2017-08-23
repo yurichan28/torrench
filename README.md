@@ -61,7 +61,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [tinyupload](http://s000.tinyupload.com/index.php?file_id=64522222946297111057)
+1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=14244138743753164476)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Copy the config file to ```$HOME/.config/torrench/``` (Create any missing directories)
 2. Enable it
@@ -104,7 +104,7 @@ $ torrench [Options] <SEARCH_STRING>
 * Displays results in organized, tabular form.
 * [linuxtracker] Supports filtering search using categories
 
-### **[Common to both TPB/KAT]** 
+### TPB/KAT only 
 * Surf torrents Ad-free
 * Fetch Torrents on basis of pages [1 page = 30 results (max)] [(-p) argument].
 * **Display colored results on basis of uploader's status** (Very useful when choosing torrent).
@@ -117,19 +117,18 @@ $ torrench [Options] <SEARCH_STRING>
 		* Seeds [in green]
 		* Leeches [in red]
 * Add torrent directly to torrent client through **magnetic links** without opening/fetching details.
-	
-### ThepirateBay Features
+* Get upstream link which can be opened using browser.
+
+**[TPB-Only]**
 * Get complete torrent details (Description, comments, torrent download). **Torrent details are available in dynamically-generated HTML pages.**
 
 * Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
-
-### KickassTorrents Features
-* Get upstream [KAT] link which can be opened using browser.
 
 ### Note
 * A torrent might take long to fetch results. I have generally faced this issue when running torrench for the first time. When this happens:
 	* Abort the ongoing search [Ctrl+C]
 	* Search again. The second time generally works fine.
+* KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. If you know of some working proxy, you can edit KAT_URL in config.ini  with that working proxy and hope that works (If it does, let me know?). Alternatively, use TPB. It's pretty reliable and works most of the time.
 	
 ---
 

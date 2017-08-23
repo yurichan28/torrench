@@ -30,3 +30,8 @@
 5. Speed optimisations
 6. Instead of directly loading magnetic link to client, it is first printed.
 7. Other minor fixes
+
+[24/08/2017] v1.0.42
+1. Fix KAT proxy site error. 
+Note: UPDATE the config.ini file for KAT to work!
+New config.ini file links have been updated in description.

@@ -20,24 +20,24 @@ Function to obtain proxy list and return that list to caller
 def get_proxy_list(name, soup):
 	urlList = []
 	if name == 'tpb':
-		links = soup.find_all('td', class_='site')
-	elif name == 'kat':
-		data = soup.find('table', class_='table')
-		links = data.find_all('td', class_='text-left')
-		
-	for i in links:
-		urlList.append(i.a["href"]);
+		link = soup.find_all('td', class_='site')
+		for i in link:
+			urlList.append(i.a["href"]);
+	else:
+		url = config.get_kat_url()
+		urlList = url.split()
 	return urlList
 
 '''
 function to obtain web URL from which proxies are fetched
 '''
 def proxy_list(name):
+	
 	if name == 'tpb':
 		url = config.get_tpb_url()
+		soup = http_request(url)
 	elif name == 'kat':
-		url = config.get_kat_url()
-	soup = http_request(url)
+		soup = None	
 	output = get_proxy_list(name, soup)
 	return output
 

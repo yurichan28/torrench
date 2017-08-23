@@ -25,15 +25,12 @@ _(Click to expand)_
 ### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT)
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
-* Using TPB in many countries is illegal. Using TPB can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB from torrench.
-* Illegal searches [example](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB.
+* Using TPB/KAT in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT from torrench.
+* Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
+* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT.
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. 
-Alternatively, you can also send a pull request._
-
-_I believe this project can go a long way. I'll need your help expanding it, and keeping it active. Suggestions/Feedbacks are highly appreciated. (I'll soon upload the contributions how-to)_
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. Alternatively, you can also send a pull request._
 
 ---
 
@@ -42,9 +39,9 @@ _I believe this project can go a long way. I'll need your help expanding it, and
 
 * Requires [Python3](https://www.python.org/downloads/)
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
-* Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip)
+* Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-sudo python3 -m pip install torrench
+$ sudo python3 -m pip install torrench --upgrade
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -58,7 +55,7 @@ Windows does not require any additional packages. Everything required to run thi
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE: 
-		* In windows, the default location for storing html files is ```C:\Users\<user>\.torrench\temp```
+		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
 1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=14244138743753164476)
@@ -151,7 +148,7 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 ![distrowatch](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/distrowatch.gif)
 ---
 ### Searches considered illegal
-#### ThePirateBay (Examples)
+#### TPB Examples
 ```bash
 $ torrench -t "suicide squad"	## Search suicide squad TPB
 $ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
@@ -164,7 +161,7 @@ _(Dynamically-generated Torrent description HTML page)_
 ![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
 _(Click to expand)_
 
-#### KickAssTorrents (Examples)
+#### KAT Examples
 ```bash
 $ torrench -k "doctor strange"
 $ torrench -k "guardians of the galaxy"

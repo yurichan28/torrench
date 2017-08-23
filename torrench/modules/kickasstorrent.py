@@ -1,7 +1,3 @@
-'''
-KickassTorrents Module
-'''
-
 import sys
 import requests
 from bs4 import BeautifulSoup
@@ -23,7 +19,6 @@ print("""
 '''
 Initialisations
 '''
-
 colorama.init()
 YELLOW = colorama.Fore.YELLOW + colorama.Style.BRIGHT
 GREEN = colorama.Fore.GREEN + colorama.Style.BRIGHT
@@ -73,7 +68,7 @@ def cycle_proxies(proxy_list):
 	res = http_request(url)
 	if res == 1:
 		i+=1
-		if i > len(proxy_list):
+		if i >= len(proxy_list):
 			print("No appropriate proxies found.")
 			sys.exit("Exiting!")
 		url = proxy_list[i]
@@ -107,7 +102,7 @@ def soup_output(url, title, page_limit):
 	for p in range(page_limit):
 		if torrent_count < 30:
 			break
-		search = "/usearch/%s/%d/" %(title, p+1)
+		search = "usearch/%s/%d/" %(title, p+1)
 		if page_limit > 1:
 			print("Fetching from page: %d" %(p+1))
 		else:
@@ -140,9 +135,17 @@ def fetch_results(soup):
 	mylist = []
 	global torrent_count
 	torrent_count = 0
-	content = soup.find_all('table', class_='data')[0]
-	data = content.find_all('tr', class_='odd')
-	if data == []:
+	content = soup.find('table', class_='data')
+	try:
+		data = content.find_all('tr', class_='odd')
+	except AttributeError as e:
+		print("Proxy not working!! (Did you update the config.ini file?)")
+		print("I have not been able to find any reliable KAT proxy site.")
+		print("If you know of some working proxy, you can edit the config.ini file (KAT_URL) with that proxy.")
+		print("And hope it works (If it does, let me know?).")
+		print("Alternatively, use TPB. Its pretty reliable!\nExiting!")
+		sys.exit(2)
+	if data == None:
 		print("\nNo results found for given input!\n")
 		sys.exit("Exiting!")
 
@@ -282,4 +285,4 @@ def main(title, page_limit):
 		print("\n\nAborted!")
 	
 if __name__ == "__main__":
-	print("It's a module!")
+	print("It's a module")

@@ -1,5 +1,7 @@
-## Module for finding TPB/KAT Proxies
-## URL is fetched from check_config
+'''
+Module for finding TPB/KAT Proxies
+URL is fetched from check_config
+'''
 
 from bs4 import BeautifulSoup
 import requests	

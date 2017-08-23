@@ -1,8 +1,10 @@
-## To check if configuration file is present and enabled to use TPB/KAT
-## Also defines config files's directory structure.
+'''
+To check if configuration file is present and enabled to use TPB/KAT
+Also defines config files's directory structure.
 
-## For Linux, default config file location is: $HOME/.config/torrench/
-## For Windows: ~\.config\torrench\
+For Linux, default config file location is: $HOME/.config/torrench/
+For Windows: ~\.config\torrench\
+'''
 
 import os
 from configparser import SafeConfigParser

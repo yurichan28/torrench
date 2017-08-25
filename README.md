@@ -10,6 +10,7 @@ Torrench is a command-line program to search and download torrents from torrent-
 
 * MacOS Users: I don't own a Mac hardware, so unable to test on it. But, I think it should work fine, considering the code is written keeping cross-platform in mind. Try and report back maybe? Thanks.
 	* _Tested on **Yosemite** (by me as well as a user). Works great._
+	* _Tested on **Sierra (10.12.6)**. Works great (Reported by a user)._
 
 Torrents can be fetched from following websites:
 

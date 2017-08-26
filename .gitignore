@@ -1,16 +1,7 @@
 torrench/*.pyc
 torrench/__pycache__
-torrench/__init__.py
-torrench/tpb/*.pyc
-torrench/tpb/__pycache__
-torrench/tpb/conf
-torrench/linuxtracker/__pycache__
-torrench/linuxtracker/*.pyc
 torrench/*.spec
-torrench/kat/__pycache__
 
-bin
-temp
 __pycache__
 
 # Virtualenv specific

@@ -31,9 +31,7 @@ RESET = colorama.Style.RESET_ALL
 
 OS_WIN = False
 master_list = []
-map_name_index = {}
-map_magnet_index = {}
-map_torrlink_index = {}
+mapper = [None]
 index = 0
 page_fetch_time = 0
 total_fetch_time = 0
@@ -203,10 +201,8 @@ def fetch_results(soup):
         # Further, appending mylist to a masterlist. This masterlist stores the required result
         master_list.append(mylist)
 
-        # Dictationary to map torrent name with corresponding link and magnet-link (Used in get_torrent())
-        map_name_index[str(index)] = name
-        map_magnet_index[str(index)] = magnet
-        map_torrlink_index[str(index)] = torrent_link
+        # Array to map torrent name with corresponding link and magnet-link (Used in get_torrent())
+        mapper.insert(index, (name, magnet, torrent_link))
 
     global page_fetch_time
     global total_fetch_time
@@ -261,19 +257,14 @@ def get_torrent(url):
             if index == 0:
                 print("\nBye!\n")
                 break
-            selected_torrent = map_name_index[str(index)]
-            req_magnetic_link = map_magnet_index[str(index)]
-            req_torr_link = map_torrlink_index[str(index)]
         except ValueError:
             print("\nBad Input!")
             continue
-        except KeyError:
+        except IndexError:
             print("\nBad Input!")
             continue
 
-        selected_torrent = map_name_index[str(index)]
-        req_magnetic_link = map_magnet_index[str(index)]
-        req_torr_link = map_torrlink_index[str(index)]
+        selected_torrent, req_magnetic_link, req_torr_link = mapper[index]
         print("Selected index [%d] - %s\n" % (index, selected_torrent))
         print("Upstream Link: %s \n" % (YELLOW + url + req_torr_link + RESET))
         print("Magnetic Link: %s \n" % (RED + req_magnetic_link + RESET))

@@ -19,24 +19,33 @@ config_file = os.path.join(full_config_dir, config_file_name)
 Function to check if config file exists
 Return true if it does
 '''
+
+
 def file_exists():
-	if os.path.isfile(config_file):
-		config.read(config_file)
-		enable = config.get('Torrench-Config', 'enable')
-		if enable == '1':
-			return True
+    if os.path.isfile(config_file):
+        config.read(config_file)
+        enable = config.get('Torrench-Config', 'enable')
+        if enable == '1':
+            return True
+
+
 '''
 Get TPB URL
 '''
+
+
 def get_tpb_url():
-	config.read(config_file)
-	url = config.get('Torrench-Config', 'TPB_URL')
-	return url
+    config.read(config_file)
+    url = config.get('Torrench-Config', 'TPB_URL')
+    return url
+
 
 '''
 Get KAT URL
 '''
+
+
 def get_kat_url():
-	config.read(config_file)
-	url = config.get('Torrench-Config', 'KAT_URL')
-	return url
+    config.read(config_file)
+    url = config.get('Torrench-Config', 'KAT_URL')
+    return url

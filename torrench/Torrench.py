@@ -92,4 +92,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args()
+    print("Its a module!")

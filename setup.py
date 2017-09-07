@@ -3,14 +3,14 @@
 import sys
 
 try:
-	from setuptools import setup
+    from setuptools import setup
 except ImportError:
         print("Missing package setuptools. Please install to continue\n(https://pypi.python.org/pypi/setuptools)")
         sys.exit('Exiting now!!')
 
-DESCRIPTION = 'Command-line torrent search tool for Windows and Linux OS'
+DESCRIPTION = 'Command-line torrent search program for Windows, Linux and  MacOS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs.'
-VERSION = '1.0.42'
+VERSION = '1.0.5'
 
 setup(
     name = "torrench",
@@ -25,7 +25,7 @@ setup(
     long_description=(LONG_DESCRIPTION),
     entry_points = {'console_scripts': ['torrench = torrench.__main__:main']},
     zip_safe = False,
-    keywords = ['torrents', 'thepiratebay', 'kickasstorrents', 'CLI', 'linuxtracker', 'distrowatch'], 
+    keywords = ['torrents', 'thepiratebay', 'kickasstorrents', 'CLI', 'linuxtracker', 'distrowatch', 'skytorrents'],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

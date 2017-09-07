@@ -66,14 +66,14 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.42/torrench-1.0.42.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.5/torrench-1.0.5.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=14244138743753164476)
+1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=31770635827474327567)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is $XDG_CONFIG_HOME/torrench/. If $XDG_CONFIG_HOME is not defined, it fallbacks to $HOME/.config/torrench (Make any missing directories).
 2. Enable it

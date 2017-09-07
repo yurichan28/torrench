@@ -1,307 +1,245 @@
-'''
-KickassTorrent Module
-'''
+"""KickassTorrents Module."""
 
 import sys
-import requests
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-import colorama
-import time
-import webbrowser
 import platform
-from torrench.utilities.find_url import proxy_list
-
-print("""
-#########################
-#                       #
-#    KickAssTorrents    #                         
-#                       #
-#########################
-""")
-
-'''
-Initialisations
-'''
-colorama.init()
-YELLOW = colorama.Fore.YELLOW + colorama.Style.BRIGHT
-GREEN = colorama.Fore.GREEN + colorama.Style.BRIGHT
-RED = colorama.Fore.RED + colorama.Style.BRIGHT
-RESET = colorama.Style.RESET_ALL
-
-OS_WIN = False
-master_list = []
-mapper = [None]
-index = 0
-page_fetch_time = 0
-total_fetch_time = 0
-torrent_count = 9999
-
-if platform.system() == "Windows":
-    OS_WIN = True
-
-'''
-Function to fetch 'url' page and prepare soup
-It also gives the time taken to fetch url
-'''
+import webbrowser
+import logging
+from torrench.utilities.Config import Config
 
 
-def http_request(url):
-    global page_fetch_time
-    try:
-        start_time = time.time()
-        raw = requests.get(url)
-        page_fetch_time = time.time() - start_time
-    except requests.exceptions.ConnectionError:
-        print("Connection error...")
-        return 1
-    raw = raw.content
-    soup = BeautifulSoup(raw, 'lxml')
-    return soup
+class KickassTorrents(Config):
+    """
+    KickassTorrent class.
 
+    This class fetches torrents from KAT proxy,
+    and diplays results in tabular form.
+    Further, torrent's magnetic link and
+    upstream link can be printed on console.
+    Torrent can be added to client directly
+    (still needs tweaking. may not work as epected)
 
-'''
-Function to select appropriate (available) proxy
-from proxy list.
-If a proxy is unavilable (connectionerror),
-next proxy is tried
-'''
+    This class inherits Config class. Config class inherits
+    Common class. The Config class provides proxies list fetched
+    from config file. The Common class consists of commonly used
+    methods.
 
+    All activities are logged and stored in a log file.
+    In case of errors/unexpected output, refer logs.
+    """
 
-def cycle_proxies(proxy_list):
-    i = 0
-    url = proxy_list[i]
-    print(">>> Trying %s" % (YELLOW + url + RESET))
-    res = http_request(url)
-    if res == 1:
-        i += 1
-        if i >= len(proxy_list):
-            print("No appropriate proxies found.")
-            sys.exit("Exiting!")
-        url = proxy_list[i]
-        print("\n>>> Trying %s" % (YELLOW + url + RESET))
-        http_request(url)
-    return url
+    def __init__(self, title, page_limit):
+        """Initialisations."""
+        Config.__init__(self)
+        self.proxies = self.get_proxies('kat')
+        self.title = title
+        self.pages = page_limit
+        self.logger = logging.getLogger('log1')
+        self.page = 0
+        self.proxy = None
+        self.soup = None
+        self.soup_dict = {}
+        self.OS_WIN = False
+        if platform.system() == "Windows":
+            self.OS_WIN = True
+        self.index = 0
+        self.total_fetch_time = 0
+        self.mylist = []
+        self.mapper = []
+        self.output_headers = [
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S', 'L', 'DATE', 'C']
 
+    def check_proxy(self):
+        """
+        To check proxy availability.
 
-'''
-Function to obtain proxy list
-'''
+        Proxy is checked in two steps:
+        1. To see if proxy 'website' is available.
 
-
-def proxy_select():
-    print("Obtaining proxies...")
-    proxyList = proxy_list('kat')
-    return proxyList
-
-
-'''
-Function to obtain results for given user input
-It includes fetching pages (if -p is provided)
-variables used:
--- torrent_count :: to count number of torrents fetched from a page.
-If 50 torrents are fetched (means 2 pages) and (-p) argument is 4,
-Then fetching process stops at 2, and no further pages are fetched.
-This is what torrent_count is used for (here)
-   
--- title :: the title given by user
--- page_limit :: Value of (-p) argument
-This function calls the fetch_results() to obtain results and are stored in 'output'
-'''
-
-
-def soup_output(url, title, page_limit):
-    global torrent_count
-    for p in range(page_limit):
-        if torrent_count < 30:
-            break
-        search = "usearch/%s/%d/" % (title, p + 1)
-        if page_limit > 1:
-            print("Fetching from page: %d" % (p + 1))
-        else:
-            print("Fetching results...")
-        soup = http_request(url + search)
-        output = fetch_results(soup)
-    return output
-
-
-'''
-Fetch results for given input (soup)
-soup is from get_results()
-Following data is fetched:
-- name
-- uploader name
-- uploader status (verified or not)
---- Yellow=Verified uploader
-- Comments (Number)
-- Category
-- Seeds
-- Leeches
-- Date (of upload)
-- Size
-- magnetic link*
-All this result is displayed in tabular form (tabulate)
-
-* Not displayed in table, but later
-'''
-
-
-def fetch_results(soup):
-
-    mylist = []
-    global torrent_count
-    torrent_count = 0
-    content = soup.find('table', class_='data')
-    try:
-        data = content.find_all('tr', class_='odd')
-    except AttributeError as e:
-        print("Proxy not working!! (Did you update the config.ini file?)")
-        print("I have not been able to find any reliable KAT proxy site.")
-        print("If you know of some working proxy, you can edit the config.ini file (KAT_URL) with that proxy.")
-        print("And hope it works (If it does, let me know?).")
-        print("Alternatively, use TPB. Its pretty reliable!\nExiting!")
-        sys.exit(2)
-    if data == None:
-        print("\nNo results found for given input!\n")
-        sys.exit("Exiting!")
-
-    for i in data:
-        name = i.find('a', class_='cellMainLink').string
-        if name == None:
-            name = i.find('a', class_='cellMainLink').get_text().split("[[")[0]
-        if OS_WIN:
-            try:
-                name = name.encode('ascii', 'replace').decode()  # Handling Unicode characters in windows.
-            except AttributeError:
-                pass
-
-        torrent_link = i.find('a', class_='cellMainLink')['href']
-        uploader_name = i.find('span', class_='lightgrey').get_text().split(" ")[-4]
-        category = i.find('span', class_='lightgrey').get_text().split(" ")[-2]
-        verified_uploader = i.find('a', {'title': 'Verified Torrent'})
-        if verified_uploader != None:
-            uploader_name = YELLOW + uploader_name + RESET
-            verified = True
-            comment_count = i.find('a', class_='icommentjs').get_text()
-        if comment_count == '':
-            comment_count = 0
-        misc_details = i.find_all('td', class_='center')
-        size = misc_details[0].string
-        date_added = misc_details[1].string
-        seeds = GREEN + misc_details[2].string + RESET
-        leeches = RED + misc_details[3].string + RESET
-        magnet = i.find('a', {'title': 'Torrent magnet link'})['href']
-
-        global index
-        index += 1
-        torrent_count += 1
-
-        # Storing each row result in mylist
-        mylist = [category, name, '--' + str(index) + '--', uploader_name, size, date_added, seeds, leeches, comment_count]
-        # Further, appending mylist to a masterlist. This masterlist stores the required result
-        master_list.append(mylist)
-
-        # Array to map torrent name with corresponding link and magnet-link (Used in get_torrent())
-        mapper.insert(index, (name, magnet, torrent_link))
-
-    global page_fetch_time
-    global total_fetch_time
-    total_fetch_time += page_fetch_time
-    print("Torrents: %d [in %.2f sec] \n" % (torrent_count, page_fetch_time))
-    result = tabulate(master_list, headers=['CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'S', 'L', 'C'], tablefmt='grid')
-    return result
-
-
-'''
-Function called after output table is displayed. 
-Displays text and following info:
-- Total torrents fetched (index)
-- Time taken to fetch all torrents (total_fetch_time)
-- Total pages fetched (exact_no_of_pages)
-'''
-
-
-def after_output_text():
-    global total_fetch_time
-    global index
-    exact_no_of_pages = index // 30
-    has_extra_pages = index % 30
-    if has_extra_pages > 0:
-        exact_no_of_pages += 1
-    print("\nTotal %d torrents [%d pages]" % (index, exact_no_of_pages))
-    print("Total time: %.2f sec" % (total_fetch_time))
-    print("\nFurther, torrent can be downloaded using magnetic link\nOR\nTorrent's upstream link can be obtained to be opened in web browser.")
-    print("\nEnter torrent's index value (Maximum one index)")
-    return
-
-
-'''
-Each torrentis associated to an index.
-Torrent is selected using the index value.
-Operations:
-- Print magnetic link, upstream link and option to load torrent to torrent-client
-
-As of now, the magnetic link is opened in browser, *assuming* it automatically opens
-the link in default torrent client
-'''
-'''
-TODO: Load torrent directly to torrent client. If multiple clients are present, ask user.
-'''
-
-
-def get_torrent(url):
-    index = 999
-    while(index != 0):
-        try:
-            index = int(input("\n(0=exit)\nindex > "))
-            if index == 0:
-                print("\nBye!\n")
+        In case of failiur, next proxy is tested with same procedure.
+        This continues until working proxy is found.
+        If no proxy is found, program exits.
+        """
+        count = 0
+        for proxy in self.proxies:
+            print("Trying %s" % (self.colorify("yellow", proxy)))
+            self.logger.debug("Trying proxy: %s" % (proxy))
+            self.soup = self.http_request(proxy)
+            if self.soup.find('a')['href'] != proxy + "full/" or self.soup == -1:
+                print("Bad proxy!")
+                count += 1
+                if count == len(self.proxies):
+                    self.logger.debug("Proxy list finished! Exiting!")
+                    print("No more proxies found! Exiting...")
+                    sys.exit(2)
+            else:
+                self.logger.debug("Connected to proxy...")
+                print("Available!\n")
+                self.proxy = proxy
                 break
-        except ValueError:
-            print("\nBad Input!")
-            continue
-        except IndexError:
-            print("\nBad Input!")
-            continue
 
-        selected_torrent, req_magnetic_link, req_torr_link = mapper[index]
-        print("Selected index [%d] - %s\n" % (index, selected_torrent))
-        print("Upstream Link: %s \n" % (YELLOW + url + req_torr_link + RESET))
-        print("Magnetic Link: %s \n" % (RED + req_magnetic_link + RESET))
-        option = input("Load magnetic link to client? [y/n]:")
-        if option == 'y' or option == 'Y':
+    def get_html(self):
+        """
+        To get HTML page.
+
+        Once proxy is found, the HTML page for
+        corresponding search string is fetched.
+        Also, the time taken to fetch that page is returned.
+        Uses http_request_time() from Common.py module.
+        """
+        for self.page in range(self.pages):
+            print("\nFetching from page: %d" % (self.page+1))
+            self.logger.debug("fetching page %d/%d" % (self.page, self.pages))
+            search = "usearch/%s/%d/" % (self.title, self.page + 1)
+            self.soup, time = self.http_request_time(self.proxy + search)
+            print("Page fetched!")
+            self.logger.debug("Page fetched in %.2f sec!" % (time))
+            self.total_fetch_time += time
+            self.soup_dict[self.page] = self.soup
+
+    def parse_html(self):
+        """
+        Parse HTML to get required results.
+
+        Results are fetched in masterlist list.
+        Also, a mapper[] is used to map 'index'
+        with torrent name, link and magnetic link
+        """
+        masterlist = []
+        try:
+            for page in self.soup_dict:
+                self.soup = self.soup_dict[page]
+                content = self.soup.find('table', class_='data')
+                data = content.find_all('tr', class_='odd')
+                for i in data:
+                    name = i.find('a', class_='cellMainLink').string
+                    if name is None:
+                        name = i.find('a', class_='cellMainLink').get_text().split("[[")[0]
+                    # Handling Unicode characters in windows.
+                    if self.OS_WIN:
+                        try:
+                            name = name.encode('ascii', 'replace').decode()
+                        except AttributeError as e:
+                            self.logger.debug(e)
+                            pass
+                    torrent_link = i.find('a', class_='cellMainLink')['href']
+                    uploader_name = i.find('span', class_='lightgrey').get_text().split(" ")[-4]
+                    category = i.find('span', class_='lightgrey').get_text().split(" ")[-2]
+                    verified_uploader = i.find('a', {'title': 'Verified Torrent'})
+                    if verified_uploader is not None:
+                        uploader_name = self.colorify("yellow", uploader_name)
+                        comment_count = i.find('a', class_='icommentjs').get_text()
+                    if comment_count == '':
+                        comment_count = 0
+                    misc_details = i.find_all('td', class_='center')
+                    size = misc_details[0].string
+                    date_added = misc_details[1].string
+                    seeds = self.colorify("green", misc_details[2].string)
+                    leeches = self.colorify("red", misc_details[3].string)
+                    magnet = i.find('a', {'title': 'Torrent magnet link'})['href']
+                    self.index += 1
+                    self.mapper.insert(self.index, (name, magnet, torrent_link))
+
+                    self.mylist = [category, name, '--' + str(self.index) + '--', uploader_name, size, date_added, seeds, leeches, comment_count]
+                    masterlist.append(self.mylist)
+
+            if masterlist == []:
+                print("\nNo results found for given input!\n")
+                self.logger.debug("\nNo results found for given input! Exiting!")
+                sys.exit(2)
+            self.logger.debug("Results fetched successfully!")
+            self.show_output(masterlist, self.output_headers)
+        except Exception as e:
+            self.logger.exception(e)
+            print("Error message: %s" %(e))
+            print("Something went wrong! See logs for details. Exiting!")
+            sys.exit(2)
+
+
+    def after_output_text(self):
+        """
+        After output is displayed, Following text is displayed on console.
+
+        Text includes instructions, total torrents fetched, total pages,
+        and total time taken to fetch results.
+        """
+        try:
+            exact_no_of_pages = self.index // 30
+            has_extra_pages = self.index % 30
+            if has_extra_pages > 0:
+                exact_no_of_pages += 1
+            print("\nTotal %d torrents [%d pages]" % (self.index, exact_no_of_pages))
+            print("Total time: %.2f sec" % (self.total_fetch_time))
+            self.logger.debug("fetched ALL results in %.2f sec" % (self.total_fetch_time))
+            print("\nFurther, torrent can be downloaded using magnetic link\nOR\nTorrent's upstream link can be obtained to be opened in web browser.")
+            print("\nEnter torrent's index value (Maximum one index)")
+        except Exception as e:
+            self.logger.exception(e)
+            print("Error message: %s" %(e))
+            print("Something went wrong! See logs for details. Exiting!")
+            sys.exit(2)
+
+    def select_torrent(self):
+        """
+        To select required torrent.
+
+        Torrent is selected through index value.
+        Prints magnetic link and upstream link to console.
+        Also, torrent can be added directly to client
+        (Note: Might not work as expected.)
+        """
+        self.logger.debug("torrent select!")
+        temp = 9999
+        while(temp != 0):
             try:
-                webbrowser.open_new_tab(req_magnetic_link)
-            except Exception as e:
-                print(e)
+                temp = int(input("\n(0=exit)\nindex > "))
+                self.logger.debug("selected index: %d" % (temp))
+                if temp == 0:
+                    self.logger.debug("Torrench quit!")
+                    print("\nBye!\n")
+                    break
+                elif temp < 0:
+                    print("\nBad Input!")
+                    continue
+                else:
+                    selected_torrent, req_magnetic_link, req_torr_link = self.mapper[temp-1]
+
+                    print("Selected index [%d] - %s\n" % (self.index, selected_torrent))
+                    self.logger.debug("selected torrent: %s ; index: %d")
+                    print("Upstream Link: %s \n" % (self.colorify("yellow", self.proxy + req_torr_link)))
+                    print("Magnetic Link: %s \n" % (self.colorify("red", req_magnetic_link)))
+                    self.logger.debug("print magnetic link and upstream link")
+                    option = input("Load magnetic link to client? [y/n]:")
+                    if option == 'y' or option == 'Y':
+                        try:
+                            self.logger.debug("Open magnetic link in browser...")
+                            webbrowser.open_new_tab(req_magnetic_link)
+                        except Exception as e:
+                            self.logger.exception(e)
+                            continue
+                    else:
+                        self.logger.debug("NOT Opening magnetic link in browser.")
+                        pass
+            except (ValueError, IndexError, TypeError) as e:
+                print("\nBad Input!")
+                self.logger.exception(e)
                 continue
-        else:
-            continue
-
-
-'''
-Execution begins here
-- Obtain proxy list
-- Select proxy to use
-- Fetch results for 'title' and 'page_limit'
-- Obtain specific torrent
-'''
 
 
 def main(title, page_limit):
-    i = 0
+    """Execution begins here!"""
     try:
-        print("Note: KAT can be slower at times, and take longer time than usual to fetch results.\n\n")
-        proxy_list = proxy_select()
-        url = cycle_proxies(proxy_list)
-        output = soup_output(url, title, page_limit)
-        print("\nS=SEEDS; L=LEECHES; C=COMMENTS; " + YELLOW + "YELLOW UPLOADERS " + RESET + "are Verified Uploaders")
-        print(output)
-        after_output_text()
-        get_torrent(url)
+        print("\n[KickassTorrents]\n")
+        print("Obtaining proxies...")
+        kat = KickassTorrents(title, page_limit)
+        kat.check_proxy()
+        kat.get_html()
+        kat.parse_html()
+        kat.after_output_text()
+        kat.select_torrent()
     except KeyboardInterrupt:
+        kat.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
 
 
 if __name__ == "__main__":
-    print("It's a module")
+    print("Its a module!")

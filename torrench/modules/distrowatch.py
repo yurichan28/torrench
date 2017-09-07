@@ -1,143 +1,117 @@
-'''
-Modified for DistroWatch by Jesse Smith <jsmith@resonatingmedia.com>
-'''
+"""Modified for DistroWatch by Jesse Smith <jsmith@resonatingmedia.com>."""
 
-print("""
-#####################
-#                   #
-#    DistroWatch    #
-# (distrowatch.com) #                       
-#                   #
-#####################
-""")
-
-import os
-import requests
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-import colorama
 import sys
-
-colorama.init()
-YELLOW = colorama.Fore.YELLOW + colorama.Style.BRIGHT
-RESET = colorama.Style.RESET_ALL
-
-urllist = []
-index_to_name = {}
-
-'''
-Function to send HTTP GET request and obtain page source.
-'''
+import logging
+from torrench.utilities.Common import Common
 
 
-def http_request(url):
-    raw = requests.get(url)
-    raw = raw.content
-    soup = BeautifulSoup(raw, 'lxml')
-    return soup
+class DistroWatch(Common):
+    """
+    Distrowatch class.
 
+    This class fetches results from
+    distrowatch.com and displays
+    results in tabular form.
+    Selected torrent is downloaded in hard-drive.
+    Default download location is $HOME/downloads/torrench
+    """
 
-'''
-Function to fetch results for given 'title'
-soup is obtained from http_request()
-'''
+    def __init__(self, title):
+        """Initialisations."""
+        Common.__init__(self)
+        self.title = title
+        self.logger = logging.getLogger('log1')
+        self.index = 0
+        self.mylist = []
+        self.urllist = []
+        self.url = "https://distrowatch.com/dwres.php?resource=bittorrent"
+        self.output_headers = ['NAME', 'INDEX', 'UPLOADED']
+        self.mapper = []
+        self.soup = None
 
-
-def fetch_results(soup, title):
-
-    mylist = []
-    masterlist = []
-    torrent = soup.find_all('td', 'torrent')
-    torrent_date = soup.find_all('td', 'torrentdate')
-    index = 0
-    for i, j in zip(torrent, torrent_date):
+    def fetch_results(self):
+        """To fetch results for given input."""
+        masterlist = []
         try:
-            link = i.find('a')
-            url = "https://distrowatch.com/" + link.get('href')
-            name = link.string
-            name = name.lower()
-            if title in name:
-                date = j.string
-                index += 1
-                index_to_name[str(index)] = name
-                mylist = [name, "--" + str(index) + "--", date]
-                masterlist.append(mylist)
-                urllist.append(url)
-        except AttributeError:
-            pass
+            torrent = self.soup.find_all('td', 'torrent')
+            torrent_date = self.soup.find_all('td', 'torrentdate')
+            for i, j in zip(torrent, torrent_date):
+                try:
+                    link = i.find('a')
+                    url = "https://distrowatch.com/" + link.get('href')
+                    name = link.string
+                    name = name.lower()
+                    if self.title in name:
+                        date = j.string
+                        self.index += 1
+                        self.mapper.insert(self.index, (name))
+                        self.mylist = [name, "--" + str(self.index) + "--", date]
+                        masterlist.append(self.mylist)
+                        self.urllist.append(url)
+                except AttributeError as e:
+                    self.logger.exception(e)
+                    pass
+            if self.index == 0:
+                print("No results found for give input!")
+                self.logger.debug("\nNo results found for given input! Exiting!")
+                sys.exit(2)
+            return masterlist
+        except Exception as e:
+            self.logger.exception(e)
+            print("Error message: %s" %(e))
+            print("Something went wrong! See logs for details. Exiting!")
+            sys.exit(2)
 
-    if index == 0:
-        return 0
+    def select_torrent(self):
+        """
+        To select torrent and download.
 
-    output = tabulate(masterlist, headers=['NAME', 'INDEX', 'UPLOADED'], tablefmt="grid")
-    return output
-
-
-'''
-Function to select torrent index and download torrent
-download() is called, passing torrent's download url to it
-'''
-
-
-def post_result():
-
-    print("\n\nTorrent can be downloaded directly through index\n")
-    temp = 9999
-    while(temp != 0):
-        try:
-            temp = int(input("(0 = exit)\nindex > "))
-            if temp == 0:
-                print("\nBye!")
-                break
-            else:
-                selected_torrent = YELLOW + index_to_name[str(temp)] + RESET
-                print("\nSelected index [%s] - %s" % (temp, selected_torrent))
-                download(urllist[temp - 1])
-        except ValueError:
-            print("\nBad Input\n")
-        except KeyError:
-            print("\nBad Input\n")
-
-
-'''
-Function to download .torrent file. Torrent is downloaded in ~/Downloads/torrench/
-'''
-
-
-def download(dload_url):
-
-    home = os.path.expanduser(os.path.join('~', 'Downloads'))
-    downloads_dir = os.path.join(home, 'torrench')
-    if not os.path.exists(downloads_dir):
-        os.makedirs(downloads_dir)
-    torrent_name = dload_url.split('/')[5]
-
-    with open(os.path.join(downloads_dir, torrent_name), "wb") as file:
-        print("Downloading ", dload_url)
-        response = requests.get(dload_url)
-        file.write(response.content)
-        print("Download complete!")
-        print("\nSaved in %s \n" % (downloads_dir))
-
-
-'''
-Execution begins here.
-'''
+        Torrent is selected thorugh index value.
+        Selected torrent (.torrent file) is downloaded to hard-drive.
+        Default download location is $HOME/downloads/torrench
+        """
+        self.logger.debug("Selecting torrent...")
+        print("\nTorrent can be downloaded directly through index\n")
+        temp = 9999
+        while(temp != 0):
+            try:
+                temp = int(input("(0 = exit)\nindex > "))
+                self.logger.debug("input index %d" % (temp))
+                if temp == 0:
+                    print("\nBye!")
+                    self.logger.debug("Torrench quit!")
+                    break
+                elif temp < 0:
+                    self.logger.debug("Invalid input index %d" % (temp))
+                    print("\nBad Input\n")
+                    continue
+                else:
+                    selected_torrent = self.mapper[temp-1]
+                    self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
+                    selected_torrent = self.colorify("yellow", selected_torrent)
+                    torrent_url = self.urllist[temp-1]
+                    torrent_name = torrent_url.split('/')[5]
+                    print("\nSelected index [%s] - %s" % (temp, selected_torrent))
+                    self.download(torrent_url, torrent_name)
+            except (ValueError, IndexError, KeyError) as e:
+                self.logger.exception(e)
+                print("\nBad Input\n")
 
 
 def main(title):
-
+    """Execution begins here."""
     try:
-        url = "https://distrowatch.com/dwres.php?resource=bittorrent"
-        soup = http_request(url)
-        results = fetch_results(soup, title)
-        if results == 0:
-            print("\nNo results for give input!\n")
-            sys.exit(2)
-        else:
-            print(results)
-            post_result()
-    except KeyboardInterrupt:
+        print("\n[DistroWatch]\n")
+        title = title.lower()
+        dw = DistroWatch(title)
+        print("Fetching results...")
+        dw.soup = dw.http_request(dw.url)
+        masterlist = dw.fetch_results()
+        dw.logger.debug("Results fetched successfully!")
+        dw.show_output(masterlist, dw.output_headers)
+        dw.select_torrent()
+    except KeyboardInterrupt as e:
+        dw.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
 
 

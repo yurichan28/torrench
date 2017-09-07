@@ -6,7 +6,7 @@
 Log files are present as follows:
     * **Windows:** ```~\AppData\Local\torrench```
     * **\*nix systems (Linux/MacOS):** Default location is ```$XDG_DATA_HOME```. Fallback to ```$HOME/.local/share/torrench```
-* \*nix users (Linux/MacOS): Default location for CONFIG file (config.ini) has been changed to ```$XDG_CONFIG_HOME```. If it is not set, fallbacks to ```$HOME/.config/torrench```
+* \*nix users (Linux/MacOS): Default location for **CONFIG file (config.ini)** has been changed to ```$XDG_CONFIG_HOME```. If it is not set, fallbacks to ```$HOME/.config/torrench```
 * Added **SkyTorrents** support (-s).
 * Added **Top torrents** option for TPB and SkyTorrents (--top).
 * Added two more KAT proxies.

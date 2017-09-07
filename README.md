@@ -6,32 +6,46 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
-Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Linux and Windows** operating systems. 
+* [About]()
+* [TPB/KAT/SkyTorrents Usage]()
+* [Installation/Building from source]()
+* [Usage and Options]()
+* [Features]()
+* [Samples]()
+* [Disclaimer]()
+* [Contributing]()
+* [Thank you]()
+* [Contact]()
+* [Licence]()
 
-* MacOS Users: I don't own a Mac hardware, so unable to test on it. But, I think it should work fine, considering the code is written keeping cross-platform in mind. Try and report back maybe? Thanks.
-	* _Tested on **Yosemite** (by me as well as a user). Works great._
-	* _Tested on **Sierra (10.12.6)**. Works great (Reported by a user)._
+---
 
-Torrents can be fetched from following websites:
+## About
+Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**. It's written in Python3.
 
-1. linuxtracker.org - Download linux distros ISO torrents.
-2. DistroWatch - Another linux distro ISOs repository.
-3. The Pirate Bay (TPB)**\***
-4. KickassTorrents (KAT)**\***
-5. _More to come..._
+Torrench has been tested on following platforms:
+* Windows: Win7 (32bit, 64bit), Win8, Win8.1, Win10.
+* Linux: Debian/Ubuntu, Fedora, Arch
+* MacOS [Reported by users]: Yosemite, Sierra (10.12.6). [I do not own a Mac hardware. If you find it working on your MacOS (any version), report back maybe?]
 
-![both](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/mix.gif)
-_(Click to expand)_
+The following websites are supported:
 
-### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT)
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+* linuxtracker.org - Download linux distros ISO torrents.
+* DistroWatch - Another linux distro ISOs repository.
+* The Pirate Bay (TPB)**\***
+* KickassTorrents (KAT)**\***
+* SkyTorrents **\***
+* _More to come..._
 
-* Using TPB/KAT in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT from torrench.
+### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+
+* Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT/SkyTorrents from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT.
+* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT/SkyT.
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact) or [Open issue](https://github.com/kryptxy/torrench/issues/new) if you come across any. Alternatively, you can also send a pull request._
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing]()._
 
 ---
 
@@ -42,31 +56,31 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-$ sudo python3 -m pip install torrench --upgrade
+$ sudo python3 -m pip install --upgrade torrench
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
 $ sudo python3 setup.py install
 ```
-	
+
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
 * Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.42/torrench-1.0.42.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
-	* NOTE: 
+	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
 1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=14244138743753164476)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
-	* **Linux -** Copy the config file to ```$HOME/.config/torrench/``` (Create any missing directories)
+	* **Linux -** Default location is $XDG_CONFIG_HOME/torrench/. If $XDG_CONFIG_HOME is not defined, it fallbacks to $HOME/.config/torrench (Make any missing directories).
 2. Enable it
 	* Open config.ini file
 	* Set ```enable=1```
 	* Save and exit
-3. That's it. 
+3. That's it.
 
 ---
 
@@ -79,37 +93,35 @@ $ torrench [Options] <SEARCH_STRING>
 
 ## Options
 ```bash
-  -h, --help            show this help message and exit
-  
-  -d, --distrowatch     Search distrowatch
-  
-  -t, --thepiratebay    Search thepiratebay
-  
-  -k, --kickasstorrent  Search KickassTorrent (KAT)
-  
-  -p LIMIT, --page-limit LIMIT
-                        Number of pages to fetch results from (1 page = 30 results). [default: 1] [TPB]
-						
-  -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
-						
-  -v, --version         Display version and exit.
- ```
+    positional arguments:
+    search                Enter search string
 
----
+    optional arguments:
+    -h, --help            show this help message and exit
+    -d, --distrowatch     Search distrowatch
+    -t, --thepiratebay    Search thepiratebay (TPB)
+    -k, --kickasstorrent  Search KickassTorrent (KAT)
+    -s, --skytorrents     Search SkyTorrents
+    --top                 Get top torrents
+    -p LIMIT, --page-limit LIMIT
+                          Number of pages to fetch results from (1 page = 30 results). [default: 1]
+    -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+    -v, --version         Display version and exit.
+ ```
 
 ## Features
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
 * [linuxtracker] Supports filtering search using categories
 
-### TPB/KAT only 
+**[TPB/KAT]**
 * Surf torrents Ad-free
 * Fetch Torrents on basis of pages [1 page = 30 results (max)] [(-p) argument].
 * **Display colored results on basis of uploader's status** (Very useful when choosing torrent).
-	* TPB: 
-		* VIP Uploaders [text in green]
+	* TPB:
+		* VIP Uploaders [results in green]
 		* Trusted Uploader [results in magenta]
-		* General Uploader 
+		* General Uploader
 	* KAT (KickassTorrents):
 		* Verified uploaders [Uploader's text in yellow]
 		* Seeds [in green]
@@ -119,18 +131,18 @@ $ torrench [Options] <SEARCH_STRING>
 
 **[TPB-Only]**
 * Get complete torrent details (Description, comments, torrent download). **Torrent details are available in dynamically-generated HTML pages.**
-
 * Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
+* Get TPB Top Torrents (--top)
 
 ### Note
 * A torrent might take long to fetch results. I have generally faced this issue when running torrench for the first time. When this happens:
 	* Abort the ongoing search [Ctrl+C]
 	* Search again. The second time generally works fine.
-* KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. If you know of some working proxy, you can edit KAT_URL in config.ini  with that working proxy and hope that works (If it does, let me know?). Alternatively, use TPB. It's pretty reliable and works most of the time.
-	
+* KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. If you know of some working proxy, you can edit KAT_URL in config.ini  with that working proxy. Alternatively, use TPB or SkyTorrents. They are pretty reliable and works most of the time.
+
 ---
 
-## Examples
+## Samples
 
 ```bash
 $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.04 distro ISO
@@ -140,13 +152,14 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 ```
 #### Linuxtracker
 
-![ubuntu](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/ubuntu.png)
-![fedora](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/linux.gif)
+![ubuntu](images/screenshots/ubuntu.png)
+![fedora](images/screenshots/linux.gif)
 
 #### DistroWatch
 
-![distrowatch](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/distrowatch.png)
-![distrowatch](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/distrowatch.gif)
+![distrowatch](images/screenshots/distrowatch.png)
+![distrowatch](images/screenshots/distrowatch.gif)
+
 ---
 ### Searches considered illegal
 #### TPB Examples
@@ -154,12 +167,12 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 $ torrench -t "suicide squad"	## Search suicide squad TPB
 $ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
 ```
-![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/tpb.png)
+![illegal](images/screenshots/tpb.png)
 
-![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/html.png)
-_(Dynamically-generated Torrent description HTML page)_ 
+![illegal](images/screenshots/html.png)
+_(Dynamically-generated Torrent description HTML page)_
 
-![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/got.gif)
+![illegal](images/screenshots/got.gif)
 _(Click to expand)_
 
 #### KAT Examples
@@ -167,9 +180,19 @@ _(Click to expand)_
 $ torrench -k "doctor strange"
 $ torrench -k "guardians of the galaxy"
 ```
-![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/kat.png)
+![illegal](images/screenshots/kat.png)
 
-![illegal](https://raw.githubusercontent.com/kryptxy/torrench/master/images/screenshots/kat.gif)
+![illegal](images/screenshots/kat.gif)
+_(Click to expand)_
+
+#### SkyTorrents Examples
+```bash
+$ torrench -s "hannibal"
+$ torrench -s "narcos"
+```
+![illegal](images/screenshots/sky.png)
+
+![illegal](images/screenshots/sky.gif)
 _(Click to expand)_
 
 ---
@@ -177,12 +200,18 @@ _(Click to expand)_
 ## Disclaimer
 This tool fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
-## Bug Report and/or Feedback
-Found a bug? Please report and help improving this tool. You can [Open Issue](https://github.com/kryptxy/torrench/issues/new) or contact me directly.
-Feedbacks/Suggestions are much appreciated. They help in improving the tool, and keep me motivated. 
+## Contributing
+Please see [CONTRIBUTING]()
 
 ## Contact
-E-mail : kryptxy@protonmail.com
+* E-mail : kryptxy@protonmail.com
+* [Twitter (DM)](https://twitter.com/kryptxy) [Quick-response]
+* [Telegram](http://t.me/kryptxy) [Quick-response]
+
+## Thank you
+* Contributors for giving your time to this project and improving it.
+* Users for your valuable feedback and suggestions.
+* MacOS testers for testing torrench and reporting.
 
 ## Licence
 ```

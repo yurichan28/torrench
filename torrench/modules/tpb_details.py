@@ -20,13 +20,11 @@ else:
 
 
 def get_details(url, index):
-
     initial_time = time.time()
     raw = requests.get(url)
     initial_end_time = time.time() - initial_time
     raw = raw.content
     unique_id = url.split('/')[-1]
-    file_name = unique_id + ".html"
     soup = BeautifulSoup(raw, "lxml")
 
     content = soup.find('div', id="details")
@@ -51,7 +49,7 @@ def get_details(url, index):
     total_comments_pages = soup.find('div', class_='browse-coms')  # Total number of comment pages
     opt = ''
     total_time = 0
-    if total_comments_pages != None:
+    if total_comments_pages is not None:
         total_comments_pages = int(soup.find('div', class_='browse-coms').strong.string)
         print("\n%d comment pages (1 page = 25 comments (MAX))" % (total_comments_pages))
         temp = True
@@ -125,7 +123,7 @@ def get_details(url, index):
     status = ""
     for j in dd:
         dd_str = str(j.get_text()).replace(":", "")
-        if j.img != None:
+        if j.img is not None:
             if j.img['title'] == 'VIP':
                 dd_str = "<div class='vip'>" + dd_str + "</div>"
                 status = 'vip'

@@ -1,6 +1,6 @@
 ### [08/09/2017] v1.0.5
 #### MAJOR UPDATE
-** New copy of config.ini file is required for TPB/KAT/Skytorrents updated support **
+**New copy of config.ini file is required for TPB/KAT/Skytorrents updated support**
 * Added classes. Re-written modules in form of classes.
 * **Added logging.** All torrench activities are now logged in a log file. A new log file is created everyday (at midnight). The current log file is named **torrench.log**, while previous log files are named **torrench.log.YYYY-MM-DD**.
 Log files are present as follows:

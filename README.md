@@ -66,7 +66,7 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.5/torrench-1.0.5.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.51/torrench-1.0.51.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:

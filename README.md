@@ -56,7 +56,7 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-$ sudo python3 -m pip install --upgrade torrench
+$ sudo python3 -m pip install --upgrade torrench==1.0.5
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash

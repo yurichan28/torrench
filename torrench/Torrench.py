@@ -31,7 +31,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.5)"
+        self.__version__ = "Torrench (1.0.51)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None

@@ -27,7 +27,6 @@ Let's begin.
 
 #### Suggestions/Feedbacks/Contact
 * Suggestions/feedbacks are more than welcome. They keep me motivated and help keeping this project running.
-* **Please do not open issue for general suggestions/feedbacks.**
 * You can [DM me on Twitter](https://twitter.com/kryptxy), contact me directly through [mail](mailto:kryptxy@protonmail.com) or ping me on [Telegram](http://t.me/kryptxy). I am more responsive on these platforms.
 
 HAPPY TORRENTING!

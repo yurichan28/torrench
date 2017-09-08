@@ -14,9 +14,8 @@
 * [Features](https://github.com/kryptxy/torrench#features)
 * [Samples](https://github.com/kryptxy/torrench#samples)
 * [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
-* [Contributing](https://github.com/kryptxy/torrench#contributing)
+* [Contributing](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
 * [Contact](https://github.com/kryptxy/torrench#contact)
-* [Thank you](https://github.com/kryptxy/torrench#thank-you)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
 ---

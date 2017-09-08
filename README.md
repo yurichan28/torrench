@@ -6,17 +6,17 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
-* [About]()
-* [TPB/KAT/SkyTorrents Usage]()
-* [Installation/Building from source]()
-* [Usage and Options]()
-* [Features]()
-* [Samples]()
-* [Disclaimer]()
-* [Contributing]()
-* [Thank you]()
-* [Contact]()
-* [Licence]()
+* [About](https://github.com/kryptxy/torrench#about)
+* [TPB / KAT / SkyTorrents Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
+* [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
+* [Usage and Options](https://github.com/kryptxy/torrench#usage)
+* [Features](https://github.com/kryptxy/torrench#features)
+* [Samples](https://github.com/kryptxy/torrench#samples)
+* [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
+* [Contributing](https://github.com/kryptxy/torrench#contributing)
+* [Contact](https://github.com/kryptxy/torrench#contact)
+* [Thank you](https://github.com/kryptxy/torrench#thank-you)
+* [Licence](https://github.com/kryptxy/torrench#licence)
 
 ---
 
@@ -45,7 +45,7 @@ By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents from to
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
 * This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT/SkyT.
 
-_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing]()._
+_Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)._
 
 ---
 
@@ -56,7 +56,7 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-$ sudo python3 -m pip install --upgrade torrench
+$ sudo python3 -m pip install --upgrade torrench==1.0.5
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -75,7 +75,7 @@ Windows does not require any additional packages. Everything required to run thi
 ### Configuration instructions:
 1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=31770635827474327567)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
-	* **Linux -** Default location is $XDG_CONFIG_HOME/torrench/. If $XDG_CONFIG_HOME is not defined, it fallbacks to $HOME/.config/torrench (Make any missing directories).
+	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 2. Enable it
 	* Open config.ini file
 	* Set ```enable=1```
@@ -201,7 +201,7 @@ _(Click to expand)_
 This tool fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
 ## Contributing
-Please see [CONTRIBUTING]()
+Please see [CONTRIBUTING](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)
 
 ## Contact
 * E-mail : kryptxy@protonmail.com

@@ -11,12 +11,7 @@ Let's begin.
 #### Do you want to add a new module/website support?
 * Adding a new website should not be difficult. Please refer existing website modules (torrench/modules/\*) to get an idea about code management. Stuck somewhere? Got suggestions? Ping me!
 
-#### Acceptable patches
-* Bug fix.
-* Code improvement (including alternate (better) code implementation, code optimisations).
-* New module/website support.
-
-#### Did you write a patch?
+#### Did you write a patch (bug fix, new module, code optimisation...)?
 * Open a new Pull Request (PR) with the patch.
 * Ensure the PR clearly describes the problem and solution.
 * Ensure code follows PEP8 code-style.

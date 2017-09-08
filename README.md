@@ -6,6 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
+---
 * [About](https://github.com/kryptxy/torrench#about)
 * [TPB / KAT / SkyTorrents Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
@@ -21,15 +22,9 @@
 ---
 
 ## About
-Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**. It's written in Python3.
+Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 
-Torrench has been tested on following platforms:
-* Windows: Win7 (32bit, 64bit), Win8, Win8.1, Win10.
-* Linux: Debian/Ubuntu, Fedora, Arch
-* MacOS [Reported by users]: Yosemite, Sierra (10.12.6). [I do not own a Mac hardware. If you find it working on your MacOS (any version), report back maybe?]
-
-The following websites are supported:
-
+Torrench supports following websites:
 * linuxtracker.org - Download linux distros ISO torrents.
 * DistroWatch - Another linux distro ISOs repository.
 * The Pirate Bay (TPB)**\***
@@ -37,7 +32,13 @@ The following websites are supported:
 * SkyTorrents **\***
 * _More to come..._
 
-### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
+It has been tested on following platforms:
+* **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
+* **Linux:** Debian/Ubuntu, Fedora, Arch
+* **MacOS [Reported by users]:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware. If you find it working on your MacOS (any version), report back maybe?]
+
+
+#### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
@@ -200,7 +201,7 @@ _(Click to expand)_
 ## Disclaimer
 This tool fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
-## Contributing
+## Contributing (Bug reports/suggestions/feedbacks)
 Please see [CONTRIBUTING](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)
 
 ## Contact

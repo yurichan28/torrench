@@ -23,7 +23,7 @@
 ## About
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 
-Torrench supports following websites:
+Following websites are supported:
 * linuxtracker.org - Download linux distros ISO torrents.
 * DistroWatch - Another linux distro ISOs repository.
 * The Pirate Bay (TPB)**\***
@@ -31,10 +31,12 @@ Torrench supports following websites:
 * SkyTorrents **\***
 * _More to come..._
 
-It has been tested on following platforms:
+I have tested it on following platforms (and it works great):
 * **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
 * **Linux:** Debian/Ubuntu, Fedora, Arch
-* **MacOS [Reported by users]:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware. If you find it working on your MacOS (any version), report back maybe?]
+
+**[Reported by users]**
+* **MacOS:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
 
 #### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents

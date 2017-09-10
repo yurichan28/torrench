@@ -11,12 +11,7 @@ Let's begin.
 #### Do you want to add a new module/website support?
 * Adding a new website should not be difficult. Please refer existing website modules (torrench/modules/\*) to get an idea about code management. Stuck somewhere? Got suggestions? Ping me!
 
-#### Acceptable patches
-* Bug fix.
-* Code improvement (including alternate (better) code implementation, code optimisations).
-* New module/website support.
-
-#### Did you write a patch?
+#### Did you write a patch (bug fix, new module, code optimisation...)?
 * Open a new Pull Request (PR) with the patch.
 * Ensure the PR clearly describes the problem and solution.
 * Ensure code follows PEP8 code-style.
@@ -27,7 +22,6 @@ Let's begin.
 
 #### Suggestions/Feedbacks/Contact
 * Suggestions/feedbacks are more than welcome. They keep me motivated and help keeping this project running.
-* **Please do not open issue for general suggestions/feedbacks.**
 * You can [DM me on Twitter](https://twitter.com/kryptxy), contact me directly through [mail](mailto:kryptxy@protonmail.com) or ping me on [Telegram](http://t.me/kryptxy). I am more responsive on these platforms.
 
 HAPPY TORRENTING!

@@ -6,6 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
 
+---
 * [About](https://github.com/kryptxy/torrench#about)
 * [TPB / KAT / SkyTorrents Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
@@ -13,23 +14,16 @@
 * [Features](https://github.com/kryptxy/torrench#features)
 * [Samples](https://github.com/kryptxy/torrench#samples)
 * [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
-* [Contributing](https://github.com/kryptxy/torrench#contributing)
+* [Contributing](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
 * [Contact](https://github.com/kryptxy/torrench#contact)
-* [Thank you](https://github.com/kryptxy/torrench#thank-you)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
 ---
 
 ## About
-Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**. It's written in Python3.
+Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 
-Torrench has been tested on following platforms:
-* Windows: Win7 (32bit, 64bit), Win8, Win8.1, Win10.
-* Linux: Debian/Ubuntu, Fedora, Arch
-* MacOS [Reported by users]: Yosemite, Sierra (10.12.6). [I do not own a Mac hardware. If you find it working on your MacOS (any version), report back maybe?]
-
-The following websites are supported:
-
+Following websites are supported:
 * linuxtracker.org - Download linux distros ISO torrents.
 * DistroWatch - Another linux distro ISOs repository.
 * The Pirate Bay (TPB)**\***
@@ -37,7 +31,15 @@ The following websites are supported:
 * SkyTorrents **\***
 * _More to come..._
 
-### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
+I have tested it on following platforms (and it works great):
+* **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
+* **Linux:** Debian/Ubuntu, Fedora, Arch
+
+**[Reported by users]**
+* **MacOS:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
+
+
+#### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
@@ -56,7 +58,7 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-$ sudo python3 -m pip install --upgrade torrench==1.0.5
+$ sudo python3 -m pip install --upgrade torrench
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -66,14 +68,14 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.5/torrench-1.0.5.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.51/torrench-1.0.51.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=31770635827474327567)
+1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=23632516396955453086)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 2. Enable it
@@ -200,7 +202,7 @@ _(Click to expand)_
 ## Disclaimer
 This tool fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
 
-## Contributing
+## Contributing (Bug reports/suggestions/feedbacks)
 Please see [CONTRIBUTING](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)
 
 ## Contact

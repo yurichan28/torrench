@@ -1,4 +1,4 @@
-### [08/09/2017] v1.0.5
+### [08/09/2017] v1.0.51 [1.0.5 is renamed to 1.0.51 for pip error fix]
 #### MAJOR UPDATE
 **New copy of config.ini file is required for TPB/KAT/Skytorrents updated support**
 * Added classes. Re-written modules in form of classes.

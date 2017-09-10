@@ -203,7 +203,7 @@ class KickassTorrents(Config):
                 else:
                     selected_torrent, req_magnetic_link, req_torr_link = self.mapper[temp-1]
 
-                    print("Selected index [%d] - %s\n" % (self.index, selected_torrent))
+                    print("Selected index [%d] - %s\n" % (temp, selected_torrent))
                     self.logger.debug("selected torrent: %s ; index: %d")
                     print("Upstream Link: %s \n" % (self.colorify("yellow", self.proxy + req_torr_link)))
                     print("Magnetic Link: %s \n" % (self.colorify("red", req_magnetic_link)))

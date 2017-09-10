@@ -21,7 +21,7 @@ class LinuxTracker(Common):
         Common.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'self.index', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED', ]
+        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED', ]
         self.categ_url = "http://linuxtracker.org/index.php?page=torrents"
         self.index = 0
         self.categ_url_code = 0

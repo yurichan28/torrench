@@ -18,6 +18,9 @@
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
+![mix](images/screenshots/mix.gif)
+_(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))_
+
 ---
 
 ## About

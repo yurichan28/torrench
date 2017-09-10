@@ -292,9 +292,9 @@ class ThePirateBay(Config):
                             pass
                     elif temp2 == 'g':
                         print("Fetching details for torrent index [%d] : %s" % (
-                            self.index, selected_torrent))
+                            temp, selected_torrent))
                         self.logger.debug("fetching torrent details...")
-                        file_url = tpb_details.get_details(torrent_link, str(self.index))
+                        file_url = tpb_details.get_details(torrent_link, str(temp))
                         self.logger.debug("details fetched. saved in %s" % (file_url))
                         file_url = self.colorify("yellow", file_url)
                         print("File URL: %s \n" % (file_url))

@@ -22,9 +22,11 @@ class Torrench(Config):
       -d, --distrowatch     Search distrowatch
       -t, --thepiratebay    Search thepiratebay (TPB)
       -k, --kickasstorrent  Search KickassTorrent (KAT)
+      -s, --skytorrents     Search SkyTorrents
+      --top                 Get top torrents
       -p LIMIT, --page-limit LIMIT
                             Number of pages to fetch results from (1 page = 30 results). [default: 1]
-      -c, --clear-html     Clear all [TPB] torrent description HTML files and exit.
+      -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
       -v, --version         Display version and exit.
     """
 

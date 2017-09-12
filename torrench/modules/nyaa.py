@@ -43,18 +43,18 @@ class NyaaTracker(Common):
         of whether to add it or keep using the following method.
         """
         self.logger.debug("Displaying categories in the nyaa module")
-        categories = {'All categories': '0_0', 
+        categories = {'All categories': '0_0',
                       'Anime': '1_0',
                       'Audio': '2_0',
                       'Literature': '3_0',
                       'Live Action': '4_0',
                       'Pictures': '5_0',
                       'Software': '6_0'
-                    }
+                     }
         count = len(categories.keys())
         for idx, item in enumerate(categories):
             self.category_mapper.insert(idx, (idx, item, categories[item]))
-            print("[{index]}] {category}".format(index=idx, category=item))
+            print("[{index}] {category}".format(index=idx, category=item))
         self.logger.debug("Total categories displayed: %d", count)
 
     def select_category(self):
@@ -86,6 +86,48 @@ class NyaaTracker(Common):
     def fetch_results(self):
         """
         Fetch results for a given query.
+
+        @datafanatic:
+        Work in progress
         """
         self.logger.debug("Fetching...")
         self.logger.debug("Category URL code: %d\nURL: %s", self.categ_url_code, self.url)
+        soup = self.http_request(self.url)
+
+    def select_torrent(self):
+        """
+        TODO
+        """
+        pass
+
+    def get_torrent(self):
+        """
+        TODO
+        """
+        pass
+
+def main(title):
+    """
+    Execution will begin here.
+    """
+    try:
+        print("[Nyaa.si]")
+        nyaa = NyaaTracker(title)
+        prompt = input("Display categories? [y/n]: ")
+        if prompt.lower() == 'y':
+            nyaa.logger.debug("Displaying categories: %c", prompt)
+            nyaa.display_categories()
+            nyaa.select_category()
+        else:
+            nyaa.categ_url_code = 0
+            nyaa.logger.debug("Not displaying categories.")
+        results = nyaa.fetch_results()
+        nyaa.show_output(results, nyaa.output_headers)
+        nyaa.select_torrent()
+    except KeyboardInterrupt:
+        nyaa.logger.debug("Interrupt detected. Terminating.")
+        print("Terminated")
+
+if __name__ == "__main__":
+    print("Modules are not supposed to be run standalone.")
+    sys.exit(-1)

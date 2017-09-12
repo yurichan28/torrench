@@ -12,7 +12,7 @@ class NyaaTracker(Common):
     and displays in tabular form.
     Selected torrent is downloaded to hard-drive.
 
-    Default download location is $HOME/downloads/torrench
+    Default download location is $HOME/Downloads/torrench
     """
 
     def __init__(self, title):
@@ -23,7 +23,7 @@ class NyaaTracker(Common):
         self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED']
         self.categ_url = "https://nyaa.si"
         self.index = 0
-        self.categ_url_code = 0
+        self.categ_url_code = '0_0'
         self.mylist = []
         self.category_mapper = []
         self.mapper = []
@@ -69,11 +69,13 @@ class NyaaTracker(Common):
         try:
             prompt = int(input("\nSelect category (0=none): "))
             self.logger.debug("Selected index `%d` in the nyaa module", prompt)
-            if not prompt:
+            if prompt == 0:
+                print("cat mapper %s" % self.category_mapper[0][2])
                 self.categ_url_code = self.category_mapper[0][2]
                 print("Selected category: {category}".format(category=self.category_mapper[0][1]))
             else:
-                selected_category, self.categ_url_code = self.category_mapper[prompt]
+                selected_category, self.categ_url_code = self.category_mapper[prompt], self.category_mapper[prompt][2]
+                
                 print("Selected [{idx}]: {category} ".format(idx=prompt,
                                                              category=selected_category[1]))
                 self.logger.debug("Selected category %s with index %d", selected_category[1], prompt)
@@ -90,9 +92,23 @@ class NyaaTracker(Common):
         @datafanatic:
         Work in progress
         """
+        from requests import get
+        from bs4 import BeautifulSoup
+        print("Fetching results")
         self.logger.debug("Fetching...")
         self.logger.debug("Category URL code: %d\nURL: %s", self.categ_url_code, self.url)
-        soup = self.http_request(self.url)
+        print(self.categ_url_code)
+        print(self.url)
+        req = get(self.url)
+        soup = BeautifulSoup(req.text, 'html.parser')
+        for item in soup.find_all('td', {'colspan': '2'}):
+            t_names = [name.get_text() for x in item.find_all('td', {'colspan': '2'})]
+            t_url = ['https://nyaa.si'+x['href'] for x in soup.find_all('a') if x['href'].startswith('/download')]
+            t_size = item.find_all('td', {'class': 'text-center'}).get_text().endswith(("GiB", "MiB")).get_text()
+        
+        self.index = len(t_titles)
+        #self.mapper.insert(self.index, (*titles, 1))
+        #return self.mapper
 
     def select_torrent(self):
         """
@@ -116,10 +132,10 @@ def main(title):
         prompt = input("Display categories? [y/n]: ")
         if prompt.lower() == 'y':
             nyaa.logger.debug("Displaying categories: %c", prompt)
-            nyaa.display_categories()
-            nyaa.select_category()
+            #nyaa.display_categories()
+            #nyaa.select_category()
         else:
-            nyaa.categ_url_code = 0
+            nyaa.categ_url_code = '0_0'
             nyaa.logger.debug("Not displaying categories.")
         results = nyaa.fetch_results()
         nyaa.show_output(results, nyaa.output_headers)
@@ -129,5 +145,4 @@ def main(title):
         print("Terminated")
 
 if __name__ == "__main__":
-    print("Modules are not supposed to be run standalone.")
-    sys.exit(-1)
+    main("naruto")

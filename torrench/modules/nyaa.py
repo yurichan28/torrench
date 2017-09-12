@@ -2,6 +2,8 @@
 
 import sys
 import logging
+from requests import get
+from bs4 import BeautifulSoup
 from torrench.utilities.Common import Common
 
 class NyaaTracker(Common):
@@ -92,21 +94,21 @@ class NyaaTracker(Common):
         @datafanatic:
         Work in progress
         """
-        from requests import get
-        from bs4 import BeautifulSoup
         print("Fetching results")
         self.logger.debug("Fetching...")
         self.logger.debug("Category URL code: %d\nURL: %s", self.categ_url_code, self.url)
         print(self.categ_url_code)
         print(self.url)
-        req = get(self.url)
+        req = get('https://nyaa.si/?f=0&c=0_0&q=naruto')
         soup = BeautifulSoup(req.text, 'html.parser')
-        for item in soup.find_all('td', {'colspan': '2'}):
-            t_names = [name.get_text() for x in item.find_all('td', {'colspan': '2'})]
-            t_url = ['https://nyaa.si'+x['href'] for x in soup.find_all('a') if x['href'].startswith('/download')]
-            #t_size = item.find_all('td', {'class': 'text-center'}).get_text().endswith(("GiB", "MiB")).get_text()
+        print("parsing")
+        for item in soup.find_all('div', {'class': 'table-responsive'}):
+            t_names = [name.get_text() for name in item.find_all('td', {'colspan': '2'})]
+            t_url = ['https://nyaa.si'+url['href'] for url in item.find_all('a') if url['href'].startswith('/download')]
+            t_size = [size.get_text() for size in item.find_all('td', {'class': 'text-center'}) if size.get_text().endswith(("GiB", "MiB"))]
+            t_seeds = [seeds.get_text() for seeds in item.find_all('td', {'style': 'color: green;'})]
+            t_leeches = [leech.get_text() for leech in item.find_all('td', {'style': 'color: red;'})]
         
-        self.index = len(t_titles)
         #self.mapper.insert(self.index, (*titles, 1))
         #return self.mapper
 

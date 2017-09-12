@@ -9,3 +9,5 @@ env/
 build/
 dist/
 torrench.egg-info/
+.vscode/tags
+.vscode

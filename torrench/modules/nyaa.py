@@ -104,7 +104,7 @@ class NyaaTracker(Common):
         for item in soup.find_all('td', {'colspan': '2'}):
             t_names = [name.get_text() for x in item.find_all('td', {'colspan': '2'})]
             t_url = ['https://nyaa.si'+x['href'] for x in soup.find_all('a') if x['href'].startswith('/download')]
-            t_size = item.find_all('td', {'class': 'text-center'}).get_text().endswith(("GiB", "MiB")).get_text()
+            #t_size = item.find_all('td', {'class': 'text-center'}).get_text().endswith(("GiB", "MiB")).get_text()
         
         self.index = len(t_titles)
         #self.mapper.insert(self.index, (*titles, 1))

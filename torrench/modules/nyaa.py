@@ -3,7 +3,7 @@
 import sys
 import logging
 from requests import get
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 from torrench.utilities.Common import Common
 
 class NyaaTracker(Common):
@@ -23,15 +23,13 @@ class NyaaTracker(Common):
         self.title = title
         self.logger = logging.getLogger('log1')
         self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED']
-        self.categ_url = "https://nyaa.si"
         self.index = 0
-        self.categ_url_code = '0_0'
         self.mylist = []
         self.category_mapper = []
         self.mapper = []
-        self.url = "https://nyaa.si/?f=0&c={category}&q={query}".format(category=self.categ_url_code,
-                                                                        query=self.title)
-
+        self.url = "https://nyaa.si/?f=0&c=0_0&q={query}".format(query=self.title)
+        self.request = get(self.url)
+        self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
 
     def display_categories(self):
         """
@@ -86,6 +84,51 @@ class NyaaTracker(Common):
             self.logger.exception(killed)
             print("Input needs to be an integer number.")
             sys.exit(2)
+    
+    def parse_name(self):
+        """
+        Parse torrent name
+        """
+        t_names = []
+        for name in self.soup.find_all('td', {'colspan': '2'}):
+            t_names.append(name.get_text().replace('\n', ''))
+        assert t_names
+        return t_names
+
+    def parse_urls(self):
+        urls = []
+        for url in self.soup.find_all('a'):
+            if url['href'].startswith('/download'):
+                urls.append("https://"+url['href'])
+            else:
+                pass
+        assert urls
+        return urls
+
+    def parse_sizes(self):
+        t_size = []
+        for size in self.soup.find_all('td', {'class': 'text-center'}):
+            if size.get_text().endswith(("GiB", "MiB")):
+                t_size.append(size)
+            else:
+                pass
+        assert t_size
+        return t_size
+
+    def parse_seeds(self):
+        t_seeds = []
+        for seed in self.soup.find_all('td', {'style': 'color: green;'}):
+            t_seeds.append(seed.get_text())
+        assert t_seeds
+        return t_seeds
+
+
+    def parse_leeches(self):
+        t_leeches = []
+        for leech in self.soup.find_all('td', {'style': 'color: red;'}):
+            t_leeches.append(leech)
+        assert t_leeches
+        return t_leeches
 
     def fetch_results(self):
         """
@@ -94,23 +137,28 @@ class NyaaTracker(Common):
         @datafanatic:
         Work in progress
         """
+        masterlist = []
         print("Fetching results")
         self.logger.debug("Fetching...")
-        self.logger.debug("Category URL code: %d\nURL: %s", self.categ_url_code, self.url)
-        print(self.categ_url_code)
-        print(self.url)
-        req = get('https://nyaa.si/?f=0&c=0_0&q=naruto')
-        soup = BeautifulSoup(req.text, 'html.parser')
-        print("parsing")
-        for item in soup.find_all('div', {'class': 'table-responsive'}):
-            t_names = [name.get_text() for name in item.find_all('td', {'colspan': '2'})]
-            t_url = ['https://nyaa.si'+url['href'] for url in item.find_all('a') if url['href'].startswith('/download')]
-            t_size = [size.get_text() for size in item.find_all('td', {'class': 'text-center'}) if size.get_text().endswith(("GiB", "MiB"))]
-            t_seeds = [seeds.get_text() for seeds in item.find_all('td', {'style': 'color: green;'})]
-            t_leeches = [leech.get_text() for leech in item.find_all('td', {'style': 'color: red;'})]
-        
-        #self.mapper.insert(self.index, (*titles, 1))
-        #return self.mapper
+        self.logger.debug("URL: %s", self.url)
+        try:
+            name = self.parse_name()
+            seeds = self.parse_seeds()
+            urls = self.parse_urls()
+            sizes = self.parse_sizes()
+            seeds = self.parse_seeds()
+            leeches = self.parse_leeches()
+            self.index = len(name)
+        except (KeyError, AttributeError) as e:
+            print("Something went wrong. Logging and terminating.")
+            self.logger.exception(e)
+            print("OK. Terminating.")
+        if self.index == 0:
+            print("No results were found for the given query. Terminating")
+            self.logger.debug("No results were found for `%s`.", self.title)
+            sys.exit(-1)
+        self.logger.debug("Results fetched. Showing table.")
+        print(name)
 
     def select_torrent(self):
         """

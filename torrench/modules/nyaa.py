@@ -75,7 +75,6 @@ class NyaaTracker(Common):
             prompt = int(input("\nSelect category (0=none): "))
             self.logger.debug("Selected index `%d` in the nyaa module", prompt)
             if prompt == 0:
-                print("cat mapper %s" % self.category_mapper[0][2])
                 self.categ_url_code = self.category_mapper[0][2]
                 print("Selected category: {category}".format(category=self.category_mapper[0][1]))
             else:

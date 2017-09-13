@@ -80,7 +80,6 @@ class NyaaTracker(Common):
                 print("Selected category: {category}".format(category=self.category_mapper[0][1]))
             else:
                 selected_category, self.categ_url_code = self.category_mapper[prompt], self.category_mapper[prompt][2]
-                
                 print("Selected [{idx}]: {category} ".format(idx=prompt,
                                                              category=selected_category[1]))
                 self.logger.debug("Selected category %s with index %d", selected_category[1], prompt)
@@ -97,19 +96,21 @@ class NyaaTracker(Common):
         t_names = []
         for name in self.soup.find_all('td', {'colspan': '2'}):
             t_names.append(name.get_text().replace('\n', ''))
-        assert t_names
-        return t_names
+        if t_names:
+            return t_names
+        return "Unable to parse torrent name."
 
     def parse_urls(self):
-        urls = []
+        t_urls = []
         for url in self.soup.find_all('a'):
             try:
                 if url.get('href').startswith('/download/'):
-                    urls.append('https://nyaa.si'+url['href'])
+                    t_urls.append('https://nyaa.si'+url['href'])
             except AttributeError:
                 pass
-        assert urls
-        return urls
+        if t_urls:
+            return t_urls
+        return "Unable to parse torrent URLs."
 
     def parse_sizes(self):
         t_size = []
@@ -118,23 +119,25 @@ class NyaaTracker(Common):
                 t_size.append(size.get_text())
             else:
                 pass
-        assert t_size
-        return t_size
+        if t_size:
+            return t_size
+        return "Unable to parse size of files."
 
     def parse_seeds(self):
         t_seeds = []
         for seed in self.soup.find_all('td', {'style': 'color: green;'}):
             t_seeds.append(seed.get_text())
-        assert t_seeds
-        return t_seeds
-
+        if t_seeds:
+            return t_seeds
+        return "Unable to parse seeds"
 
     def parse_leeches(self):
         t_leeches = []
         for leech in self.soup.find_all('td', {'style': 'color: red;'}):
             t_leeches.append(leech.get_text())
-        assert t_leeches
-        return t_leeches
+        if t_leeches:
+            return t_leeches
+        return "Unable to parse leechers"
 
     def fetch_results(self):
         """

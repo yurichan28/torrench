@@ -31,7 +31,7 @@ class NyaaTracker(Common):
         self.request = get(self.url)
         self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
 
-    def display_categories(self):
+    def __display_categories(self):
         """
         Display the categories available in the website.
         The categories in this scraper have been hardcoded since they are dynamically generated
@@ -57,7 +57,7 @@ class NyaaTracker(Common):
             print("[{index}] {category}".format(index=idx, category=item))
         self.logger.debug("Total categories displayed: %d", count)
 
-    def select_category(self):
+    def __select_category(self):
         """
         Select a category from the list.
 
@@ -85,7 +85,7 @@ class NyaaTracker(Common):
             print("Input needs to be an integer number.")
             sys.exit(2)
     
-    def parse_name(self):
+    def __parse_name(self):
         """
         Parse torrent name
         """
@@ -95,7 +95,7 @@ class NyaaTracker(Common):
         assert t_names
         return t_names
 
-    def parse_urls(self):
+    def __parse_urls(self):
         urls = []
         for url in self.soup.find_all('a'):
             if url['href'].startswith('/download'):
@@ -105,17 +105,17 @@ class NyaaTracker(Common):
         assert urls
         return urls
 
-    def parse_sizes(self):
+    def __parse_sizes(self):
         t_size = []
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
-                t_size.append(size)
+                t_size.append(size.get_text())
             else:
                 pass
         assert t_size
         return t_size
 
-    def parse_seeds(self):
+    def __parse_seeds(self):
         t_seeds = []
         for seed in self.soup.find_all('td', {'style': 'color: green;'}):
             t_seeds.append(seed.get_text())
@@ -123,10 +123,10 @@ class NyaaTracker(Common):
         return t_seeds
 
 
-    def parse_leeches(self):
+    def __parse_leeches(self):
         t_leeches = []
         for leech in self.soup.find_all('td', {'style': 'color: red;'}):
-            t_leeches.append(leech)
+            t_leeches.append(leech.get_text())
         assert t_leeches
         return t_leeches
 
@@ -142,12 +142,12 @@ class NyaaTracker(Common):
         self.logger.debug("Fetching...")
         self.logger.debug("URL: %s", self.url)
         try:
-            name = self.parse_name()
-            seeds = self.parse_seeds()
-            urls = self.parse_urls()
-            sizes = self.parse_sizes()
-            seeds = self.parse_seeds()
-            leeches = self.parse_leeches()
+            name = self.__parse_name()
+            seeds = self.__parse_seeds()
+            #urls = self.__parse_urls()
+            sizes = self.__parse_sizes()
+            seeds = self.__parse_seeds()
+            leeches = self.__parse_leeches()
             self.index = len(name)
         except (KeyError, AttributeError) as e:
             print("Something went wrong. Logging and terminating.")
@@ -158,7 +158,11 @@ class NyaaTracker(Common):
             self.logger.debug("No results were found for `%s`.", self.title)
             sys.exit(-1)
         self.logger.debug("Results fetched. Showing table.")
-        print(name)
+        for torr in name:
+            self.mapper.insert(self.index, (name, sizes))
+
+        masterlist.append([name, "--" + str(self.index) + "--", sizes, seeds, leeches, 0, 0])
+        return masterlist
 
     def select_torrent(self):
         """
@@ -182,8 +186,8 @@ def main(title):
         prompt = input("Display categories? [y/n]: ")
         if prompt.lower() == 'y':
             nyaa.logger.debug("Displaying categories: %c", prompt)
-            #nyaa.display_categories()
-            #nyaa.select_category()
+            #nyaa.__display_categories()
+            #nyaa.__select_category()
         else:
             nyaa.categ_url_code = '0_0'
             nyaa.logger.debug("Not displaying categories.")

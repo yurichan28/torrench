@@ -22,7 +22,7 @@ class NyaaTracker(Common):
         Common.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED']
+        self.output_headers = ['NAME', 'INDEX','SIZE', 'S', 'L']
         self.index = 0
         self.mylist = []
         self.category_mapper = []
@@ -85,7 +85,7 @@ class NyaaTracker(Common):
             print("Input needs to be an integer number.")
             sys.exit(2)
     
-    def __parse_name(self):
+    def parse_name(self):
         """
         Parse torrent name
         """
@@ -105,7 +105,7 @@ class NyaaTracker(Common):
         assert urls
         return urls
 
-    def __parse_sizes(self):
+    def parse_sizes(self):
         t_size = []
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
@@ -142,13 +142,16 @@ class NyaaTracker(Common):
         self.logger.debug("Fetching...")
         self.logger.debug("URL: %s", self.url)
         try:
-            name = self.__parse_name()
+            name = self.parse_name()
             seeds = self.__parse_seeds()
             #urls = self.__parse_urls()
-            sizes = self.__parse_sizes()
+            sizes = self.parse_sizes()
             seeds = self.__parse_seeds()
             leeches = self.__parse_leeches()
             self.index = len(name)
+            self.mapper.insert(self.index, (name, sizes))
+            self.mylist = [name, "--" + str(self.index) + "--", sizes, seeds, leeches, 0, 0]
+            masterlist.append(self.mylist)
         except (KeyError, AttributeError) as e:
             print("Something went wrong. Logging and terminating.")
             self.logger.exception(e)
@@ -160,9 +163,7 @@ class NyaaTracker(Common):
         self.logger.debug("Results fetched. Showing table.")
         for torr in name:
             self.mapper.insert(self.index, (name, sizes))
-
-        masterlist.append([name, "--" + str(self.index) + "--", sizes, seeds, leeches, 0, 0])
-        return masterlist
+        return list(zip(name, ["--"+str(x)+"--" for x in range(self.index)], sizes, seeds, leeches))
 
     def select_torrent(self):
         """
@@ -192,7 +193,7 @@ def main(title):
             nyaa.categ_url_code = '0_0'
             nyaa.logger.debug("Not displaying categories.")
         results = nyaa.fetch_results()
-        nyaa.show_output(results, nyaa.output_headers)
+        nyaa.show_output([x for x in results], nyaa.output_headers)
         nyaa.select_torrent()
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")

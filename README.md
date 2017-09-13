@@ -32,6 +32,7 @@ Following websites are supported:
 * The Pirate Bay (TPB)**\***
 * KickassTorrents (KAT)**\***
 * SkyTorrents **\***
+* Nyaa.si **\***
 * _More to come..._
 
 I have tested it on following platforms (and it works great):

@@ -31,7 +31,7 @@ class NyaaTracker(Common):
         self.request = get(self.url)
         self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
 
-    def __display_categories(self):
+    def display_categories(self):
         """
         Display the categories available in the website.
         The categories in this scraper have been hardcoded since they are dynamically generated
@@ -57,7 +57,7 @@ class NyaaTracker(Common):
             print("[{index}] {category}".format(index=idx, category=item))
         self.logger.debug("Total categories displayed: %d", count)
 
-    def __select_category(self):
+    def select_category(self):
         """
         Select a category from the list.
 
@@ -95,12 +95,13 @@ class NyaaTracker(Common):
         assert t_names
         return t_names
 
-    def __parse_urls(self):
+    def parse_urls(self):
         urls = []
         for url in self.soup.find_all('a'):
-            if url['href'].startswith('/download'):
-                urls.append("https://"+url['href'])
-            else:
+            try:
+                if url.get('href').startswith('/download/'):
+                    urls.append('https://nyaa.si'+url['href'])
+            except AttributeError:
                 pass
         assert urls
         return urls
@@ -115,7 +116,7 @@ class NyaaTracker(Common):
         assert t_size
         return t_size
 
-    def __parse_seeds(self):
+    def parse_seeds(self):
         t_seeds = []
         for seed in self.soup.find_all('td', {'style': 'color: green;'}):
             t_seeds.append(seed.get_text())
@@ -123,7 +124,7 @@ class NyaaTracker(Common):
         return t_seeds
 
 
-    def __parse_leeches(self):
+    def parse_leeches(self):
         t_leeches = []
         for leech in self.soup.find_all('td', {'style': 'color: red;'}):
             t_leeches.append(leech.get_text())
@@ -137,21 +138,16 @@ class NyaaTracker(Common):
         @datafanatic:
         Work in progress
         """
-        masterlist = []
         print("Fetching results")
         self.logger.debug("Fetching...")
         self.logger.debug("URL: %s", self.url)
         try:
             name = self.parse_name()
-            seeds = self.__parse_seeds()
-            #urls = self.__parse_urls()
+            urls = self.parse_urls()
             sizes = self.parse_sizes()
-            seeds = self.__parse_seeds()
-            leeches = self.__parse_leeches()
-            self.index = len(name)
-            self.mapper.insert(self.index, (name, sizes))
-            self.mylist = [name, "--" + str(self.index) + "--", sizes, seeds, leeches, 0, 0]
-            masterlist.append(self.mylist)
+            seeds = self.parse_seeds()
+            leeches = self.parse_leeches()
+            self.index = len(urls)
         except (KeyError, AttributeError) as e:
             print("Something went wrong. Logging and terminating.")
             self.logger.exception(e)
@@ -159,23 +155,34 @@ class NyaaTracker(Common):
         if self.index == 0:
             print("No results were found for the given query. Terminating")
             self.logger.debug("No results were found for `%s`.", self.title)
-            sys.exit(-1)
+            return -1
         self.logger.debug("Results fetched. Showing table.")
-        for torr in name:
-            self.mapper.insert(self.index, (name, sizes))
-        return list(zip(name, ["--"+str(x)+"--" for x in range(self.index)], sizes, seeds, leeches))
+        self.mapper.insert(self.index, (name, urls))
+        return list(zip(name, ["--"+str(idx)+"--" for idx in range(self.index)], sizes, seeds, leeches))
 
     def select_torrent(self):
         """
-        TODO
+        Select torrent from table using index.
         """
-        pass
+        while True:
+            try:
+                prompt = int(input("(0 = exit) Index> "))
+                if prompt == 9:
+                    print("Bye!")
+                    break
+                else:
+                    selected_index, download_url = self.mapper[0][0][prompt], self.mapper[0][1][prompt]
+                    print("Downloading: \n" + selected_index)
+                    self.get_torrent(download_url, selected_index)
+            except IndexError as e:
+                self.logger.exception(e)
+                print("Invalid index.")
 
-    def get_torrent(self):
+    def get_torrent(self, url, name):
         """
-        TODO
+        Download the .torrent file to the computer.
         """
-        pass
+        self.download(url, name+'.torrent')
 
 def main(title):
     """
@@ -184,20 +191,12 @@ def main(title):
     try:
         print("[Nyaa.si]")
         nyaa = NyaaTracker(title)
-        prompt = input("Display categories? [y/n]: ")
-        if prompt.lower() == 'y':
-            nyaa.logger.debug("Displaying categories: %c", prompt)
-            #nyaa.__display_categories()
-            #nyaa.__select_category()
-        else:
-            nyaa.categ_url_code = '0_0'
-            nyaa.logger.debug("Not displaying categories.")
         results = nyaa.fetch_results()
-        nyaa.show_output([x for x in results], nyaa.output_headers)
+        nyaa.show_output([result for result in results], nyaa.output_headers)
         nyaa.select_torrent()
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")
         print("Terminated")
 
 if __name__ == "__main__":
-    main("naruto")
+    print("Modules are not supposed to be run standalone.")

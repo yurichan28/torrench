@@ -15,6 +15,11 @@ class NyaaTracker(Common):
     Selected torrent is downloaded to hard-drive.
 
     Default download location is $HOME/Downloads/torrench
+
+    Known problems:
+    - If the torrent name in the website is too long (200 chars+) the table will be displayed incorrectly in the terminal.
+    Possible fixes:
+    - Cut the name if the name is too big.
     """
 
     def __init__(self, title):
@@ -22,12 +27,12 @@ class NyaaTracker(Common):
         Common.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'INDEX','SIZE', 'S', 'L']
+        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
         self.index = 0
         self.mylist = []
         self.category_mapper = []
         self.mapper = []
-        self.url = "https://nyaa.si/?f=0&c=0_0&q={query}".format(query=self.title)
+        self.url = "https://nyaa.si/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
         self.request = get(self.url)
         self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
 
@@ -84,7 +89,7 @@ class NyaaTracker(Common):
             self.logger.exception(killed)
             print("Input needs to be an integer number.")
             sys.exit(2)
-    
+
     def parse_name(self):
         """
         Parse torrent name
@@ -166,8 +171,8 @@ class NyaaTracker(Common):
         """
         while True:
             try:
-                prompt = int(input("(0 = exit) Index> "))
-                if prompt == 9:
+                prompt = int(input("(0 to terminate) Index> "))
+                if prompt == 0:
                     print("Bye!")
                     break
                 else:

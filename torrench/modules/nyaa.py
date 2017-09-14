@@ -54,7 +54,7 @@ class NyaaTracker(Config):
                     self.logger.debug("Proxy `{proxy}` is a valid proxy.")
                     return proxy
         print("No proxies were given.")
-        sys.exit(2)
+        return -1
 
     def display_categories(self):
         """

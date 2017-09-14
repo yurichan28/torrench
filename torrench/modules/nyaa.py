@@ -204,4 +204,4 @@ def main(title):
         print("Terminated")
 
 if __name__ == "__main__":
-    main("naruto")
+    print("Modules are not supposed to be run standalone.")

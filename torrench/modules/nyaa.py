@@ -4,9 +4,9 @@ import sys
 import logging
 from requests import get
 from bs4 import BeautifulSoup, SoupStrainer
-from torrench.utilities.Common import Common
+from torrench.utilities.Config import Config
 
-class NyaaTracker(Common):
+class NyaaTracker(Config):
     """
     Nyaa.si class.
 
@@ -24,16 +24,18 @@ class NyaaTracker(Common):
 
     def __init__(self, title):
         """Class constructor"""
-        Common.__init__(self)
+        Config.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
         self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
         self.index = 0
         self.mylist = []
+        self.categ_url_code = '0_0'
         self.category_mapper = []
         self.mapper = []
-        self.url = "https://nyaa.si/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
-        self.request = get(self.url)
+        self.proxy = self.get_proxies('nyaa')
+        self.search_parameter = "/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
+        self.request = get(self.proxy[0]+self.search_parameter)
         self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
 
     def display_categories(self):
@@ -115,7 +117,7 @@ class NyaaTracker(Common):
         t_size = []
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
-                t_size.append(size.get_text())
+                t_size.append(self.colorify("yellow", size.get_text()))
             else:
                 pass
         if t_size:
@@ -125,7 +127,7 @@ class NyaaTracker(Common):
     def parse_seeds(self):
         t_seeds = []
         for seed in self.soup.find_all('td', {'style': 'color: green;'}):
-            t_seeds.append(seed.get_text())
+            t_seeds.append(self.colorify("green", seed.get_text()))
         if t_seeds:
             return t_seeds
         return "Unable to parse seeds"
@@ -133,7 +135,7 @@ class NyaaTracker(Common):
     def parse_leeches(self):
         t_leeches = []
         for leech in self.soup.find_all('td', {'style': 'color: red;'}):
-            t_leeches.append(leech.get_text())
+            t_leeches.append(self.colorify("red", leech.get_text()))
         if t_leeches:
             return t_leeches
         return "Unable to parse leechers"
@@ -164,7 +166,7 @@ class NyaaTracker(Common):
             self.logger.debug("No results were found for `%s`.", self.title)
             return -1
         self.logger.debug("Results fetched. Showing table.")
-        self.mapper.insert(self.index, (name, urls))
+        self.mapper.insert(self.index+1, (name, urls))
         return list(zip(name, ["--"+str(idx)+"--" for idx in range(self.index)], sizes, seeds, leeches))
 
     def select_torrent(self):

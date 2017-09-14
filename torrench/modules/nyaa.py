@@ -54,7 +54,6 @@ class NyaaTracker(Config):
                         print("Proxy `{proxy}` is available. Connecting.".format(proxy=proxy))
                         self.logger.debug("Proxy `{proxy}` is a valid proxy.")
                         return proxy
-            else:
                 print("No proxies were given.")
                 sys.exit(2)
         except (IndexError, ValueError) as error:

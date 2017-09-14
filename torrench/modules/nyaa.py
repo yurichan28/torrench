@@ -37,30 +37,24 @@ class NyaaTracker(Config):
     def check_proxy(self, proxy):
         _torrench_proxies = self.get_proxies(proxy)
         counter = 0
-        try:
-            if _torrench_proxies:
-                for proxy in _torrench_proxies:
-                    print("Testing: {proxy}".format(proxy=self.colorify("yellow", proxy)))
-                    proxy_soup = self.http_request(proxy+'/?f=0&c=0_0&q=hello&s=seeders&o=desc')
-                    self.logger.debug("Testing {proxy} as a possible candidate.".format(proxy=proxy))
-                    if not proxy_soup.find_all('td', {'colspan': '2'}):
-                        print("{proxy} was a bad proxy. Trying next proxy.".format(proxy=proxy))
-                        counter += 1
-                        if counter == len(_torrench_proxies):
-                            self.logger.debug("Proxy list finished. No valid proxies were found.")
-                            print("Failed to find any valid proxies. Terminating.")
-                            sys.exit(2)
-                    else:
-                        print("Proxy `{proxy}` is available. Connecting.".format(proxy=proxy))
-                        self.logger.debug("Proxy `{proxy}` is a valid proxy.")
-                        return proxy
-                print("No proxies were given.")
-                sys.exit(2)
-        except (IndexError, ValueError) as error:
-            print("Something went wrong. Logging and terminating.")
-            print("The exception was: ")
-            print(error)
-            self.logger.exception(error)
+        if _torrench_proxies:
+            for proxy in _torrench_proxies:
+                print("Testing: {proxy}".format(proxy=self.colorify("yellow", proxy)))
+                proxy_soup = self.http_request(proxy+'/?f=0&c=0_0&q=hello&s=seeders&o=desc')
+                self.logger.debug("Testing {proxy} as a possible candidate.".format(proxy=proxy))
+                if not proxy_soup.find_all('td', {'colspan': '2'}):
+                    print("{proxy} was a bad proxy. Trying next proxy.".format(proxy=proxy))
+                    counter += 1
+                    if counter == len(_torrench_proxies):
+                        self.logger.debug("Proxy list finished. No valid proxies were found.")
+                        print("Failed to find any valid proxies. Terminating.")
+                        return -1
+                else:
+                    print("Proxy `{proxy}` is available. Connecting.".format(proxy=proxy))
+                    self.logger.debug("Proxy `{proxy}` is a valid proxy.")
+                    return proxy
+        print("No proxies were given.")
+        sys.exit(2)
 
     def display_categories(self):
         """

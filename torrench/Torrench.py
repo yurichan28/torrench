@@ -133,12 +133,12 @@ class Torrench(Config):
 
     def resolve_args(self):
         """Resolve input arguments."""
-        _MODULES = (
+        _PRIVATE_MODULES = (
             self.args.thepiratebay,
             self.args.kickasstorrent,
             self.args.skytorrents,
             self.args.nyaa
-        )
+        ) # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
                 print("error: use -c with -t")
@@ -146,7 +146,7 @@ class Torrench(Config):
             else:
                 self.remove_temp_files()
 
-        if any(_MODULES):
+        if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
                 print("Config file either does not exist or is not enabled! Exiting!")

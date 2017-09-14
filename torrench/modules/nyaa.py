@@ -2,8 +2,6 @@
 
 import sys
 import logging
-from requests import get
-from bs4 import BeautifulSoup, SoupStrainer
 from torrench.utilities.Config import Config
 
 class NyaaTracker(Config):
@@ -29,14 +27,12 @@ class NyaaTracker(Config):
         self.logger = logging.getLogger('log1')
         self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
         self.index = 0
-        self.mylist = []
         self.categ_url_code = '0_0'
         self.category_mapper = []
         self.mapper = []
         self.proxy = self.get_proxies('nyaa')
         self.search_parameter = "/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
-        self.request = get(self.proxy[0]+self.search_parameter)
-        self.soup = BeautifulSoup(self.request.text, 'html.parser', parse_only=SoupStrainer('div'))
+        self.soup = self.http_request(self.proxy[0]+self.search_parameter)
 
     def display_categories(self):
         """
@@ -208,4 +204,4 @@ def main(title):
         print("Terminated")
 
 if __name__ == "__main__":
-    print("Modules are not supposed to be run standalone.")
+    main("naruto")

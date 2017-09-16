@@ -10,6 +10,7 @@ from tabulate import tabulate
 import logging
 import subprocess
 import webbrowser
+import pyperclip
 
 
 
@@ -144,9 +145,19 @@ class Common:
             self.logger.exception(e)
             print("\nAborted!\n")
 
+    def copy_magnet(self, link):
+        """Copy magnetic link to clipboard"""
+        try:
+            pyperclip.copy(link)
+            print("(Magnetic link copied to clipboard)")
+        except pyperclip.exceptions.PyperclipException as e:
+            print("(Unable to copy magnetic link to clipboard. Is [xclip] installed?)")
+            print("(See logs for details)")
+            self.logger.error(e)
+
     def load_torrent(self, link):
         """
-        [EXPERIMENTAL] [LINUX / MacOS Only]
+        [LINUX / MacOS Only]
 
         Load torrent to transmission client
         Requires running transmission-daemon.

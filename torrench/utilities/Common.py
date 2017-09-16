@@ -2,11 +2,15 @@
 import time
 import os
 import sys
+import platform
 import requests
 from bs4 import BeautifulSoup
 import colorama
 from tabulate import tabulate
 import logging
+import subprocess
+import webbrowser
+
 
 
 class Common:
@@ -34,6 +38,9 @@ class Common:
         self.page_fetch_time = 0
         self.colors = {}
         self.logger = logging.getLogger('log1')
+        self.OS_WIN = False
+        if platform.system() == "Windows":
+            self.OS_WIN = True
 
     def http_request_time(self, url):
         """
@@ -136,3 +143,44 @@ class Common:
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")
+
+    def load_torrent(self, link):
+        """
+        [EXPERIMENTAL] [LINUX / MacOS Only]
+
+        Load torrent to transmission client
+        Requires running transmission-daemon.
+        Torrent is added to daemon using transmission-remote.
+
+        1. For authentication:
+            $TR_AUTH environment variable is used.
+            [TR_AUTH="username:password"]
+        2. For SERVER and PORT:
+            $TR_SERVER environment variable is used.
+            [TR_SERVER="IP_ADDR:PORT"]
+
+        DEFAULTS
+        Username - [None]
+        password - [None]
+        IP_ADDR - localhost (127.0.0.1)
+        PORT - 9091
+
+        Torrent can be added through magnetic link or .torrent file.
+        """
+        if not self.OS_WIN:
+            server = os.getenv('TR_SERVER', "localhost:9091")
+            p = subprocess.Popen(['transmission-remote', server, '-ne', '--add', link], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            output, error = p.communicate()
+            error = error.decode('utf-8')
+            output = output.decode('utf-8')
+            p.wait()
+
+            if error != '':
+                print("Unable to load torrent.")
+                print(self.colorify("red", "\n[ERROR] %s" % (error)))
+                self.logger.error(error)
+            else:
+                print("Torrent loaded successfully!")
+                self.logger.debug(output)
+        else:
+            webbrowser.open_new_tab(link)

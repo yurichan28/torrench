@@ -213,7 +213,7 @@ class ThePirateBay(Config):
             self.show_output(masterlist, self.output_headers)
         except Exception as e:
             self.logger.exception(e)
-            print("Error message: %s" %(e))
+            print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 

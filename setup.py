@@ -15,7 +15,7 @@ VERSION = '1.0.51'
 setup(
     name="torrench",
     version=VERSION,
-    author="Rijul Gulati",
+    author="kryptxy",
     author_email="kryptxy@protonmail.com",
     description=(DESCRIPTION),
     license="GPL",

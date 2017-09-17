@@ -55,6 +55,10 @@ class Torrench(Config):
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
         parser.add_argument("search",
                             help="Enter search string",
                             nargs="?",
@@ -135,7 +139,7 @@ class Torrench(Config):
             else:
                 self.remove_temp_files()
 
-        if self.args.thepiratebay or self.args.kickasstorrent or self.args.skytorrents:
+        if self.args.thepiratebay or self.args.kickasstorrent or self.args.skytorrents or self.args.xbit:
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
                 print("Config file either does not exist or is not enabled! Exiting!")
@@ -164,6 +168,11 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
                     import torrench.modules.skytorrents as sky
                     sky.main(self.input_title, self.page_limit)
+                elif self.args.xbit:
+                    self.logger.debug("Using XBit.pw")
+                    self.logger.debug("Input title: [%s]" % (self.input_title))
+                    import torrench.modules.xbit as xbit
+                    xbit.main(self.input_title)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

@@ -2,7 +2,6 @@
 
 import sys
 import platform
-import webbrowser
 import logging
 from torrench.utilities.Config import Config
 
@@ -204,20 +203,21 @@ class KickassTorrents(Config):
                     selected_torrent, req_magnetic_link, req_torr_link = self.mapper[temp-1]
 
                     print("Selected index [%d] - %s\n" % (temp, selected_torrent))
-                    self.logger.debug("selected torrent: %s ; index: %d")
-                    print("Upstream Link: %s \n" % (self.colorify("yellow", self.proxy + req_torr_link)))
-                    print("Magnetic Link: %s \n" % (self.colorify("red", req_magnetic_link)))
+                    self.logger.debug("selected torrent: %s ; index: %d" %(selected_torrent, temp))
                     self.logger.debug("print magnetic link and upstream link")
+                    print("Magnetic Link: %s" % (self.colorify("red", req_magnetic_link)))
+                    self.copy_magnet(req_magnetic_link)
+                    print("\n\nUpstream Link: %s \n\n" % (self.colorify("yellow", self.proxy + req_torr_link)))
                     option = input("Load magnetic link to client? [y/n]:")
                     if option == 'y' or option == 'Y':
                         try:
-                            self.logger.debug("Open magnetic link in browser...")
-                            webbrowser.open_new_tab(req_magnetic_link)
+                            self.logger.debug("Loading torrent to client")
+                            self.load_torrent(req_magnetic_link)
                         except Exception as e:
                             self.logger.exception(e)
                             continue
                     else:
-                        self.logger.debug("NOT Opening magnetic link in browser.")
+                        self.logger.debug("NOT loading torrent to client")
                         pass
             except (ValueError, IndexError, TypeError) as e:
                 print("\nBad Input!")

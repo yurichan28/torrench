@@ -64,14 +64,15 @@ class Torrench(Config):
                             "--skytorrents",
                             action="store_true",
                             help="Search SkyTorrents")
-        parser.add_argument("--top",
-                            action="store_true",
-                            default=False,
-                            help="Get top torrents")
         parser.add_argument("-n",
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
+        parser.add_argument("--top",
+                            action="store_true",
+                            default=False,
+                            help="Get top torrents")
+
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,

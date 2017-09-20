@@ -59,6 +59,8 @@ class Config(Common):
             name = 'KAT_URL'
         elif name == "sky":
             name = "SKY_URL"
+        elif name == "xbit":
+            name = "XBIT_URL"
         elif name == "nyaa":
             name = "NYAA_URL"
         self.url = self.config.get('Torrench-Config', name)

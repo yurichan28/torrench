@@ -138,7 +138,8 @@ class Torrench(Config):
             self.args.thepiratebay,
             self.args.kickasstorrent,
             self.args.skytorrents,
-            self.args.nyaa
+            self.args.nyaa,
+            self.args.xbit
         ) # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:

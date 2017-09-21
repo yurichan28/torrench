@@ -217,4 +217,4 @@ def main(title):
         print("Terminated")
 
 if __name__ == "__main__":
-    main('naruto')
+    print("It's a module!")

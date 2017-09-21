@@ -70,6 +70,7 @@ class XBit(Config):
             results = self.data['dht_results']
             if results == [{}]:
                 print("\nNo results found for given input!\n")
+                self.logger.debug("No results fetched!")
                 sys.exit(2)
             for result in results[:-1]:
                 torrent_id = result['ID']
@@ -170,4 +171,4 @@ def main(title):
 
 
 if __name__ == "__main__":
-    main('naruto')
+    print("It's a module!")

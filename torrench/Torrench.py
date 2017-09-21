@@ -68,6 +68,10 @@ class Torrench(Config):
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
         parser.add_argument("--top",
                             action="store_true",
                             default=False,

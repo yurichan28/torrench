@@ -59,6 +59,10 @@ class NyaaTracker(Config):
         print("No proxies were given.")
         return -1
 
+    def parse_data(self):
+        data = content.find_all('tr')
+        return data
+
     def parse_name(self):
         """
         Parse torrent name
@@ -144,7 +148,7 @@ class NyaaTracker(Config):
             seeds = self.parse_seeds()
             leeches = self.parse_leeches()
             magnets = self.parse_magnets()
-            self.index = len(urls)
+            self.index = len(name)
         except (KeyError, AttributeError) as e:
             print("Something went wrong. Logging and terminating.")
             self.logger.exception(e)
@@ -154,8 +158,8 @@ class NyaaTracker(Config):
             self.logger.debug("No results were found for `%s`.", self.title)
             return -1
         self.logger.debug("Results fetched. Showing table.")
-        self.mapper.insert(self.index+1, (name, urls, magnets))
-        return list(zip(name, ["--"+str(idx)+"--" for idx in range(self.index)], sizes, seeds, leeches))
+        self.mapper.insert(self.index, (name, urls, magnets))
+        return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
 
     def select_torrent(self):
         """
@@ -169,7 +173,7 @@ class NyaaTracker(Config):
                     print("Bye!")
                     break
                 else:
-                    selected_index, download_url, magnet_url = self.mapper[0][0][prompt], self.mapper[0][1][prompt], self.mapper[0][2][prompt]
+                    selected_index, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
                     print("Selected torrent [{idx}] - {torrent}".format(idx=prompt,
                                                                         torrent=selected_index))
                     print("Magnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
@@ -207,9 +211,10 @@ def main(title):
         results = nyaa.fetch_results()
         nyaa.show_output([result for result in results], nyaa.output_headers)
         nyaa.select_torrent()
+        #print(nyaa.mapper)
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")
         print("Terminated")
 
 if __name__ == "__main__":
-    print("Modules are not supposed to be run standalone.")
+    main('naruto')

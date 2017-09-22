@@ -23,7 +23,7 @@
     * **Windows client support:** In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser in-turn should automatically open the (default) client and load torrent to the client.
 * Fix wrong index display bug [TPB/KAT/linuxtracker]
 * Few other minor fixes/updates.
-* **Updated/New copy of config.ini file is required for XBit/Nyaa support**
+* **Updated/New copy of [config.ini](https://github.com/kryptxy/torrench#configuration-instructions) file is required for XBit/Nyaa support**
 
 
 ### [08/09/2017] v1.0.51 [1.0.5 is renamed to 1.0.51 for pip error fix]

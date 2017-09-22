@@ -8,13 +8,13 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [TPB / KAT / SkyTorrents / Nyaa Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
+* [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
 * [Samples](https://github.com/kryptxy/torrench#samples)
 * [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
-* [Contributing](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
+* [Contributing (Bugs/Suggestions/Feedback)](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
@@ -29,10 +29,12 @@ Torrench is a command-line program to search and download torrents from torrent-
 Following websites are supported:
 * linuxtracker.org - Download linux distros ISO torrents.
 * DistroWatch - Another linux distro ISOs repository.
-* The Pirate Bay (TPB)**\***
-* KickassTorrents (KAT)**\***
-* SkyTorrents **\***
-* Nyaa.si **\***
+* Other
+    * The Pirate Bay (TPB)**\***
+    * KickassTorrents (KAT)**\***
+    * SkyTorrents **\***
+    * Nyaa[.]si **\***
+    * XBit[.]pw
 * _More to come..._
 
 I have tested it on following platforms (and it works great):
@@ -43,13 +45,13 @@ I have tested it on following platforms (and it works great):
 * **MacOS:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
 
-#### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+#### \* Using TPB/KAT/SkyT/Nyaa/XBit
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
-* Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT/SkyTorrents from torrench.
+* Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Neither I, nor the tool shall be held responsible for any action taken against you for using the above-mentioned sites from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT/SkyT.
+* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) in case you decided to use them anyway.
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)._
 
@@ -63,6 +65,8 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
 $ sudo python3 -m pip install --upgrade torrench
+## OR
+$ sudo pip3 install --upgrade torrench
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -119,9 +123,10 @@ $ torrench [Options] <SEARCH_STRING>
     -v, --version         Display version and exit.
  ```
 
-## Features
+## Features (Needs to be re-written)
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
+* Add torrent directly to client from torrench. See [this]() for more.
 * [linuxtracker] Supports filtering search using categories
 
 **[TPB/KAT]**

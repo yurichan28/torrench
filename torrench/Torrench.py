@@ -56,10 +56,6 @@ class Torrench(Config):
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
-        parser.add_argument("-x",
-                            "--xbit",
-                            action="store_true",
-                            help="Search XBit.pw")
         parser.add_argument("search",
                             help="Enter search string",
                             nargs="?",
@@ -80,7 +76,6 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Get top torrents")
-
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,

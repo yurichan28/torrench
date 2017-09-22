@@ -155,7 +155,7 @@ class NyaaTracker(Config):
             return -1
         self.logger.debug("Results fetched. Showing table.")
         self.mapper.insert(self.index+1, (name, urls, magnets))
-        return list(zip(name, ["--"+str(idx)+"--" for idx in range(self.index)], sizes, seeds, leeches))
+        return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
 
     def select_torrent(self):
         """
@@ -169,7 +169,7 @@ class NyaaTracker(Config):
                     print("Bye!")
                     break
                 else:
-                    selected_index, download_url, magnet_url = self.mapper[0][0][prompt], self.mapper[0][1][prompt], self.mapper[0][2][prompt]
+                    selected_index, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
                     print("Selected torrent [{idx}] - {torrent}".format(idx=prompt,
                                                                         torrent=selected_index))
                     print("Magnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))

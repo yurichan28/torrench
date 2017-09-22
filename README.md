@@ -34,7 +34,7 @@ Following websites are supported:
     * KickassTorrents (KAT)**\***
     * SkyTorrents **\***
     * Nyaa[.]si **\***
-    * XBit[.]pw
+    * XBit[.]pw **\***
 * _More to come..._
 
 I have tested it on following platforms (and it works great):
@@ -51,7 +51,7 @@ By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (a
 * Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using the above-mentioned sites from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) in case you decided to use them anyway.
+* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) if you decided to them.
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)._
 
@@ -76,7 +76,7 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.51/torrench-1.0.51.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.53/torrench-1.0.53.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
@@ -126,7 +126,7 @@ $ torrench [Options] <SEARCH_STRING>
 ## Features (Needs to be re-written)
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
-* Add torrent directly to client from torrench. See [this]() for more.
+* Add torrent directly to client from torrench. See [here](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1053) for more.
 * [linuxtracker] Supports filtering search using categories
 
 **[TPB/KAT]**

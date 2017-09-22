@@ -2,6 +2,7 @@
 
 import sys
 import logging
+import platform
 from torrench.utilities.Config import Config
 
 class NyaaTracker(Config):
@@ -31,6 +32,9 @@ class NyaaTracker(Config):
         self.proxy = self.check_proxy('nyaa')
         self.search_parameter = "/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
         self.soup = self.http_request(self.proxy+self.search_parameter)
+        self.OS_WIN = False
+        if platform.system() == "Windows":
+            self.OS_WIN = True
 
     def check_proxy(self, proxy: str):
         """
@@ -101,7 +105,10 @@ class NyaaTracker(Config):
         t_size = []
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
-                t_size.append(self.colorify("yellow", size.get_text()))
+                if self.OS_WIN:
+                    t_size.append( size.get_text())
+                else:
+                    t_size.append(self.colorify("yellow", size.get_text()))
             else:
                 pass
         if t_size:
@@ -163,7 +170,7 @@ class NyaaTracker(Config):
         """
         while True:
             try:
-                prompt = int(input("(0 to exit)\nIndex > "))
+                prompt = int(input("\n\n(0 to exit)\nIndex > "))
                 self.logger.debug("Selected index {idx}".format(idx=prompt))
                 if prompt == 0:
                     print("Bye!")
@@ -172,10 +179,10 @@ class NyaaTracker(Config):
                     selected_index, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
                     print("Selected torrent [{idx}] - {torrent}".format(idx=prompt,
                                                                         torrent=selected_index))
-                    print("Magnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
-                    print("Upstream link: {url}".format(url=download_url))
+                    print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
                     self.copy_magnet(magnet_url)
-                    option = input("Load magnet link to client? [y/n] ")
+                    print("\n\nUpstream link: {url}\n".format(url=download_url))
+                    option = input("Load magnet link to client? [y/n]: ")
                     if option.lower() in ['yes', 'y']:
                         try:
                             self.logger.debug("Loading torrent to client")
@@ -202,7 +209,7 @@ def main(title):
     Execution will begin here.
     """
     try:
-        print("[Nyaa.si]")
+        print("\n[Nyaa.si]\n")
         nyaa = NyaaTracker(title)
         results = nyaa.fetch_results()
         nyaa.show_output([result for result in results], nyaa.output_headers)
@@ -210,6 +217,7 @@ def main(title):
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")
         print("Terminated")
+
 
 if __name__ == "__main__":
     print("Modules are not supposed to be run standalone.")

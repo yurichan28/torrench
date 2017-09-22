@@ -1,3 +1,31 @@
+### [23/09/2017] v1.0.53
+* Added Nyaa[.]si support (-n flag)
+* Added XBit[.]pw support (-x flag)
+    * **Windows:** Since windows Command-prompt/Powershell is unable to print unicode characters (Well it can, but it may break other things and is not recommended), any such character is converted to **'?'** character.
+* Automatically copy magnetic link to clipboard [All platforms]
+    * **Linux:** Requires **xclip** package to be installed.
+    * **MacOS:** Not tested - Test and report?
+    * **Windows:** Nothing else required.
+* Added **transmission client** support [Linux/MacOS]
+    * Requires running **transmission-daemon** service
+    * Torrent is added to transmission client using **transmission-remote** utitlity.
+    * For AUTHENTICATION - **TR_AUTH** environment variable is used.
+    * For PORT/SERVER - **TR_SERVER** environment variable is used.
+        * [TR_AUTH="username:password"]
+        * [TR_SERVER="IP_ADDR:PORT"]
+    * DEFAULTS (If TR_AUTH or TR_SERVER is not set)
+        * Username - [None]
+        * password - [None]
+        * IP_ADDR - localhost (127.0.0.1)
+        * PORT - 9091
+    * **Note:** As of now, this is the default (and the only) client supported by torrench.
+
+    * **Windows client support:** In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser in-turn should automatically open the (default) client and load torrent to the client.
+* Fix wrong index display bug [TPB/KAT/linuxtracker]
+* Few other minor fixes/updates.
+* **Updated/New copy of config.ini file is required for XBit/Nyaa support**
+
+
 ### [08/09/2017] v1.0.51 [1.0.5 is renamed to 1.0.51 for pip error fix]
 #### MAJOR UPDATE
 **New copy of config.ini file is required for TPB/KAT/Skytorrents updated support**

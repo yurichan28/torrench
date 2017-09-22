@@ -3,8 +3,8 @@
 import os
 import sys
 import argparse
-from torrench.utilities.Config import Config
 import logging
+from torrench.utilities.Config import Config
 
 
 class Torrench(Config):
@@ -23,6 +23,7 @@ class Torrench(Config):
       -t, --thepiratebay    Search thepiratebay (TPB)
       -k, --kickasstorrent  Search KickassTorrent (KAT)
       -s, --skytorrents     Search SkyTorrents
+      -n, --nyaa            Search Nyaa.si
       --top                 Get top torrents
       -p LIMIT, --page-limit LIMIT
                             Number of pages to fetch results from (1 page = 30 results). [default: 1]
@@ -33,7 +34,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.51)"
+        self.__version__ = "Torrench (1.0.52)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None
@@ -67,10 +68,19 @@ class Torrench(Config):
                             "--skytorrents",
                             action="store_true",
                             help="Search SkyTorrents")
+        parser.add_argument("-n",
+                            "--nyaa",
+                            action="store_true",
+                            help="Search Nyaa")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
         parser.add_argument("--top",
                             action="store_true",
                             default=False,
                             help="Get top torrents")
+
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -132,6 +142,13 @@ class Torrench(Config):
 
     def resolve_args(self):
         """Resolve input arguments."""
+        _PRIVATE_MODULES = (
+            self.args.thepiratebay,
+            self.args.kickasstorrent,
+            self.args.skytorrents,
+            self.args.nyaa,
+            self.args.xbit
+        ) # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
                 print("error: use -c with -t")
@@ -139,7 +156,7 @@ class Torrench(Config):
             else:
                 self.remove_temp_files()
 
-        if self.args.thepiratebay or self.args.kickasstorrent or self.args.skytorrents or self.args.xbit:
+        if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
                 print("Config file either does not exist or is not enabled! Exiting!")
@@ -168,6 +185,10 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
                     import torrench.modules.skytorrents as sky
                     sky.main(self.input_title, self.page_limit)
+                elif self.args.nyaa:
+                    self.logger.debug("Using Nyaa.si")
+                    import torrench.modules.nyaa as nyaa
+                    nyaa.main(self.input_title)
                 elif self.args.xbit:
                     self.logger.debug("Using XBit.pw")
                     self.logger.debug("Input title: [%s]" % (self.input_title))
@@ -206,3 +227,7 @@ def main():
     except KeyboardInterrupt as e:
         tr.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
+
+if __name__ == '__main__':
+    main()

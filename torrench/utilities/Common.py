@@ -105,11 +105,11 @@ class Common:
             self.logger.debug("Download begins...")
             home = os.path.expanduser(os.path.join('~', 'Downloads'))
             downloads_dir = os.path.join(home, 'torrench')
-            self.logger.debug("Default download directory: %s" % (downloads_dir))
+            self.logger.debug("Default download directory: %s", (downloads_dir))
             if not os.path.exists(downloads_dir):
                 self.logger.debug("download directory does not exist.")
                 os.makedirs(downloads_dir)
-                self.logger.debug("created directory: %s" % (downloads_dir))
+                self.logger.debug("created directory: %s", (downloads_dir))
 
             with open(os.path.join(downloads_dir, torrent_name), "wb") as file:
                 print("Downloading torrent...")
@@ -118,7 +118,7 @@ class Common:
                 self.logger.debug("Download complete!")
                 print("Download complete!")
                 print("\nSaved in %s\n" %(downloads_dir))
-                self.logger.debug("Saved in %s" % (downloads_dir))
+                self.logger.debug("Saved in %s", (downloads_dir))
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")

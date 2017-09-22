@@ -23,10 +23,12 @@ class Torrench(Config):
       -t, --thepiratebay    Search thepiratebay (TPB)
       -k, --kickasstorrent  Search KickassTorrent (KAT)
       -s, --skytorrents     Search SkyTorrents
-      -n, --nyaa            Search Nyaa.si
-      --top                 Get top torrents
+      -n, --nyaa            Search Nyaa
+      -x, --xbit            Search XBit.pw
+      --top                 Get top torrents [TPB/SkyTorrents]
       -p LIMIT, --page-limit LIMIT
-                            Number of pages to fetch results from (1 page = 30 results). [default: 1]
+                            Number of pages to fetch results from (1 page = 30 results).
+                            [default: 1] [TPB/KAT/SkyTorrents]
       -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
       -v, --version         Display version and exit.
     """
@@ -34,7 +36,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.52)"
+        self.__version__ = "Torrench (1.0.53)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None

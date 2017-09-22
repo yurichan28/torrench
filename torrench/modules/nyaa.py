@@ -69,7 +69,10 @@ class NyaaTracker(Config):
         """
         t_names = []
         for name in self.soup.find_all('td', {'colspan': '2'}):
-            t_names.append(name.get_text().replace('\n', ''))
+            n = name.get_text().replace('\n', '')
+            if self.OS_WIN:
+                n = n.encode('ascii', 'replace').decode()
+            t_names.append(n)
         if t_names:
             return t_names
         print("Unable to parse torrent name.")

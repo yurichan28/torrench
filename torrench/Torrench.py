@@ -56,6 +56,10 @@ class Torrench(Config):
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
         parser.add_argument("search",
                             help="Enter search string",
                             nargs="?",
@@ -64,14 +68,19 @@ class Torrench(Config):
                             "--skytorrents",
                             action="store_true",
                             help="Search SkyTorrents")
-        parser.add_argument("--top",
-                            action="store_true",
-                            default=False,
-                            help="Get top torrents")
         parser.add_argument("-n",
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
+        parser.add_argument("--top",
+                            action="store_true",
+                            default=False,
+                            help="Get top torrents")
+
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -137,7 +146,8 @@ class Torrench(Config):
             self.args.thepiratebay,
             self.args.kickasstorrent,
             self.args.skytorrents,
-            self.args.nyaa
+            self.args.nyaa,
+            self.args.xbit
         ) # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
@@ -145,6 +155,7 @@ class Torrench(Config):
                 sys.exit(2)
             else:
                 self.remove_temp_files()
+
 
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
@@ -179,6 +190,11 @@ class Torrench(Config):
                     self.logger.debug("Using Nyaa.si")
                     import torrench.modules.nyaa as nyaa
                     nyaa.main(self.input_title)
+                elif self.args.xbit:
+                    self.logger.debug("Using XBit.pw")
+                    self.logger.debug("Input title: [%s]" % (self.input_title))
+                    import torrench.modules.xbit as xbit
+                    xbit.main(self.input_title)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

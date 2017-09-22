@@ -2,7 +2,6 @@
 
 import sys
 import platform
-import webbrowser
 import logging
 import torrench.modules.tpb_details as tpb_details
 from torrench.utilities.Config import Config
@@ -214,7 +213,7 @@ class ThePirateBay(Config):
             self.show_output(masterlist, self.output_headers)
         except Exception as e:
             self.logger.exception(e)
-            print("Error message: %s" %(e))
+            print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
@@ -271,25 +270,21 @@ class ThePirateBay(Config):
                     selected_torrent, req_magnetic_link, torrent_link = self.mapper[temp-1]
                     print("Selected index [%d] - %s\n" % (temp, selected_torrent))
                     self.logger.debug("selected torrent: %s ; index: %d" % (self.non_color_name, temp))
-                    temp2 = input("1. Print magnetic link [p]\n2. Get torrent details [g]\n\nOption [p/g]: ")
+                    temp2 = input("1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n3. Get torrent details [g]\n\nOption [p/l/g]: ")
                     temp2 = temp2.lower()
                     self.logger.debug("selected option: [%c]" % (temp2))
                     if temp2 == 'p':
-                        print("\nMagnetic link - %s" %
-                              (self.colorify("red",  req_magnetic_link)))
                         self.logger.debug("printing magnetic link and upstream link")
-                        print("\nUpstream link - %s" % (self.colorify("yellow", torrent_link)))
-                        temp3 = input("\nLoad to torrent client? [y/n]: ")
-                        if temp3 == 'y' or temp3 == 'Y':
-                            try:
-                                self.logger.debug("Opening magnetic link in browser...")
-                                webbrowser.open_new_tab(req_magnetic_link)
-                            except Exception as e:
-                                self.logger.exception(e)
-                                continue
-                        else:
-                            self.logger.debug("NOT Opening magnetic link in browser.")
-                            pass
+                        print("\nMagnetic link - %s" % (self.colorify("red",  req_magnetic_link)))
+                        self.copy_magnet(req_magnetic_link)
+                        print("\n\nUpstream link - %s\n" % (self.colorify("yellow", torrent_link)))
+                    elif temp2 == 'l':
+                        try:
+                            self.logger.debug("Loading magnetic link to client")
+                            self.load_torrent(req_magnetic_link)
+                        except Exception as e:
+                            self.logger.exception(e)
+                            continue
                     elif temp2 == 'g':
                         print("Fetching details for torrent index [%d] : %s" % (
                             temp, selected_torrent))
@@ -299,7 +294,7 @@ class ThePirateBay(Config):
                         file_url = self.colorify("yellow", file_url)
                         print("File URL: %s \n" % (file_url))
                     else:
-                        self.logger.debug("Inappropriate input! Should be [p/g] only!")
+                        self.logger.debug("Inappropriate input! Should be [p/l/g] only!")
                         print("Bad input!")
                         continue
             except (ValueError, IndexError, TypeError) as e:

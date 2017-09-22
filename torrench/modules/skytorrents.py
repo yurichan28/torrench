@@ -2,7 +2,6 @@
 import sys
 import platform
 import logging
-import webbrowser
 from torrench.utilities.Config import Config
 
 
@@ -259,19 +258,21 @@ class SkyTorrents(Config):
                     elif (option == 'n' or option == 'N' or option == ""):
                         self.logger.debug("Torrent files NOT displayed.")
                     self.logger.debug("printing magnetic link and upstream link")
-                    print("\nMagnetic Link: %s\n" % (self.colorify("red", req_magnetic_link)))
-                    print("Upstream Link: %s\n\n" % (self.colorify("yellow", self.proxy + torrent_link)))
+                    print("\nMagnetic Link: %s" % (self.colorify("red", req_magnetic_link)))
+                    self.copy_magnet(req_magnetic_link)
+                    print("\n\nUpstream Link: %s\n\n" % (self.colorify("yellow", self.proxy + torrent_link)))
 
                     option2 = input("Load magnetic link to client? [y/n]:")
                     if option2 == 'y' or option2 == 'Y':
                         try:
-                            self.logger.debug("Open magnetic link in browser!")
-                            webbrowser.open_new_tab(req_magnetic_link)
+                            self.logger.debug("Loading torrent to client")
+                            self.load_torrent(req_magnetic_link)
                         except Exception as e:
+                            print("Something went wrong! See logs for details.")
                             self.logger.exception(e)
                             continue
                     else:
-                        self.logger.debug("DO NOT Opening magnetic link in browser!")
+                        self.logger.debug("NOT loading torrent to client")
                         pass
             except (Exception) as e:
                 print("\nBad Input!")

@@ -161,7 +161,6 @@ class LinuxTracker(Common):
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-
 def main(title):
     """Execution begins here."""
     try:

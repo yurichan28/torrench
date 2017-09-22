@@ -8,7 +8,7 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [TPB / KAT / SkyTorrents Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
+* [TPB / KAT / SkyTorrents / Nyaa Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
@@ -32,6 +32,7 @@ Following websites are supported:
 * The Pirate Bay (TPB)**\***
 * KickassTorrents (KAT)**\***
 * SkyTorrents **\***
+* Nyaa.si **\***
 * _More to come..._
 
 I have tested it on following platforms (and it works great):
@@ -43,7 +44,7 @@ I have tested it on following platforms (and it works great):
 
 
 #### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT/SkyTorrents from torrench.
@@ -78,7 +79,7 @@ Windows does not require any additional packages. Everything required to run thi
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=23632516396955453086)
+1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=23632516396955453086) or [Ghostbin](https://ghostbin.com/paste/jzguv)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 	* **MacOS -** Next bullet (setup instructions).
@@ -110,6 +111,7 @@ $ torrench [Options] <SEARCH_STRING>
     -t, --thepiratebay    Search thepiratebay (TPB)
     -k, --kickasstorrent  Search KickassTorrent (KAT)
     -s, --skytorrents     Search SkyTorrents
+	-n, --nyaa			  Search Nyaa.si (Anime tracker)
     --top                 Get top torrents
     -p LIMIT, --page-limit LIMIT
                           Number of pages to fetch results from (1 page = 30 results). [default: 1]

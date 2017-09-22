@@ -61,6 +61,8 @@ class Config(Common):
             name = "SKY_URL"
         elif name == "xbit":
             name = "XBIT_URL"
+        elif name == "nyaa":
+            name = "NYAA_URL"
         self.url = self.config.get('Torrench-Config', name)
         self.urllist = self.url.split()
         if name == 'TPB_URL':

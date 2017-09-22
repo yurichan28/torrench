@@ -151,6 +151,7 @@ class Torrench(Config):
             else:
                 self.remove_temp_files()
 
+
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")

@@ -187,8 +187,8 @@ class Common:
             p.wait()
 
             if error != '':
-                print("Unable to load torrent.")
-                print(self.colorify("red", "\n[ERROR] %s" % (error)))
+                print("\nUnable to load torrent.")
+                print(self.colorify("red", "[ERROR] %s" % (error)))
                 self.logger.error(error)
             else:
                 print("Torrent loaded successfully!")

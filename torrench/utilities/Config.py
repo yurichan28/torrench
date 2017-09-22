@@ -46,9 +46,9 @@ class Config(Common):
     # To get proxies for KAT/TPB
     def get_proxies(self, name):
         """
-        Get TPB/KAT Proxies.
+        Get Proxies.
 
-        TPB/KAT proxies are read from config.ini file.
+        Proxies are read from config.ini file.
         """
         self.logger.debug("getting proxies for '%s'" % (name))
         temp = []

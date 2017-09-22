@@ -56,6 +56,10 @@ class Torrench(Config):
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
+        parser.add_argument("-x",
+                            "--xbit",
+                            action="store_true",
+                            help="Search XBit.pw")
         parser.add_argument("search",
                             help="Enter search string",
                             nargs="?",
@@ -152,6 +156,7 @@ class Torrench(Config):
             else:
                 self.remove_temp_files()
 
+
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
@@ -185,6 +190,11 @@ class Torrench(Config):
                     self.logger.debug("Using Nyaa.si")
                     import torrench.modules.nyaa as nyaa
                     nyaa.main(self.input_title)
+                elif self.args.xbit:
+                    self.logger.debug("Using XBit.pw")
+                    self.logger.debug("Input title: [%s]" % (self.input_title))
+                    import torrench.modules.xbit as xbit
+                    xbit.main(self.input_title)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

@@ -8,7 +8,7 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
+* [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
@@ -123,7 +123,7 @@ $ torrench [Options] <SEARCH_STRING>
     -v, --version         Display version and exit.
  ```
 
-## Features (Needs to be re-written)
+## Features
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
 * Add torrent directly to client from torrench. See [here](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1053) for more.

@@ -107,20 +107,22 @@ $ torrench [Options] <SEARCH_STRING>
 ## Options
 ```bash
     positional arguments:
-    search                Enter search string
+      search                Enter search string
 
     optional arguments:
-    -h, --help            show this help message and exit
-    -d, --distrowatch     Search distrowatch
-    -t, --thepiratebay    Search thepiratebay (TPB)
-    -k, --kickasstorrent  Search KickassTorrent (KAT)
-    -s, --skytorrents     Search SkyTorrents
-	-n, --nyaa			  Search Nyaa.si (Anime tracker)
-    --top                 Get top torrents
-    -p LIMIT, --page-limit LIMIT
-                          Number of pages to fetch results from (1 page = 30 results). [default: 1]
-    -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
-    -v, --version         Display version and exit.
+      -h, --help            show this help message and exit
+      -d, --distrowatch     Search distrowatch
+      -t, --thepiratebay    Search thepiratebay (TPB)
+      -k, --kickasstorrent  Search KickassTorrent (KAT)
+      -s, --skytorrents     Search SkyTorrents
+      -n, --nyaa            Search Nyaa
+      -x, --xbit            Search XBit.pw
+      --top                 Get top torrents [TPB/SkyTorrents]
+      -p LIMIT, --page-limit LIMIT
+                            Number of pages to fetch results from (1 page = 30 results).
+                            [default: 1] [TPB/KAT/SkyTorrents]
+      -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+      -v, --version         Display version and exit.
  ```
 
 ## Features
@@ -164,6 +166,7 @@ $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.0
 $ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 $ torrench -d "opensuse" ## Search distrowatch for opensuse ISO
 $ torrench -d "solus" ## Search distrowatch for solus ISO
+$ torrench -x "fedora" ## Search XBit for fedora distros ISO
 ```
 #### Linuxtracker
 
@@ -174,6 +177,10 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 
 ![distrowatch](images/screenshots/distrowatch.png)
 ![distrowatch](images/screenshots/distrowatch.gif)
+
+#### XBit[.]pw
+![xbit](images/screenshots/xbit.png)
+![xbit](images/screenshots/xbit.gif)
 
 ---
 ### Searches considered illegal
@@ -209,6 +216,14 @@ $ torrench -s "narcos"
 
 ![illegal](images/screenshots/sky.gif)
 _(Click to expand)_
+
+#### Nyaa[.]si Examples
+```bash
+$ torrench -n "naruto"
+```
+![illegal](images/screenshots/nyaa.png)
+
+![illegal](images/screenshots/nyaa.gif)
 
 ---
 

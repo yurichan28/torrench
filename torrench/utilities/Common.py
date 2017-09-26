@@ -165,11 +165,19 @@ class Common:
         """Load torrent (magnet) to client."""
         try:
             if not self.OS_WIN:
-                """[LINUX / MacOS]"""
+                """
+                [LINUX / MacOS]
+
+                Requires config file to be setup.
+                Default directory: $XDG_CONFIG_HOME/torrench,
+                Fallback: $HOME/.config/torrench
+                file name: torrench.ini
+                Complete path: $HOME/.config/torrench/torrench.ini
+                """
                 if os.path.isfile(self.torrench_config_file):
                     self.logger.debug("torrench.ini file exists")
                     self.config.read(self.torrench_config_file)
-                    client = self.config.get('Torrench-Config', 'client')
+                    client = self.config.get('Torrench-Config', 'CLIENT')
                     self.logger.debug("using client: %s" %(client))
                 else:
                     print("No config (torrench.ini) file found!")
@@ -185,21 +193,26 @@ class Common:
                         $TR_AUTH environment variable is used.
                         [TR_AUTH="username:password"]
                     2. For SERVER and PORT:
-                        $TR_SERVER environment variable is used.
-                        [TR_SERVER="IP_ADDR:PORT"]
+                        Set the SERVER and PORT variables in torrench.ini file.
 
+                    If None of the above are set, following default values are used:
                     DEFAULTS
                     Username - [None]
                     password - [None]
-                    IP_ADDR - localhost (127.0.0.1)
+                    SERVER - localhost (127.0.0.1)
                     PORT - 9091
                 """
                 if client == 'transmission-remote':
-                    server = os.getenv('TR_SERVER', "localhost:9091")
-                    p = subprocess.Popen([client, server, '-ne', '--add', link], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+                    server = self.config.get('Torrench-Config', 'SERVER')
+                    port = self.config.get('Torrench-Config', 'PORT')
+                    if server == '':
+                        server = "localhost"
+                    if port == '':
+                        port = "9091"
+                    connect = "%s:%s" % (server, port)
+                    p = subprocess.Popen([client, connect, '-ne', '--add', link], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
                     e = p.communicate()  # `e` is a tuple.
                     error = e[1].decode('utf-8')
-                    p.wait()
                     if error != '':
                         print(self.colorify("red", "[ERROR] %s" % (error)))
                         self.logger.error(error)

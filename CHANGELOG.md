@@ -6,21 +6,34 @@
     * **Linux:** Requires **xclip** package to be installed.
     * **MacOS:** (Not tested but should work without issues) - Test and report?
     * **Windows:** Nothing else required. Works as it is.
-* **Added transmission client support [Linux/MacOS]**
-    * Requires running **transmission-daemon** service
-    * Torrent is added to transmission client using **transmission-remote** utitlity.
-    * For AUTHENTICATION - **TR_AUTH** environment variable is used.
-    * For PORT/SERVER - **TR_SERVER** environment variable is used.
-        * [TR_AUTH="username:password"]
-        * [TR_SERVER="IP_ADDR:PORT"]
-    * DEFAULTS (If TR_AUTH or TR_SERVER is not set)
-        * Username - [None]
-        * password - [None]
-        * IP_ADDR - localhost (127.0.0.1)
-        * PORT - 9091
-    * **Note:** As of now, this is the default (and the only) client supported by torrench.
+* **Add torrent directly to client [Linux/MacOS/Windows] (Updated - 27/09/17)**
+    
+    **PLEASE NOTE: THESE CHANGES WERE MADE AFTER v1.0.53 WAS RELEASED. PLEASE [BUILD FROM SOURCE](https://github.com/kryptxy/torrench#installationbuilding-from-source) TO GET THESE RIGHT NOW, OR YOU MAY WAIT FOR NEXT RELEASE**
+    * **[Linux/MacOS]**
+        * Requires **[torrench.ini](https://github.com/kryptxy/torrench/blob/master/torrench.ini)** config file.
+            * Default directory: **$XDG_CONFIG_HOME/torrench**
+            * Fallback: **$HOME/.config/torrench/**
+        * Set the default torrent client name in config file.
+            * ```CLIENT = <name>```
+        * Clients tested by me:
+            * Transmission (```transmission-remote```, ```transmission-gtk```, ```transmission-qt```)
+        * I haven't tested any other, but they should work too (```rtorrent```, ```qbittorrent```...) (Test and report)
+        
+        * **ABOUT ```transmission-remote```**
+            * Requires running **transmission-daemon** service
+            * Torrent is added to transmission client using **transmission-remote** utitlity.
+            * For AUTHENTICATION - **$TR_AUTH** environment variable is used.
+                * [TR_AUTH="username:password"]
+            * For PORT/SERVER - Set the PORT and SERVER variable in **[torrench.ini](https://github.com/kryptxy/torrench/blob/master/torrench.ini)** file accordingly.
+                * If $TR_AUTH or PORT/SERVER are not set, the following (default) values are used:
+                * DEFAULTS
+                    * Username - [None]
+                    * password - [None]
+                    * SERVER - localhost (127.0.0.1)
+                    * PORT - 9091
+        * ~**Note:** As of now, this is the default (and the only) client supported by torrench.~
 
-    * **Windows client support:** In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser in-turn should automatically open the (default) client and load torrent to the client.
+    * **Windows client support:** In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser should automatically open the (default) client and load torrent to the client.
 * **Fix wrong index display bug [TPB/KAT/linuxtracker]**
 * **Few other minor fixes/updates.**
 * **Updated/New copy of [config.ini](https://github.com/kryptxy/torrench#configuration-instructions) file is required for XBit/Nyaa support**

@@ -1,12 +1,12 @@
 ### [23/09/2017] v1.0.53
-* Added Nyaa[.]si support (-n flag)
-* Added XBit[.]pw support (-x flag)
+* **Added Nyaa[.]si support (-n flag)**
+* **Added XBit[.]pw support (-x flag)**
     * **Windows:** Since windows Command-prompt/Powershell is unable to print unicode characters (Well it can, but it may break other things and is not recommended), any such character is converted to **'?'** character.
-* Automatically copy magnetic link to clipboard [All platforms]
+* **Automatically copy magnetic link to clipboard [All platforms]**
     * **Linux:** Requires **xclip** package to be installed.
-    * **MacOS:** Not tested - Test and report?
-    * **Windows:** Nothing else required.
-* Added **transmission client** support [Linux/MacOS]
+    * **MacOS:** (Not tested but should work without issues) - Test and report?
+    * **Windows:** Nothing else required. Works as it is.
+* **Added transmission client support [Linux/MacOS]**
     * Requires running **transmission-daemon** service
     * Torrent is added to transmission client using **transmission-remote** utitlity.
     * For AUTHENTICATION - **TR_AUTH** environment variable is used.
@@ -21,8 +21,8 @@
     * **Note:** As of now, this is the default (and the only) client supported by torrench.
 
     * **Windows client support:** In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser in-turn should automatically open the (default) client and load torrent to the client.
-* Fix wrong index display bug [TPB/KAT/linuxtracker]
-* Few other minor fixes/updates.
+* **Fix wrong index display bug [TPB/KAT/linuxtracker]**
+* **Few other minor fixes/updates.**
 * **Updated/New copy of [config.ini](https://github.com/kryptxy/torrench#configuration-instructions) file is required for XBit/Nyaa support**
 
 

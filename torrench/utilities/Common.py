@@ -218,16 +218,16 @@ class Common:
                         self.logger.error(error)
                     else:
                         print(self.colorify("green", "Success (PID: %d)") %(p.pid))
-                        self.logger.debug("Torrent added successfully!")
+                        self.logger.debug("torrent added! (PID: %d)" %(p.pid))
                 else:
                     """
                     Any other torrent client.
                     > Tested: transmission-gtk, transmission-qt
                     > Not tested, but should work: rtorrent, qbittorrent (please update me)
                     """
-                    p = subprocess.Popen([client, link], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    p = subprocess.Popen([client, link], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
                     print(self.colorify("green", "Success (PID: %d)") %(p.pid))
-                    self.logger.debug("torrent added!")
+                    self.logger.debug("torrent added! (PID: %d)" %(p.pid))
             else:
                 """
                 [WINDOWS]

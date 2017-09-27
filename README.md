@@ -164,7 +164,7 @@ $ torrench [Options] <SEARCH_STRING>
 ---
 
 ## Samples
-(It might be possible that samples look a little diff. from present torrench UI. **There shouldn't and won't be** any major difference though. I will update samples when there is any major change in UI/display. For minor changes, updating samples does not make sense).
+(It might be possible that samples look a little diff. from present torrench UI. **There shouldn't and won't be** any major difference though. I will update samples when there is any major change in UI/display.).
 
 ```bash
 $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.04 distro ISO

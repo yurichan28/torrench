@@ -78,6 +78,10 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Get top torrents")
+        parser.add_argument("--copy",
+                            action="store_true",
+                            default=False,
+                            help="Copy magnetic link to clipboard")
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -95,6 +99,12 @@ class Torrench(Config):
                             version=self.__version__,
                             help="Display version and exit.")
         self.args = parser.parse_args()
+
+    def check_copy(self):
+        """Check if --copy argument is present."""
+        self.define_args()
+        if self.args.copy:
+            return True
 
     def remove_temp_files(self):
         """
@@ -152,8 +162,6 @@ class Torrench(Config):
                 sys.exit(2)
             else:
                 self.remove_temp_files()
-
-
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")

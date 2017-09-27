@@ -18,9 +18,6 @@ class XBit(Config):
     can be printed to console.
     Torrent can be added to client directly
 
-    - Linux/MacOS: transmission-remote
-    - Windows: Default client
-
     This class inherits Config class. Config class inherits
     Common class. The Config class provides proxies list fetched
     from config file. The Common class consists of commonly used

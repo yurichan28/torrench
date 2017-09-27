@@ -1,4 +1,4 @@
-### [23/09/2017] v1.0.54
+### [28/09/2017] v1.0.54
 
 1. **Add torrent to client directly from torrench**
     * **[Linux/MacOS]**

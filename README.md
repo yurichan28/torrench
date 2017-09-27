@@ -43,6 +43,7 @@ I have tested it on following platforms (and it works great):
 **[Reported by users]**
 * **MacOS:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
+**IMPORTANT -** Please keep close eye on [CHANGELOGS](). All update(s) information, setup info, and anything else related to updated will be posted there.  
 
 #### \* Using TPB/KAT/SkyT/Nyaa/XBit
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
@@ -75,7 +76,7 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.53/torrench-1.0.53.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.54/torrench-1.0.54.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
@@ -117,6 +118,7 @@ $ torrench [Options] <SEARCH_STRING>
       -n, --nyaa            Search Nyaa
       -x, --xbit            Search XBit.pw
       --top                 Get top torrents [TPB/SkyTorrents]
+	  --copy                Copy magnetic link to clipboard
       -p LIMIT, --page-limit LIMIT
                             Number of pages to fetch results from (1 page = 30 results).
                             [default: 1] [TPB/KAT/SkyTorrents]
@@ -127,8 +129,9 @@ $ torrench [Options] <SEARCH_STRING>
 ## Features
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
-* Add torrent directly to client from torrench. See [here](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1053) for more.
-* [linuxtracker] Supports filtering search using categories
+* Add torrent directly to client from torrench. See [HERE](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1054) for more.
+* Copy magnetic link to clipboard (```--copy```)
+* [linuxtracker] Supports filtering search using categories.
 
 **[TPB/KAT]**
 * Surf torrents Ad-free
@@ -159,6 +162,7 @@ $ torrench [Options] <SEARCH_STRING>
 ---
 
 ## Samples
+(It might be possible that samples look a little diff. from present torrench UI. **There shouldn't and won't be** any major difference though. I will update samples when there is any major change in UI/display. For minor changes, updating samples does not make sense).
 
 ```bash
 $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.04 distro ISO

@@ -11,7 +11,7 @@ from torrench.utilities.Config import Config
 def parser(q):
 
     if q[:2] == '!h':
-        help()
+        interactive_help()
     elif q[:2] == '!t':
         caller(q[:2], q[3:])
     elif q[:2] == '!k':
@@ -26,12 +26,12 @@ def set_modules():
                     '!k': kat,
                     '!x': xbit_module,
                     '!d': distrowatch.main,
-                    '!lt': linuxtracker.main
+                    '!l': linuxtracker.main
                    }
         return _modules
     else:
         _public_modules = {'!d': distrowatch.main,
-                            '!lt': linuxtracker.main
+                            '!l': linuxtracker.main
                           }
         return _public_modules
 
@@ -42,13 +42,14 @@ def caller(module, q):
         print(_modules[module])
 
 
-def help():
+def interactive_help():
     help_text = """
         Available commands:
     !h <string> - Help text (this)
     !n <string> - Search on nyaa.si for anime.
     !t <string> - Search on ThePirateBay.
     !k <string> - Search on KickAssTorrents.
+    !s <string> - Search on SkyTorrents
     !x <string> - Search on XBit.pw
     !t <string> - Search on LinuxTorrents
 

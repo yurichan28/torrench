@@ -1,5 +1,11 @@
 import click
-import torrench.modules
+import torrench.modules.thepiratebay as tpb_module
+import torrench.modules.kickasstorrent as kat
+import torrench.modules.skytorrents as sky
+import torrench.modules.nyaa as nyaa_module
+import torrench.modules.xbit as xbit_module
+import torrench.modules.distrowatch as distrowatch
+import torrench.modules.linuxtracker as linuxtracker
 from torrench.utilities.Config import Config
 
 def parser(q):
@@ -7,35 +13,33 @@ def parser(q):
     if q[:2] == '!h':
         help()
     elif q[:2] == '!t':
-        tpb(q[3:]) if q[3:] else print('Empty query.')
+        caller(q[:2], q[3:])
     elif q[:2] == '!k':
         caller(q[:2], q[3:])
     elif q[:2] == '!n':
-        nyaa(None)
+        caller(q[:2], q[3:])
 
+def set_modules():
+    if Config().file_exists():
+        _modules = {'!t': tpb_module,
+                    '!n': nyaa_module,
+                    '!k': kat,
+                    '!x': xbit_module,
+                    '!d': distrowatch.main,
+                    '!lt': linuxtracker.main
+                   }
+        return _modules
+    else:
+        _public_modules = {'!d': distrowatch.main,
+                            '!lt': linuxtracker.main
+                          }
+        return _public_modules
 
 def caller(module, q):
-    if Config().file_exists():
-        _modules = {'private_modules': {'!t': torrench.modules.thepiratebay.main,
-                                        '!n': torrench.modules.nyaa.main,
-                                        '!k': torrench.modules.kickasstorrent.main,
-                                        '!x': torrench.modules.xbit.main
-                                        },
-                    'public_modules': {'!d': torrench.modules.distrowatch.main,
-                                       '!lt': torrench.modules.linuxtracker.main
-                                       }
-                    }
-        if module in _modules['private_modules'] or module in _modules['public_modules']:
-            print('Using module `%s`.' % module)
-    else:
-        _modules = {'public_modules': {'!d': torrench.modules.distrowatch.main,
-                                       '!lt': torrench.modules.linuxtracker.main
-                                       }
-                    }
-        if module in _modules['public_modules']:
-            print('Using public module: %s' % module)
-        else:
-            print('No valid modules were called.')
+    _modules = set_modules()
+    if module in _modules:
+        print('Using module `%s`.' % module)
+        print(_modules[module])
 
 
 def help():
@@ -54,28 +58,17 @@ def help():
     print(help_text)
 
 
-def nyaa(q):
-    print('Searching for {query} in Nyaa.'.format(query=q))
-    torrench.modules.nyaa.main(q)
-
-
-def xbit(q):
-    print('Searching for {query} in XBit.'.format(query=q))
-    torrench.modules.xbit.main(q)
-
-
-def tpb(q):
-    print('Searching for {query} on TPB.'.format(query=q))
-    torrench.modules.thepiratebay.main(q, 1)
-
-
 @click.command()
 @click.option('--interactive', '-i', is_flag=True)
 def inter(interactive):
     if interactive:
         print("Interactive mode is ENABLED!")
-        data = input('torrench > ')
-        parser(data)
+        try:
+            while True:
+                data = input('torrench > ')
+                parser(data)
+        except KeyboardInterrupt:
+            print('Terminated.')
     else:
         print("not enabled")
 

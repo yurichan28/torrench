@@ -145,14 +145,13 @@ class Torrench(Config):
             self.args.skytorrents,
             self.args.nyaa,
             self.args.xbit
-        ) # These modules are only enabled through manual configuration.
+        )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
                 print("error: use -c with -t")
                 sys.exit(2)
             else:
                 self.remove_temp_files()
-
 
         if any(_PRIVATE_MODULES):
             if not self.file_exists():

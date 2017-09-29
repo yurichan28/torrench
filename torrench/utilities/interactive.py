@@ -8,41 +8,57 @@ import torrench.modules.distrowatch as distrowatch
 import torrench.modules.linuxtracker as linuxtracker
 from torrench.utilities.Config import Config
 
-def parser(q):
-
-    if q[:2] == '!h':
+def parser(query):
+    """
+    :query: String to query the module.
+    """
+    if query[:2] == '!h' or query == 'help':
         interactive_help()
-    elif q[:2] == '!t':
-        caller(q[:2], q[3:])
-    elif q[:2] == '!k':
-        caller(q[:2], q[3:])
-    elif q[:2] == '!n':
-        caller(q[:2], q[3:])
+    elif query[:2] == '!t':
+        caller(query[:2], query[3:])
+    elif query[:2] == '!k':
+        caller(query[:2], query[3:])
+    elif query[:2] == '!n':
+        caller(query[:2], query[3:])
+    else:
+        print('Invalid command! Try `!h` or `help` for help.')
 
 def set_modules():
+    """
+    Map functions to commands and return dictionary.
+    """
     if Config().file_exists():
         _modules = {'!t': tpb_module,
                     '!n': nyaa_module,
                     '!k': kat,
                     '!x': xbit_module,
-                    '!d': distrowatch.main,
-                    '!l': linuxtracker.main
+                    '!d': distrowatch,
+                    '!l': linuxtracker,
+                    '!s': sky.main
                    }
         return _modules
     else:
-        _public_modules = {'!d': distrowatch.main,
-                            '!l': linuxtracker.main
+        _public_modules = {'!d': distrowatch,
+                           '!l': linuxtracker
                           }
         return _public_modules
 
-def caller(module, q):
+def caller(module, query):
+    """
+    Send queries to their respective modules.
+
+    :module: Module to use in query.
+    :query: String to search for.
+    """
     _modules = set_modules()
     if module in _modules:
-        print('Using module `%s`.' % module)
-        print(_modules[module])
+        print(_modules[module].main(query))
 
 
 def interactive_help():
+    """
+    Display help
+    """
     help_text = """
         Available commands:
     !h <string> - Help text (this)
@@ -62,6 +78,9 @@ def interactive_help():
 @click.command()
 @click.option('--interactive', '-i', is_flag=True)
 def inter(interactive):
+    """
+    Execution will start here.
+    """
     if interactive:
         print("Interactive mode is ENABLED!")
         try:

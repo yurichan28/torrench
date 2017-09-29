@@ -15,25 +15,27 @@ def parser(q):
 
 
 def caller(module, q):
-    if config_check():
+    if Config().file_exists():
         _modules = {'private_modules': {'!t': torrench.modules.thepiratebay.main,
                                         '!n': torrench.modules.nyaa.main,
                                         '!k': torrench.modules.kickasstorrent.main,
                                         '!x': torrench.modules.xbit.main
-                                        }
+                                        },
+                    'public_modules': {'!d': torrench.modules.distrowatch.main,
+                                       '!lt': torrench.modules.linuxtracker.main
+                                       }
                     }
-        if module in _modules['private_modules']:
+        if module in _modules['private_modules'] or module in _modules['public_modules']:
             print('Using module `%s`.' % module)
     else:
-        _modules = {'public_modules': {'!d': torrench.modules.distrowatch,
-                                       '!lt': torrench.modules.linuxtracker}}
-
-
-def config_check():
-    if not Config().file_exists():
-        print("Missing configuration. See the documentation.")
-        return 0
-    return 1
+        _modules = {'public_modules': {'!d': torrench.modules.distrowatch.main,
+                                       '!lt': torrench.modules.linuxtracker.main
+                                       }
+                    }
+        if module in _modules['public_modules']:
+            print('Using public module: %s' % module)
+        else:
+            print('No valid modules were called.')
 
 
 def help():

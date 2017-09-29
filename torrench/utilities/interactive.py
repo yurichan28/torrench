@@ -34,7 +34,7 @@ def set_modules():
                     '!x': xbit_module,
                     '!d': distrowatch,
                     '!l': linuxtracker,
-                    '!s': sky.main
+                    '!s': sky
                    }
         return _modules
     else:
@@ -52,7 +52,11 @@ def caller(module, query):
     """
     _modules = set_modules()
     if module in _modules:
-        print(_modules[module].main(query))
+        print(module)
+        if module in ['!t', '!k', '!s']:
+            _modules[module].main(query, page_limit=1)
+        else:
+            _modules[module].main(query)
 
 
 def interactive_help():

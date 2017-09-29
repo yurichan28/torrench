@@ -1,11 +1,20 @@
 import click
 
+
 def parser(query):
     if query[:2] == '!h':
         help()
+    elif query[:2] == '!t':
+        tpb(query[3:]) if query[3:] else print('Empty query.')
+    elif query[:2] == '!k':
+        pass
+    elif query[:2] == '!n':
+        nyaa(None)
+
 
 def caller(query):
     pass
+
 
 def help():
     help_text = """
@@ -17,14 +26,18 @@ def help():
     """
     print(help_text)
 
-def nyaa():
+
+def nyaa(q):
     pass
 
-def xbit():
+
+def xbit(q):
     pass
 
-def tpb():
-    pass
+
+def tpb(q):
+    print('Searching for {query} on TPB.'.format(query=q))
+
 
 @click.command()
 @click.option('--interactive', '-i', is_flag=True)
@@ -37,4 +50,4 @@ def inter(interactive):
         print("not enabled")
 
 if __name__ == '__main__':
-    inter()
+    inter(None)

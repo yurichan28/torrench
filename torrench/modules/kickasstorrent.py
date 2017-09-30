@@ -201,24 +201,26 @@ class KickassTorrents(Config):
                     continue
                 else:
                     selected_torrent, req_magnetic_link, req_torr_link = self.mapper[temp-1]
-
+                    selected_torrent = self.colorify("yellow", selected_torrent)
                     print("Selected index [%d] - %s\n" % (temp, selected_torrent))
-                    self.logger.debug("selected torrent: %s ; index: %d" %(selected_torrent, temp))
-                    self.logger.debug("print magnetic link and upstream link")
-                    print("Magnetic Link: %s" % (self.colorify("red", req_magnetic_link)))
-                    self.copy_magnet(req_magnetic_link)
-                    print("\n\nUpstream Link: %s \n\n" % (self.colorify("yellow", self.proxy + req_torr_link)))
-                    option = input("Load magnetic link to client? [y/n]:")
-                    if option == 'y' or option == 'Y':
+                    self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
+                    # Print Magnetic link / load magnet to client
+                    temp2 = input("\n1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
+                    temp2 = temp2.lower()
+                    self.logger.debug("selected option: [%c]" % (temp2))
+                    if temp2 == 'p':
+                        self.logger.debug("printing magnetic link and upstream link")
+                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", req_magnetic_link)))
+                        self.copy_magnet(req_magnetic_link)
+                        upstream_link = self.colorify("yellow", self.proxy + req_torr_link)
+                        print("\n\nUpstream Link: %s \n\n" % (upstream_link))
+                    elif temp2 == 'l':
                         try:
                             self.logger.debug("Loading torrent to client")
                             self.load_torrent(req_magnetic_link)
                         except Exception as e:
                             self.logger.exception(e)
                             continue
-                    else:
-                        self.logger.debug("NOT loading torrent to client")
-                        pass
             except (ValueError, IndexError, TypeError) as e:
                 print("\nBad Input!")
                 self.logger.exception(e)
@@ -226,7 +228,7 @@ class KickassTorrents(Config):
 
 
 def main(title, page_limit):
-    """Execution begins here!"""
+    """Execution begins here."""
     try:
         print("\n[KickassTorrents]\n")
         print("Obtaining proxies...")

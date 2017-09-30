@@ -26,6 +26,7 @@ class Torrench(Config):
       -n, --nyaa            Search Nyaa
       -x, --xbit            Search XBit.pw
       --top                 Get top torrents [TPB/SkyTorrents]
+      --copy                Copy magnetic link to clipboard
       -p LIMIT, --page-limit LIMIT
                             Number of pages to fetch results from (1 page = 30 results).
                             [default: 1] [TPB/KAT/SkyTorrents]
@@ -36,7 +37,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.53)"
+        self.__version__ = "Torrench (1.0.54)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None
@@ -78,6 +79,10 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Get top torrents")
+        parser.add_argument("--copy",
+                            action="store_true",
+                            default=False,
+                            help="Copy magnetic link to clipboard")
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -95,6 +100,12 @@ class Torrench(Config):
                             version=self.__version__,
                             help="Display version and exit.")
         self.args = parser.parse_args()
+
+    def check_copy(self):
+        """Check if --copy argument is present."""
+        self.define_args()
+        if self.args.copy:
+            return True
 
     def remove_temp_files(self):
         """

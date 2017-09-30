@@ -153,13 +153,16 @@ class Common:
 
     def copy_magnet(self, link):
         """Copy magnetic link to clipboard."""
-        try:
-            pyperclip.copy(link)
-            print("(Magnetic link copied to clipboard)")
-        except pyperclip.exceptions.PyperclipException as e:
-            print("(Unable to copy magnetic link to clipboard. Is [xclip] installed?)")
-            print("(See logs for details)")
-            self.logger.error(e)
+        from torrench.Torrench import Torrench
+        tr = Torrench()
+        if tr.check_copy():
+            try:
+                pyperclip.copy(link)
+                print("(Magnetic link copied to clipboard)")
+            except pyperclip.exceptions.PyperclipException as e:
+                print("(Unable to copy magnetic link to clipboard. Is [xclip] installed?)")
+                print("(See logs for details)")
+                self.logger.error(e)
 
     def load_torrent(self, link):
         """Load torrent (magnet) to client."""
@@ -178,6 +181,7 @@ class Common:
                     self.logger.debug("torrench.ini file exists")
                     self.config.read(self.torrench_config_file)
                     client = self.config.get('Torrench-Config', 'CLIENT')
+                    print("\n(%s)" % (client))
                     self.logger.debug("using client: %s" %(client))
                 else:
                     print("No config (torrench.ini) file found!")

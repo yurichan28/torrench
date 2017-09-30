@@ -12,13 +12,10 @@ def parser(query):
     """
     :query: String to query the module.
     """
-    if query[:2] == '!h' or query == 'help':
+    _available_modules = set_modules()
+    if query[:2] == '!h':
         interactive_help()
-    elif query[:2] == '!t':
-        caller(query[:2], query[3:])
-    elif query[:2] == '!k':
-        caller(query[:2], query[3:])
-    elif query[:2] == '!n':
+    elif query[:2] in _available_modules.keys():
         caller(query[:2], query[3:])
     else:
         print('Invalid command! Try `!h` or `help` for help.')

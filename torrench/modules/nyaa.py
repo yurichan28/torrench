@@ -2,6 +2,7 @@
 
 import sys
 import logging
+import platform
 from torrench.utilities.Config import Config
 
 class NyaaTracker(Config):
@@ -31,6 +32,9 @@ class NyaaTracker(Config):
         self.proxy = self.check_proxy('nyaa')
         self.search_parameter = "/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
         self.soup = self.http_request(self.proxy+self.search_parameter)
+        self.OS_WIN = False
+        if platform.system() == "Windows":
+            self.OS_WIN = True
 
     def check_proxy(self, proxy: str):
         """
@@ -59,17 +63,16 @@ class NyaaTracker(Config):
         print("No proxies were given.")
         return -1
 
-    def parse_data(self):
-        data = content.find_all('tr')
-        return data
-
     def parse_name(self):
         """
         Parse torrent name
         """
         t_names = []
         for name in self.soup.find_all('td', {'colspan': '2'}):
-            t_names.append(name.get_text().replace('\n', ''))
+            n = name.get_text().replace('\n', '')
+            if self.OS_WIN:
+                n = n.encode('ascii', 'replace').decode()
+            t_names.append(n)
         if t_names:
             return t_names
         print("Unable to parse torrent name.")
@@ -105,7 +108,10 @@ class NyaaTracker(Config):
         t_size = []
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
-                t_size.append(self.colorify("yellow", size.get_text()))
+                if self.OS_WIN:
+                    t_size.append( size.get_text())
+                else:
+                    t_size.append(self.colorify("yellow", size.get_text()))
             else:
                 pass
         if t_size:
@@ -148,7 +154,7 @@ class NyaaTracker(Config):
             seeds = self.parse_seeds()
             leeches = self.parse_leeches()
             magnets = self.parse_magnets()
-            self.index = len(name)
+            self.index = len(urls)
         except (KeyError, AttributeError) as e:
             print("Something went wrong. Logging and terminating.")
             self.logger.exception(e)
@@ -158,7 +164,7 @@ class NyaaTracker(Config):
             self.logger.debug("No results were found for `%s`.", self.title)
             return -1
         self.logger.debug("Results fetched. Showing table.")
-        self.mapper.insert(self.index, (name, urls, magnets))
+        self.mapper.insert(self.index+1, (name, urls, magnets))
         return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
 
     def select_torrent(self):
@@ -167,7 +173,7 @@ class NyaaTracker(Config):
         """
         while True:
             try:
-                prompt = int(input("(0 to exit)\nIndex > "))
+                prompt = int(input("\n\n(0 to exit)\nIndex > "))
                 self.logger.debug("Selected index {idx}".format(idx=prompt))
                 if prompt == 0:
                     print("Bye!")
@@ -176,10 +182,10 @@ class NyaaTracker(Config):
                     selected_index, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
                     print("Selected torrent [{idx}] - {torrent}".format(idx=prompt,
                                                                         torrent=selected_index))
-                    print("Magnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
-                    print("Upstream link: {url}".format(url=download_url))
+                    print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
                     self.copy_magnet(magnet_url)
-                    option = input("Load magnet link to client? [y/n] ")
+                    print("\n\nUpstream link: {url}\n".format(url=download_url))
+                    option = input("Load magnet link to client? [y/n]: ")
                     if option.lower() in ['yes', 'y']:
                         try:
                             self.logger.debug("Loading torrent to client")
@@ -190,7 +196,7 @@ class NyaaTracker(Config):
                             continue
                     else:
                         self.logger.debug("NOT loading torrent to client.")
-                        pass                    
+                        pass
             except IndexError as e:
                 self.logger.exception(e)
                 print("Invalid index.")
@@ -206,15 +212,15 @@ def main(title):
     Execution will begin here.
     """
     try:
-        print("[Nyaa.si]")
-        nyaa = NyaaTracker(title)  
+        print("\n[Nyaa.si]\n")
+        nyaa = NyaaTracker(title)
         results = nyaa.fetch_results()
         nyaa.show_output([result for result in results], nyaa.output_headers)
         nyaa.select_torrent()
-        #print(nyaa.mapper)
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")
         print("Terminated")
 
+
 if __name__ == "__main__":
-    print("It's a module!")
+    print("Modules are not supposed to be run standalone.")

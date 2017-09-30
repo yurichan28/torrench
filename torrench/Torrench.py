@@ -23,10 +23,12 @@ class Torrench(Config):
       -t, --thepiratebay    Search thepiratebay (TPB)
       -k, --kickasstorrent  Search KickassTorrent (KAT)
       -s, --skytorrents     Search SkyTorrents
-      -n, --nyaa            Search Nyaa.si
-      --top                 Get top torrents
+      -n, --nyaa            Search Nyaa
+      -x, --xbit            Search XBit.pw
+      --top                 Get top torrents [TPB/SkyTorrents]
       -p LIMIT, --page-limit LIMIT
-                            Number of pages to fetch results from (1 page = 30 results). [default: 1]
+                            Number of pages to fetch results from (1 page = 30 results).
+                            [default: 1] [TPB/KAT/SkyTorrents]
       -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
       -v, --version         Display version and exit.
     """
@@ -34,7 +36,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.52)"
+        self.__version__ = "Torrench (1.0.53)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None
@@ -56,10 +58,6 @@ class Torrench(Config):
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
-        parser.add_argument("-x",
-                            "--xbit",
-                            action="store_true",
-                            help="Search XBit.pw")
         parser.add_argument("search",
                             help="Enter search string",
                             nargs="?",
@@ -80,7 +78,6 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Get top torrents")
-
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -148,14 +145,13 @@ class Torrench(Config):
             self.args.skytorrents,
             self.args.nyaa,
             self.args.xbit
-        ) # These modules are only enabled through manual configuration.
+        )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
                 print("error: use -c with -t")
                 sys.exit(2)
             else:
                 self.remove_temp_files()
-
 
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
@@ -228,6 +224,7 @@ def main():
     except KeyboardInterrupt as e:
         tr.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
 
 if __name__ == '__main__':
     main()

@@ -11,7 +11,7 @@ import logging
 import subprocess
 import webbrowser
 import pyperclip
-
+from configparser import SafeConfigParser
 
 
 class Common:
@@ -27,11 +27,17 @@ class Common:
     -- download():: To download .torrent file in $HOME/Downloads/torrench dir.
     -- colorify():: To return colored self.output
     -- show_output():: To display search results self.output (self.output table)
-
+    -- copy_magnet():: To copy magnetic link to clipboard.
+    --load_torrent():: To load torrent magnetic link to client.
     """
 
     def __init__(self):
         """Initialisations."""
+        self.config = SafeConfigParser()
+        self.config_dir = os.getenv('XDG_CONFIG_HOME', os.path.expanduser(os.path.join('~', '.config')))
+        self.full_config_dir = os.path.join(self.config_dir, 'torrench')
+        self.config_file_name = "torrench.ini"
+        self.torrench_config_file = os.path.join(self.full_config_dir, self.config_file_name)
         self.raw = None
         self.soup = None
         self.output = None
@@ -146,7 +152,7 @@ class Common:
             print("\nAborted!\n")
 
     def copy_magnet(self, link):
-        """Copy magnetic link to clipboard"""
+        """Copy magnetic link to clipboard."""
         try:
             pyperclip.copy(link)
             print("(Magnetic link copied to clipboard)")
@@ -156,42 +162,80 @@ class Common:
             self.logger.error(e)
 
     def load_torrent(self, link):
-        """
-        [LINUX / MacOS Only]
+        """Load torrent (magnet) to client."""
+        try:
+            if not self.OS_WIN:
+                """
+                [LINUX / MacOS]
 
-        Load torrent to transmission client
-        Requires running transmission-daemon.
-        Torrent is added to daemon using transmission-remote.
+                Requires config file to be setup.
+                Default directory: $XDG_CONFIG_HOME/torrench,
+                Fallback: $HOME/.config/torrench
+                file name: torrench.ini
+                Complete path: $HOME/.config/torrench/torrench.ini
+                """
+                if os.path.isfile(self.torrench_config_file):
+                    self.logger.debug("torrench.ini file exists")
+                    self.config.read(self.torrench_config_file)
+                    client = self.config.get('Torrench-Config', 'CLIENT')
+                    self.logger.debug("using client: %s" %(client))
+                else:
+                    print("No config (torrench.ini) file found!")
+                    self.logger.debug("torrench.ini file not found!")
+                    return
+                """
+                [client = Transmission (transmission-remote)]
+                    > Load torrent to transmission client
+                    > Torrent is added to daemon using `transmission-remote`.
+                    > Requires running `transmission-daemon`.
 
-        1. For authentication:
-            $TR_AUTH environment variable is used.
-            [TR_AUTH="username:password"]
-        2. For SERVER and PORT:
-            $TR_SERVER environment variable is used.
-            [TR_SERVER="IP_ADDR:PORT"]
+                    1. For authentication:
+                        $TR_AUTH environment variable is used.
+                        [TR_AUTH="username:password"]
+                    2. For SERVER and PORT:
+                        Set the SERVER and PORT variables in torrench.ini file.
 
-        DEFAULTS
-        Username - [None]
-        password - [None]
-        IP_ADDR - localhost (127.0.0.1)
-        PORT - 9091
-
-        Torrent can be added through magnetic link or .torrent file.
-        """
-        if not self.OS_WIN:
-            server = os.getenv('TR_SERVER', "localhost:9091")
-            p = subprocess.Popen(['transmission-remote', server, '-ne', '--add', link], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            output, error = p.communicate()
-            error = error.decode('utf-8')
-            output = output.decode('utf-8')
-            p.wait()
-
-            if error != '':
-                print("\nUnable to load torrent.")
-                print(self.colorify("red", "[ERROR] %s" % (error)))
-                self.logger.error(error)
+                    If None of the above are set, following default values are used:
+                    DEFAULTS
+                    Username - [None]
+                    password - [None]
+                    SERVER - localhost (127.0.0.1)
+                    PORT - 9091
+                """
+                if client == 'transmission-remote':
+                    server = self.config.get('Torrench-Config', 'SERVER')
+                    port = self.config.get('Torrench-Config', 'PORT')
+                    if server == '':
+                        server = "localhost"
+                    if port == '':
+                        port = "9091"
+                    connect = "%s:%s" % (server, port)
+                    p = subprocess.Popen([client, connect, '-ne', '--add', link], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+                    e = p.communicate()  # `e` is a tuple.
+                    error = e[1].decode('utf-8')
+                    if error != '':
+                        print(self.colorify("red", "[ERROR] %s" % (error)))
+                        self.logger.error(error)
+                    else:
+                        print(self.colorify("green", "Success (PID: %d)") %(p.pid))
+                        self.logger.debug("torrent added! (PID: %d)" %(p.pid))
+                else:
+                    """
+                    Any other torrent client.
+                    > Tested: transmission-gtk, transmission-qt
+                    > Not tested, but should work: rtorrent, qbittorrent (please update me)
+                    """
+                    p = subprocess.Popen([client, link], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
+                    print(self.colorify("green", "Success (PID: %d)") %(p.pid))
+                    self.logger.debug("torrent added! (PID: %d)" %(p.pid))
             else:
-                print("Torrent loaded successfully!")
-                self.logger.debug(output)
-        else:
-            webbrowser.open_new_tab(link)
+                """
+                [WINDOWS]
+
+                The magnetic link is added to web-browser.
+                Web browser should be able to load torrent to client automatically
+                """
+                webbrowser.open_new_tab(link)
+        except Exception as e:
+            self.logger.exception(e)
+            print(self.colorify("red",  "[ERROR]: %s") % (e))

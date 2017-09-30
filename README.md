@@ -8,13 +8,13 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [TPB / KAT / SkyTorrents / Nyaa Usage](https://github.com/kryptxy/torrench#-using-the-pirate-baytpb--kickasstorrentskat--skytorrents)
+* [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
 * [Samples](https://github.com/kryptxy/torrench#samples)
 * [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
-* [Contributing](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
+* [Contributing (Bugs/Suggestions/Feedback)](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
@@ -32,7 +32,8 @@ Following websites are supported:
 * The Pirate Bay (TPB)**\***
 * KickassTorrents (KAT)**\***
 * SkyTorrents **\***
-* Nyaa.si **\***
+* Nyaa[.]si **\***
+* XBit[.]pw **\***
 * _More to come..._
 
 I have tested it on following platforms (and it works great):
@@ -43,13 +44,13 @@ I have tested it on following platforms (and it works great):
 * **MacOS:** Yosemite, Sierra (10.12.6). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
 
-#### \* Using The Pirate Bay(TPB) / KickassTorrents(KAT) / SkyTorrents
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime) from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+#### \* Using TPB/KAT/SkyT/Nyaa/XBit
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
-* Using TPB/KAT/SkyTorrents in many countries is illegal. Using TPB/KAT can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
-* Neither I, nor the tool shall be held responsible for any action taken against you for using TPB/KAT/SkyTorrents from torrench.
+* Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
+* Neither I, nor the tool shall be held responsible for any action taken against you for using the above-mentioned sites from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* This should be enough. Please see [Configuration steps](https://github.com/kryptxy/torrench#configuration-instructions) to enable TPB/KAT/SkyT.
+* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) if you decided to them.
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)._
 
@@ -63,6 +64,8 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
 $ sudo python3 -m pip install --upgrade torrench
+## OR
+$ sudo pip3 install --upgrade torrench
 ```
 * Alternatively, build from source (python-setuptools)
 ```bash
@@ -72,14 +75,14 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.51/torrench-1.0.51.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.53/torrench-1.0.53.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
 ### Configuration instructions:
-1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=23632516396955453086) or [Ghostbin](https://ghostbin.com/paste/jzguv)
+1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=12737623922646772242)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 	* **MacOS -** Next bullet (setup instructions).
@@ -103,25 +106,28 @@ $ torrench [Options] <SEARCH_STRING>
 ## Options
 ```bash
     positional arguments:
-    search                Enter search string
+      search                Enter search string
 
     optional arguments:
-    -h, --help            show this help message and exit
-    -d, --distrowatch     Search distrowatch
-    -t, --thepiratebay    Search thepiratebay (TPB)
-    -k, --kickasstorrent  Search KickassTorrent (KAT)
-    -s, --skytorrents     Search SkyTorrents
-	-n, --nyaa			  Search Nyaa.si (Anime tracker)
-    --top                 Get top torrents
-    -p LIMIT, --page-limit LIMIT
-                          Number of pages to fetch results from (1 page = 30 results). [default: 1]
-    -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
-    -v, --version         Display version and exit.
+      -h, --help            show this help message and exit
+      -d, --distrowatch     Search distrowatch
+      -t, --thepiratebay    Search thepiratebay (TPB)
+      -k, --kickasstorrent  Search KickassTorrent (KAT)
+      -s, --skytorrents     Search SkyTorrents
+      -n, --nyaa            Search Nyaa
+      -x, --xbit            Search XBit.pw
+      --top                 Get top torrents [TPB/SkyTorrents]
+      -p LIMIT, --page-limit LIMIT
+                            Number of pages to fetch results from (1 page = 30 results).
+                            [default: 1] [TPB/KAT/SkyTorrents]
+      -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+      -v, --version         Display version and exit.
  ```
 
 ## Features
 * Supports all \*nix distros
 * Displays results in organized, tabular form.
+* Add torrent directly to client from torrench. See [here](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1053) for more.
 * [linuxtracker] Supports filtering search using categories
 
 **[TPB/KAT]**
@@ -159,6 +165,7 @@ $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.0
 $ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 $ torrench -d "opensuse" ## Search distrowatch for opensuse ISO
 $ torrench -d "solus" ## Search distrowatch for solus ISO
+$ torrench -x "fedora" ## Search XBit for fedora distros ISO
 ```
 #### Linuxtracker
 
@@ -169,6 +176,10 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 
 ![distrowatch](images/screenshots/distrowatch.png)
 ![distrowatch](images/screenshots/distrowatch.gif)
+
+#### XBit[.]pw
+![xbit](images/screenshots/xbit.png)
+![xbit](images/screenshots/xbit.gif)
 
 ---
 ### Searches considered illegal
@@ -204,6 +215,14 @@ $ torrench -s "narcos"
 
 ![illegal](images/screenshots/sky.gif)
 _(Click to expand)_
+
+#### Nyaa[.]si Examples
+```bash
+$ torrench -n "naruto"
+```
+![illegal](images/screenshots/nyaa.png)
+
+![illegal](images/screenshots/nyaa.gif)
 
 ---
 

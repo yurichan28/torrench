@@ -123,7 +123,7 @@ class XBit(Config):
                 if temp == 0:
                     print("\nBye!")
                     self.logger.debug("Torrench quit!")
-                    sys.exit(2)
+                    break
                 elif temp < 0:
                     print("\nBad Input!")
                     continue

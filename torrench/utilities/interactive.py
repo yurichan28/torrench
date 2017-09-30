@@ -52,7 +52,6 @@ def caller(module, query):
     """
     _modules = set_modules()
     if module in _modules:
-        print(module)
         if module in ['!t', '!k', '!s']:
             _modules[module].main(query, page_limit=1)
         else:

@@ -1,4 +1,3 @@
-import click
 import torrench.modules.distrowatch as distrowatch
 import torrench.modules.kickasstorrent as kat
 import torrench.modules.linuxtracker as linuxtracker
@@ -86,20 +85,17 @@ class InteractiveMode:
         print(help_text)
 
 
-@click.command()
-@click.option('--interactive', '-i', is_flag=True)
-def inter(interactive):
+def inter():
     """
     Execution will start here.
     """
-    if interactive:
-        try:
-            i = InteractiveMode()
-            while True:
-                data = input('torrench > ')
-                i.parser(data)
-        except KeyboardInterrupt:
-            print('Terminated.')
+    try:
+        i = InteractiveMode()
+        while True:
+            data = input('torrench > ')
+            i.parser(data)
+    except KeyboardInterrupt:
+        print('Terminated.')
 
 if __name__ == '__main__':
-    inter(None)
+    print("Run torrench -i")

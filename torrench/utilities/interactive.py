@@ -1,3 +1,5 @@
+from sys import exit
+
 import torrench.modules.distrowatch as distrowatch
 import torrench.modules.kickasstorrent as kat
 import torrench.modules.linuxtracker as linuxtracker
@@ -26,6 +28,9 @@ class InteractiveMode:
             self._interactive_help()
         elif query[:2] in _available_modules:
             self._caller(query[:2], query[3:])
+        elif query[:4] in ('!q', 'quit'):
+            print("Bye!")
+            exit(2)
         else:
             print('Invalid command! Try `!h` or `help` for help.')
 
@@ -71,13 +76,14 @@ class InteractiveMode:
         """
         help_text = """
             Available commands:
-        !h <string> - Help text (this)
+        !h or help  - Help text (this)
         !n <string> - Search on nyaa.si for anime.
         !t <string> - Search on ThePirateBay.
         !k <string> - Search on KickAssTorrents.
         !s <string> - Search on SkyTorrents
         !x <string> - Search on XBit.pw
         !t <string> - Search on LinuxTorrents
+        !q or quit  - Quit interactive mode
 
         Some commands are only available after a `config.ini` file has been set.
         See the documentation for more information.

@@ -5,6 +5,7 @@
 [![AUR](https://img.shields.io/aur/version/torrench.svg)](https://aur.archlinux.org/packages/torrench/)
 [![PyPI](https://img.shields.io/pypi/pyversions/torrench.svg)]()
 [![Dependency Status](https://gemnasium.com/badges/github.com/kryptxy/torrench.svg)](https://gemnasium.com/github.com/kryptxy/torrench)
+[![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/kryptxy)
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)

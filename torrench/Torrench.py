@@ -75,6 +75,11 @@ class Torrench(Config):
                             "--xbit",
                             action="store_true",
                             help="Search XBit.pw")
+        parser.add_argument("-i",
+                            "--interactive",
+                            default=False,
+                            action="store_true",
+                            help="Enable interactive mode for searches")
         parser.add_argument("--top",
                             action="store_true",
                             default=False,
@@ -138,7 +143,7 @@ class Torrench(Config):
 
     def verify_input(self):
         """To verify if input given is valid or not."""
-        if self.input_title is None:
+        if self.input_title is None and not self.args.interactive:
             self.logger.debug("Bad input! Input string expected! Got 'None'")
             print("\nInput string expected.\nUse --help for more\n")
             sys.exit(2)
@@ -156,13 +161,14 @@ class Torrench(Config):
             self.args.skytorrents,
             self.args.nyaa,
             self.args.xbit
-        ) # These modules are only enabled through manual configuration.
+        )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
                 print("error: use -c with -t")
                 sys.exit(2)
             else:
                 self.remove_temp_files()
+
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
@@ -206,6 +212,10 @@ class Torrench(Config):
             self.logger.debug("Input title: [%s]" % (self.input_title))
             import torrench.modules.distrowatch as distrowatch
             distrowatch.main(self.input_title)
+        elif self.args.interactive:
+            self.logger.debug("Using interactive mode")
+            import torrench.utilities.interactive as interactive
+            interactive.inter()
         else:
             self.logger.debug("Using linuxtracker")
             self.logger.debug("Input title: [%s]" % (self.input_title))
@@ -227,7 +237,7 @@ def main():
         else:
             tr.input_title = tr.args.search
             tr.page_limit = tr.args.limit
-            if not tr.args.clear_html:
+            if not tr.args.clear_html and not tr.args.interactive:
                 tr.verify_input()
                 tr.input_title = tr.input_title.replace("'", "")
             tr.resolve_args()

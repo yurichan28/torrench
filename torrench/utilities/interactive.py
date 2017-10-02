@@ -63,11 +63,13 @@ class InteractiveMode:
         :query: String to search for.
         """
         _modules = self._set_modules()
-        if module in _modules:
+        if query and module in _modules:
             if module in ['!t', '!k', '!s']:
                 _modules[module].main(query, page_limit=1)
             else:
                 _modules[module].main(query)
+        else:
+            print("You called an invalid module or provided an empty query.")
 
     @staticmethod
     def _interactive_help():

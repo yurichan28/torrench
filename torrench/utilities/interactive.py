@@ -30,7 +30,7 @@ class InteractiveMode:
             self._caller(query[:2], query[3:])
         elif query[:4] in ('!q', 'quit'):
             print("Bye!")
-            exit(2)
+            _exit(2)
         else:
             print('Invalid command! Try `!h` or `help` for help.')
 

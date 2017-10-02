@@ -1,4 +1,4 @@
-from sys import exit
+from sys import exit as _exit
 
 import torrench.modules.distrowatch as distrowatch
 import torrench.modules.kickasstorrent as kat
@@ -63,7 +63,7 @@ class InteractiveMode:
         :query: String to search for.
         """
         _modules = self._set_modules()
-        if query and module in _modules:
+        if query and module in _modules and not query.isspace():
             if module in ['!t', '!k', '!s']:
                 _modules[module].main(query, page_limit=1)
             else:
@@ -102,7 +102,7 @@ def inter():
         while True:
             data = input('torrench > ')
             i.parser(data)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print('Terminated.')
 
 if __name__ == '__main__':

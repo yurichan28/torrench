@@ -100,10 +100,11 @@ def inter():
     try:
         i = InteractiveMode()
         while True:
-            data = input('torrench > ')
+            data = input(Config().colorify("yellow", '\ntorrench > '))
             i.parser(data)
     except (KeyboardInterrupt, EOFError):
         print('Terminated.')
+
 
 if __name__ == '__main__':
     print("Run torrench -i")

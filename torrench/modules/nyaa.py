@@ -168,9 +168,7 @@ class NyaaTracker(Config):
         return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
 
     def select_torrent(self):
-        """
-        Select torrent from table using index.
-        """
+        """Select torrent from table using index."""
         while True:
             try:
                 prompt = int(input("\n\n(0 to exit)\nIndex > "))
@@ -179,32 +177,32 @@ class NyaaTracker(Config):
                     print("Bye!")
                     break
                 else:
-                    selected_index, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
-                    print("Selected torrent [{idx}] - {torrent}".format(idx=prompt,
-                                                                        torrent=selected_index))
-                    print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
-                    self.copy_magnet(magnet_url)
-                    print("\n\nUpstream link: {url}\n".format(url=download_url))
-                    option = input("Load magnet link to client? [y/n]: ")
-                    if option.lower() in ['yes', 'y']:
+                    selected_torrent, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
+                    selected_torrent = self.colorify("yellow", selected_torrent)
+                    print("Selected index [{idx}] - {torrent}\n".format(idx=prompt, torrent=selected_torrent))
+                    # Print Magnetic link / load magnet to client
+                    prompt2 = input("1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
+                    prompt2 = prompt2.lower()
+                    self.logger.debug("selected option: [%c]" % (prompt2))
+                    if prompt2 == 'p':
+                        self.logger.debug("printing magnetic link and upstream link")
+                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
+                        self.copy_magnet(magnet_url)
+                        print("\n\nUpstream link: {url}\n".format(url=download_url))
+                    elif prompt2 == 'l':
                         try:
                             self.logger.debug("Loading torrent to client")
                             self.load_torrent(magnet_url)
                         except Exception as e:
-                            print("Something went wrong! See logs for details.")
                             self.logger.exception(e)
                             continue
-                    else:
-                        self.logger.debug("NOT loading torrent to client.")
-                        pass
-            except IndexError as e:
+            except (ValueError, IndexError, TypeError) as e:
+                print("\nBad Input!")
                 self.logger.exception(e)
-                print("Invalid index.")
+                continue
 
     def get_torrent(self, url, name):
-        """
-        Download the .torrent file to the computer.
-        """
+        """Download the .torrent file to the computer."""
         self.download(url, name+'.torrent')
 
 def main(title):

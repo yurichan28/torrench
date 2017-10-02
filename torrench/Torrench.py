@@ -26,6 +26,7 @@ class Torrench(Config):
       -n, --nyaa            Search Nyaa
       -x, --xbit            Search XBit.pw
       --top                 Get top torrents [TPB/SkyTorrents]
+      --copy                Copy magnetic link to clipboard
       -p LIMIT, --page-limit LIMIT
                             Number of pages to fetch results from (1 page = 30 results).
                             [default: 1] [TPB/KAT/SkyTorrents]
@@ -36,7 +37,7 @@ class Torrench(Config):
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.53)"
+        self.__version__ = "Torrench (1.0.54)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None
@@ -74,10 +75,19 @@ class Torrench(Config):
                             "--xbit",
                             action="store_true",
                             help="Search XBit.pw")
+        parser.add_argument("-i",
+                            "--interactive",
+                            default=False,
+                            action="store_true",
+                            help="Enable interactive mode for searches")
         parser.add_argument("--top",
                             action="store_true",
                             default=False,
                             help="Get top torrents")
+        parser.add_argument("--copy",
+                            action="store_true",
+                            default=False,
+                            help="Copy magnetic link to clipboard")
         parser.add_argument("-p",
                             "--page-limit",
                             type=int,
@@ -95,6 +105,12 @@ class Torrench(Config):
                             version=self.__version__,
                             help="Display version and exit.")
         self.args = parser.parse_args()
+
+    def check_copy(self):
+        """Check if --copy argument is present."""
+        self.define_args()
+        if self.args.copy:
+            return True
 
     def remove_temp_files(self):
         """
@@ -127,7 +143,7 @@ class Torrench(Config):
 
     def verify_input(self):
         """To verify if input given is valid or not."""
-        if self.input_title is None:
+        if self.input_title is None and not self.args.interactive:
             self.logger.debug("Bad input! Input string expected! Got 'None'")
             print("\nInput string expected.\nUse --help for more\n")
             sys.exit(2)
@@ -196,6 +212,10 @@ class Torrench(Config):
             self.logger.debug("Input title: [%s]" % (self.input_title))
             import torrench.modules.distrowatch as distrowatch
             distrowatch.main(self.input_title)
+        elif self.args.interactive:
+            self.logger.debug("Using interactive mode")
+            import torrench.utilities.interactive as interactive
+            interactive.inter()
         else:
             self.logger.debug("Using linuxtracker")
             self.logger.debug("Input title: [%s]" % (self.input_title))
@@ -217,7 +237,7 @@ def main():
         else:
             tr.input_title = tr.args.search
             tr.page_limit = tr.args.limit
-            if not tr.args.clear_html:
+            if not tr.args.clear_html and not tr.args.interactive:
                 tr.verify_input()
                 tr.input_title = tr.input_title.replace("'", "")
             tr.resolve_args()

@@ -241,15 +241,17 @@ class SkyTorrents(Config):
                 if temp == 0:
                     print("\nBye!")
                     self.logger.debug("Torrench quit!")
-                    sys.exit(2)
+                    break
                 elif temp < 0:
                     print("\nBad Input!")
                     continue
                 else:
                     selected_torrent, req_magnetic_link, torrent_link, self.file_count = self.mapper[temp-1]
+                    selected_torrent = self.colorify("yellow", selected_torrent)
                     print("\nSelected index [%d] - %s\n" % (temp, selected_torrent))
                     self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
 
+                    # Show torrent files?
                     option = input("Show torrent files? [y/n]: ")
                     self.logger.debug("View torrent files: [%s]" % (option))
                     if (option == 'y' or option == 'Y'):
@@ -257,24 +259,25 @@ class SkyTorrents(Config):
                         self.logger.debug("Torrent files displayed.")
                     elif (option == 'n' or option == 'N' or option == ""):
                         self.logger.debug("Torrent files NOT displayed.")
-                    self.logger.debug("printing magnetic link and upstream link")
-                    print("\nMagnetic Link: %s" % (self.colorify("red", req_magnetic_link)))
-                    self.copy_magnet(req_magnetic_link)
-                    print("\n\nUpstream Link: %s\n\n" % (self.colorify("yellow", self.proxy + torrent_link)))
 
-                    option2 = input("Load magnetic link to client? [y/n]:")
-                    if option2 == 'y' or option2 == 'Y':
+                    # Print Magnetic link / load magnet to client
+                    temp2 = input("\n1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
+                    temp2 = temp2.lower()
+                    self.logger.debug("selected option: [%c]" % (temp2))
+                    if temp2 == 'p':
+                        self.logger.debug("printing magnetic link and upstream link")
+                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", req_magnetic_link)))
+                        self.copy_magnet(req_magnetic_link)
+                        upstream_link = self.colorify("yellow", self.proxy + torrent_link)
+                        print("\n\nUpstream link: {url}\n".format(url=upstream_link))
+                    elif temp2 == 'l':
                         try:
                             self.logger.debug("Loading torrent to client")
                             self.load_torrent(req_magnetic_link)
                         except Exception as e:
-                            print("Something went wrong! See logs for details.")
                             self.logger.exception(e)
                             continue
-                    else:
-                        self.logger.debug("NOT loading torrent to client")
-                        pass
-            except (Exception) as e:
+            except (ValueError, IndexError, TypeError) as e:
                 print("\nBad Input!")
                 self.logger.exception(e)
                 continue

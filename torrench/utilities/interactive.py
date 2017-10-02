@@ -1,76 +1,107 @@
-import click
-import torrench.modules.thepiratebay as tpb_module
-import torrench.modules.kickasstorrent as kat
-import torrench.modules.skytorrents as sky
-import torrench.modules.nyaa as nyaa_module
-import torrench.modules.xbit as xbit_module
+from sys import exit
+
 import torrench.modules.distrowatch as distrowatch
+import torrench.modules.kickasstorrent as kat
 import torrench.modules.linuxtracker as linuxtracker
+import torrench.modules.nyaa as nyaa_module
+import torrench.modules.skytorrents as sky
+import torrench.modules.thepiratebay as tpb_module
+import torrench.modules.xbit as xbit_module
 from torrench.utilities.Config import Config
 
-def parser(q):
 
-    if q[:2] == '!h':
-        help()
-    elif q[:2] == '!t':
-        caller(q[:2], q[3:])
-    elif q[:2] == '!k':
-        caller(q[:2], q[3:])
-    elif q[:2] == '!n':
-        caller(q[:2], q[3:])
-
-def set_modules():
-    if Config().file_exists():
-        _modules = {'!t': tpb_module,
-                    '!n': nyaa_module,
-                    '!k': kat,
-                    '!x': xbit_module,
-                    '!d': distrowatch.main,
-                    '!lt': linuxtracker.main
-                   }
-        return _modules
-    else:
-        _public_modules = {'!d': distrowatch.main,
-                            '!lt': linuxtracker.main
-                          }
-        return _public_modules
-
-def caller(module, q):
-    _modules = set_modules()
-    if module in _modules:
-        print('Using module `%s`.' % module)
-        print(_modules[module])
-
-
-def help():
-    help_text = """
-        Available commands:
-    !h <string> - Help text (this)
-    !n <string> - Search on nyaa.si for anime.
-    !t <string> - Search on ThePirateBay.
-    !k <string> - Search on KickAssTorrents.
-    !x <string> - Search on XBit.pw
-    !t <string> - Search on LinuxTorrents
-
-    Some commands are only available after a `config.ini` file has been set.
-    See the documentation for more information.
+class InteractiveMode:
     """
-    print(help_text)
+    This class deals with most of the functionality assigned to the interactive mode.
+    It resolves the arguments, parses and calls their respective modules
+    :params: None
+    """
+    def __init__(self):
+        self._modules = {}
+
+    def parser(self, query):
+        """
+        :query: String to query the module.
+        """
+        _available_modules = self._set_modules().keys()
+        if query[:4] in ('!h', 'help'):
+            self._interactive_help()
+        elif query[:2] in _available_modules:
+            self._caller(query[:2], query[3:])
+        elif query[:4] in ('!q', 'quit'):
+            print("Bye!")
+            exit(2)
+        else:
+            print('Invalid command! Try `!h` or `help` for help.')
+
+    def _set_modules(self):
+        """
+        Map functions to commands and return dictionary.
+        """
+        if Config().file_exists():
+            self._modules = {'!t': tpb_module,
+                             '!n': nyaa_module,
+                             '!k': kat,
+                             '!x': xbit_module,
+                             '!d': distrowatch,
+                             '!l': linuxtracker,
+                             '!s': sky
+                            }
+            return self._modules
+
+        self._modules = {'!d': distrowatch,
+                         '!l': linuxtracker
+                        }
+
+        return self._modules
+
+    def _caller(self, module, query):
+        """
+        Send queries to their respective modules.
+
+        :module: Module to use in query.
+        :query: String to search for.
+        """
+        _modules = self._set_modules()
+        if module in _modules:
+            if module in ['!t', '!k', '!s']:
+                _modules[module].main(query, page_limit=1)
+            else:
+                _modules[module].main(query)
+
+    @staticmethod
+    def _interactive_help():
+        """
+        Display help
+        """
+        help_text = """
+            Available commands:
+        !h or help  - Help text (this)
+        !n <string> - Search on nyaa.si for anime.
+        !t <string> - Search on ThePirateBay.
+        !k <string> - Search on KickAssTorrents.
+        !s <string> - Search on SkyTorrents
+        !x <string> - Search on XBit.pw
+        !t <string> - Search on LinuxTorrents
+        !q or quit  - Quit interactive mode
+
+        Some commands are only available after a `config.ini` file has been set.
+        See the documentation for more information.
+        """
+        print(help_text)
 
 
-@click.command()
-@click.option('--interactive', '-i', is_flag=True)
-def inter(interactive):
-    if interactive:
-        print("Interactive mode is ENABLED!")
-        try:
-            while True:
-                data = input('torrench > ')
-                parser(data)
-        except KeyboardInterrupt:
-            print('Terminated.')
-    else:
-        print("not enabled")
+def inter():
+    """
+    Execution will start here.
+    """
+    try:
+        i = InteractiveMode()
+        while True:
+            data = input('torrench > ')
+            i.parser(data)
+    except KeyboardInterrupt:
+        print('Terminated.')
 
 if __name__ == '__main__':
-    inter(None)
+    print("Run torrench -i")

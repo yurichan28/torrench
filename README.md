@@ -135,6 +135,7 @@ $ torrench [Options] <SEARCH_STRING>
 * Add torrent directly to client from torrench. See [HERE](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1054) for more.
 * Copy magnetic link to clipboard (```--copy```)
 * [linuxtracker] Supports filtering search using categories.
+* Interactive mode for searching across modules
 
 **[TPB/KAT]**
 * Surf torrents Ad-free

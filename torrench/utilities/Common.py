@@ -145,11 +145,47 @@ class Common:
     def show_output(self, masterlist, headers):
         """To display tabular output of torrent search."""
         try:
+            from torrench.Torrench import Torrench
+            tr = Torrench()
             self.output = tabulate(masterlist, headers=headers, tablefmt="grid")
             print("\n%s" %(self.output))
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")
+
+    def after_output(self, site, oplist):
+        """
+        After output is displayed, Following text is displayed on console.
+
+        Text includes instructions, total torrents fetched, total pages,
+        and total time taken to fetch results.
+        """
+
+        total_torrent_count = oplist[0]
+        total_fetch_time = oplist[1]
+        if site == 'tpb' or site == 'kat':
+            max = 30
+        elif site == 'sky':
+            max = 40
+        else:
+            max = total_torrent_count
+        exact_no_of_pages = total_torrent_count // max
+        has_extra_pages = total_torrent_count % max
+        if has_extra_pages > 0:
+            exact_no_of_pages += 1
+        self.logger.debug("Total torrents: %d" % (total_torrent_count))
+        self.logger.debug("Total fetch time: %.2f" % (total_fetch_time))
+        self.logger.debug("Total pages: %d" % (exact_no_of_pages))
+        try:
+            print("\nTotal %d torrents [%d pages]" % (total_torrent_count, exact_no_of_pages))
+            print("Total time: %.2f sec" % (total_fetch_time))
+            print("\nEnter torrent's INDEX value\n")
+        except Exception as e:
+            self.logger.exception(e)
+            print("Error message: %s" %(e))
+            print("Something went wrong! See logs for details. Exiting!")
+            sys.exit(2)
+
 
     def copy_magnet(self, link):
         """Copy magnetic link to clipboard."""
@@ -181,6 +217,7 @@ class Common:
                     self.logger.debug("torrench.ini file exists")
                     self.config.read(self.torrench_config_file)
                     client = self.config.get('Torrench-Config', 'CLIENT')
+                    client = client.lower()
                     print("\n(%s)" % (client))
                     self.logger.debug("using client: %s" %(client))
                 else:

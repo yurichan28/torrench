@@ -145,10 +145,8 @@ class Common:
     def show_output(self, masterlist, headers):
         """To display tabular output of torrent search."""
         try:
-            from torrench.Torrench import Torrench
-            tr = Torrench()
             self.output = tabulate(masterlist, headers=headers, tablefmt="grid")
-            print("\n%s" %(self.output))
+            print("\n%s" % (self.output))
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")

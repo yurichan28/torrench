@@ -161,21 +161,9 @@ class KickassTorrents(Config):
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
-        try:
-            exact_no_of_pages = self.index // 30
-            has_extra_pages = self.index % 30
-            if has_extra_pages > 0:
-                exact_no_of_pages += 1
-            print("\nTotal %d torrents [%d pages]" % (self.index, exact_no_of_pages))
-            print("Total time: %.2f sec" % (self.total_fetch_time))
-            self.logger.debug("fetched ALL results in %.2f sec" % (self.total_fetch_time))
-            print("\nFurther, torrent can be downloaded using magnetic link\nOR\nTorrent's upstream link can be obtained to be opened in web browser.")
-            print("\nEnter torrent's index value (Maximum one index)")
-        except Exception as e:
-            self.logger.exception(e)
-            print("Error message: %s" %(e))
-            print("Something went wrong! See logs for details. Exiting!")
-            sys.exit(2)
+        oplist = [self.index, self.total_fetch_time]
+        self.after_output('kat', oplist)
+
 
     def select_torrent(self):
         """

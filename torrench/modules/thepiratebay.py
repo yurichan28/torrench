@@ -26,25 +26,26 @@ class ThePirateBay(Config):
         """Initialisations."""
         Config.__init__(self)
         self.proxies = self.get_proxies('tpb')
-        self.top = "/top/all"
-        self.top48 = "/top/48hall"
+        self.proxy = None
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
-        self.page = 0
-        self.proxy = None
-        self.soup = None
-        self.non_color_name = None
-        self.soup_dict = {}
         self.OS_WIN = False
         if platform.system() == "Windows":
             self.OS_WIN = True
         self.index = 0
+        self.page = 0
         self.total_fetch_time = 0
         self.mylist = []
         self.mapper = []
+        self.soup_dict = {}
+        self.soup = None
         self.output_headers = [
                 'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S', 'L', 'DATE', 'C']
+        ###################################
+        self.non_color_name = None
+        self.top = "/top/all"
+        self.top48 = "/top/48hall"
 
     def check_proxy(self):
         """
@@ -224,24 +225,8 @@ class ThePirateBay(Config):
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
-        try:
-            if self.pages is None:
-                exact_no_of_pages = 1
-            else:
-                exact_no_of_pages = self.index // 30
-                has_extra_pages = self.index % 30
-                if has_extra_pages > 0:
-                    exact_no_of_pages += 1
-            print("\nTotal %d torrents [%d pages]" % (self.index, exact_no_of_pages))
-            print("Total time: %.2f sec" % (self.total_fetch_time))
-            self.logger.debug("fetched ALL results in %.2f sec" % (self.total_fetch_time))
-            print("\nFurther, a torrent's details can be fetched (Description, comments, download (Magnetic) Link, etc.)")
-            print("Enter torrent's index value to fetch details (Maximum one index)\n")
-        except Exception as e:
-            self.logger.exception(e)
-            print("Error message: %s" %(e))
-            print("Something went wrong! See logs for details. Exiting!")
-            sys.exit(2)
+        oplist = [self.index, self.total_fetch_time]
+        self.after_output('tpb', oplist)
 
     def select_torrent(self):
         """

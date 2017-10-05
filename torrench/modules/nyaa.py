@@ -24,17 +24,17 @@ class NyaaTracker(Config):
     def __init__(self, title: str):
         """Class constructor"""
         Config.__init__(self)
+        self.proxy = self.check_proxy('nyaa')
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
         self.index = 0
         self.mapper = []
-        self.proxy = self.check_proxy('nyaa')
         self.search_parameter = "/?f=0&c=0_0&q={query}&s=seeders&o=desc".format(query=self.title)
-        self.soup = self.http_request(self.proxy+self.search_parameter)
+        self.soup, self.total_fetch_time = self.http_request_time(self.proxy+self.search_parameter)
         self.OS_WIN = False
         if platform.system() == "Windows":
             self.OS_WIN = True
+        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
 
     def check_proxy(self, proxy: str):
         """
@@ -167,11 +167,20 @@ class NyaaTracker(Config):
         self.mapper.insert(self.index+1, (name, urls, magnets))
         return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
 
+    def after_output_text(self):
+        """
+        After output is displayed, Following text is displayed on console.
+
+        Text includes instructions, total torrents fetched and total time taken to fetch results.
+        """
+        oplist = [self.index, self.total_fetch_time]
+        self.after_output('nyaa', oplist)
+
     def select_torrent(self):
         """Select torrent from table using index."""
         while True:
             try:
-                prompt = int(input("\n\n(0 to exit)\nIndex > "))
+                prompt = int(input("\n(0 to exit)\nIndex > "))
                 self.logger.debug("Selected index {idx}".format(idx=prompt))
                 if prompt == 0:
                     print("Bye!")
@@ -214,6 +223,7 @@ def main(title):
         nyaa = NyaaTracker(title)
         results = nyaa.fetch_results()
         nyaa.show_output([result for result in results], nyaa.output_headers)
+        nyaa.after_output_text()
         nyaa.select_torrent()
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")

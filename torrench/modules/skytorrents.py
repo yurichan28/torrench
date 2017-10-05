@@ -29,24 +29,25 @@ class SkyTorrents(Config):
     def __init__(self, title, page_limit):
         """Initialisations."""
         Config.__init__(self)
+        self.proxies = self.get_proxies('sky')
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
-        self.proxies = self.get_proxies('sky')
         self.OS_WIN = False
         if platform.system() == 'Windows':
             self.OS_WIN = True
         self.index = 0
         self.page = 0
+        self.total_fetch_time = 0
         self.mylist = []
+        self.mapper = []
+        self.soup_dict = {}
+        self.soup = None
         self.output_headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
                                "INDEX", "SIZE", "FILES", "UPLOADED", "SEEDS", "LEECHES"]
-        self.mapper = []
-        self.soup = None
+        ######################################
         self.top = "/top1000/all/ed/%d/?l=en-us" % (self.page)
         self.file_count = 0
-        self.total_fetch_time = 0
-        self.soup_dict = {}
 
     def check_proxy(self):
         """
@@ -206,21 +207,8 @@ class SkyTorrents(Config):
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
-        try:
-            exact_no_of_pages = self.index // 40
-            has_extra_pages = self.index % 40
-            if has_extra_pages > 0:
-                exact_no_of_pages += 1
-            print("\nTotal %d torrents [%d pages]" % (self.index, exact_no_of_pages))
-            print("Total time: %.2f sec" % (self.total_fetch_time))
-            self.logger.debug("fetched ALL results in %.2f sec" % (self.total_fetch_time))
-            print("\nFurther, torrent can be downloaded using magnetic link\nOR\nTorrent's upstream link can be obtained to be opened in web browser.")
-            print("\nEnter torrent's index value to fetch details (Maximum one index)\n")
-        except Exception as e:
-            self.logger.exception(e)
-            print("Error message: %s" %(e))
-            print("Something went wrong! See logs for details. Exiting!")
-            sys.exit(2)
+        oplist = [self.index, self.total_fetch_time]
+        self.after_output('sky', oplist)
 
     def select_torrent(self):
         """

@@ -36,31 +36,34 @@ class InteractiveMode:
             print("Bye!")
             _exit(2)
         else:
-            self.logger.debug("Invalid command input")
-            print('Invalid command! Try `!h` or `help` for help.')
+            if query[:2] in self._extra_modules:
+                print('Unbound command, please see https://github.com/kryptxy/torrench#configuration-instructions')
+            else:
+                self.logger.debug("Invalid command input")
+                print('Invalid command! Try `!h` or `help` for help.')
 
     def _set_modules(self):
         """
         Map functions to commands and return dictionary.
         """
+        self._default_modules = {
+            '!d': distrowatch,
+            '!l': linuxtracker
+        }
+        self._extra_modules = {
+            '!t': tpb_module,
+            '!n': nyaa_module,
+            '!k': kat,
+            '!x': xbit_module,
+            '!s': sky
+        }
+
         if Config().file_exists():
-            self._modules = {
-                            '!t': tpb_module,
-                            '!n': nyaa_module,
-                            '!k': kat,
-                            '!x': xbit_module,
-                            '!d': distrowatch,
-                            '!l': linuxtracker,
-                            '!s': sky
-                            }
-            return self._modules
+            self._modules = self._default_modules.copy()
+            self._modules.update(self._extra_modules)
         else:
             self.logger.debug("Config file not setup!")
-
-        self._modules = {
-                            '!d': distrowatch,
-                            '!l': linuxtracker
-                            }
+            self._modules = self._default_modules
 
         return self._modules
 

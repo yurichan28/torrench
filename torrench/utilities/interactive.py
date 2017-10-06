@@ -38,6 +38,7 @@ class InteractiveMode:
         else:
             if query[:2] in self._extra_modules:
                 print('Unbound command, please see https://github.com/kryptxy/torrench#configuration-instructions')
+                print('Try `!h` or `help` for help.')
             else:
                 self.logger.debug("Invalid command input")
                 print('Invalid command! Try `!h` or `help` for help.')

@@ -85,6 +85,13 @@ Windows does not require any additional packages. Everything required to run thi
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
 
+### Osx
+
+Please note OSX requires to install package `pyopenssl`:
+
+    pip install pyopenssl
+
+
 ### Configuration instructions:
 1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=12737623922646772242)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)

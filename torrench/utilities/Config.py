@@ -53,18 +53,12 @@ class Config(Common):
         self.logger.debug("getting proxies for '%s'" % (name))
         temp = []
         self.config.read(self.config_file)
-        if name == 'tpb':
-            name = 'TPB_URL'
-        elif name == 'kat':
-            name = 'KAT_URL'
-        elif name == "sky":
-            name = "SKY_URL"
-        elif name == "xbit":
-            name = "XBIT_URL"
-        elif name == "nyaa":
-            name = "NYAA_URL"
+
+        name = '{}_URL'.format(name.upper())
+
         self.url = self.config.get('Torrench-Config', name)
         self.urllist = self.url.split()
+
         if name == 'TPB_URL':
             soup = self.http_request(self.urllist[-1])
             link = soup.find_all('td', class_='site')

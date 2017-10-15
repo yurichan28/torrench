@@ -184,7 +184,6 @@ class Common:
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-
     def copy_magnet(self, link):
         """Copy magnetic link to clipboard."""
         from torrench.Torrench import Torrench

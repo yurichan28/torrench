@@ -8,6 +8,7 @@
 [![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/kryptxy)
 
 ---
+**_(Development branch)_**
 * [About](https://github.com/kryptxy/torrench#about)
 * [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)

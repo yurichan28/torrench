@@ -223,6 +223,10 @@ class Common:
                     else:
                         print(self.colorify("green", "Success (PID: %d)") %(p.pid))
                         self.logger.debug("torrent added! (PID: %d)" %(p.pid))
+                elif client == 'deluge-console':
+                    p = subprocess.Popen([client, 'add', link], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+                    print(self.colorify("green", "Success (PID: %d)") %(p.pid))
+                    self.logger.debug("torrent added! (PID: %d)" %(p.pid))
                 else:
                     """
                     Any other torrent client.

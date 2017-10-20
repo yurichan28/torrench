@@ -1,3 +1,13 @@
+### [21/10/2017] v1.0.56
+
+* Added two more sites
+    * 1337x
+    * RarBg
+* Added interactive mode (```--interactive```).
+* Added ```deluge-console``` client support.
+* New help menu (```--help```)
+* Other minor bug fixes and code optimisations.
+
 ### [28/09/2017] v1.0.54
 
 1. **Add torrent to client directly from torrench**

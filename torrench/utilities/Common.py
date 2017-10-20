@@ -137,6 +137,7 @@ class Common:
             "green": colorama.Fore.GREEN + colorama.Style.BRIGHT,
             "magenta": colorama.Fore.MAGENTA + colorama.Style.BRIGHT,
             "red": colorama.Fore.RED + colorama.Style.BRIGHT,
+            "cyan": colorama.Fore.CYAN + colorama.Style.BRIGHT,
             "reset": colorama.Style.RESET_ALL
         }
         text = self.colors[color] + text + self.colors["reset"]
@@ -145,7 +146,10 @@ class Common:
     def show_output(self, masterlist, headers):
         """To display tabular output of torrent search."""
         try:
+            masterlist = masterlist
             self.output = tabulate(masterlist, headers=headers, tablefmt="grid")
+            if self.OS_WIN:
+                self.output = self.output.encode('ascii', 'replace').decode()
             print("\n%s" % (self.output))
         except KeyboardInterrupt as e:
             self.logger.exception(e)
@@ -158,13 +162,15 @@ class Common:
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
-
         total_torrent_count = oplist[0]
         total_fetch_time = oplist[1]
+        # `max` is maximum number of torrents in 1 page
         if site == 'tpb' or site == 'kat':
             max = 30
         elif site == 'sky':
             max = 40
+        elif site == 'x1337':
+            max = 20
         else:
             max = total_torrent_count
         exact_no_of_pages = total_torrent_count // max
@@ -197,6 +203,8 @@ class Common:
                 print("(Unable to copy magnetic link to clipboard. Is [xclip] installed?)")
                 print("(See logs for details)")
                 self.logger.error(e)
+        else:
+            print("(use --copy to copy magnet to clipboard)")
 
     def load_torrent(self, link):
         """Load torrent (magnet) to client."""

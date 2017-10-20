@@ -43,7 +43,7 @@ class Config(Common):
                 self.logger.debug("Config file exists and enabled!")
                 return True
 
-    # To get proxies for KAT/TPB
+    # To get proxies for KAT/TPB/...
     def get_proxies(self, name):
         """
         Get Proxies.
@@ -62,6 +62,13 @@ class Config(Common):
         if name == 'TPB_URL':
             soup = self.http_request(self.urllist[-1])
             link = soup.find_all('td', class_='site')
+            del self.urllist[-1]
+            for i in link:
+                temp.append(i.a["href"])
+            self.urllist.extend(temp)
+        elif name == "1337X_URL":
+            soup = self.http_request(self.urllist[-1])
+            link = soup.findAll('td', class_='text-left')
             del self.urllist[-1]
             for i in link:
                 temp.append(i.a["href"])

@@ -9,7 +9,7 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [TPB / KAT / SkyTorrents / Nyaa / XBit Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
+* [Optional Sites (TPB/KAT/1337x,,,) Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
@@ -30,18 +30,20 @@ Torrench is a command-line program to search and download torrents from torrent-
 Following websites are supported:
 
 <center>
-| MAIN SITES |
+	
+| SITES ENABLED BY DEFAULT (LEGAL CONTENTS) |
 | :--------------: |
 | LinuxTracker ```(default)``` |
 | DistroWatch ```(-d)``` |
-| **Sites hosting illegal content (disabled by default)**\* |
+| **SITES DISABLED BY DEFAULT (Optional Sites)**\* |
 | The Pirate Bay (TPB) |
 |KickassTorrents (KAT)|
 |RarBg|
 |1337x|
 |SkyTorrents|
-|Nyaa[.]si|
-|XBit[.]pw|
+|Nyaa[dot]si|
+|XBit[dot]pw|
+
 </center>
 
 Tested on following platforms:
@@ -84,7 +86,7 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.54/torrench-1.0.54.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.56/torrench-1.0.56.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
@@ -98,7 +100,7 @@ $ pip3 install pyopenssl
 ```
 
 ### Configuration instructions:
-1. Download **config.ini** from [HERE]()
+1. Download/Update **config.ini** from [HERE](https://pastebin.com/reymRHSL)
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 	* **MacOS -** Next bullet (setup instructions).

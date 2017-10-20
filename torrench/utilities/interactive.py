@@ -1,5 +1,6 @@
 
 import logging
+import platform
 from sys import exit as _exit
 import torrench.modules.distrowatch as distrowatch
 import torrench.modules.kickasstorrent as kat
@@ -8,6 +9,8 @@ import torrench.modules.nyaa as nyaa_module
 import torrench.modules.skytorrents as sky
 import torrench.modules.thepiratebay as tpb_module
 import torrench.modules.xbit as xbit_module
+import torrench.modules.x1337 as x13
+import torrench.modules.rarbg as rarbg
 from torrench.utilities.Config import Config
 
 
@@ -20,6 +23,9 @@ class InteractiveMode:
     def __init__(self):
         self._modules = {}
         self.logger = logging.getLogger('log1')
+        self.OS_WIN = False
+        if platform.system() == "Windows":
+            self.OS_WIN = True
 
     def parser(self, query):
         """
@@ -55,8 +61,10 @@ class InteractiveMode:
             '!t': tpb_module,
             '!n': nyaa_module,
             '!k': kat,
-            '!x': xbit_module,
-            '!s': sky
+            '!b': xbit_module,
+            '!s': sky,
+            '!r': rarbg,
+            '!x': x13
         }
 
         if Config().file_exists():
@@ -78,7 +86,7 @@ class InteractiveMode:
         _modules = self._set_modules()
         if query and module in _modules and not query.isspace():
             self.logger.debug("Selected module %s, query: %s" % ((module), query))
-            if module in ['!t', '!k', '!s']:
+            if module in ['!t', '!k', '!s', '!x']:
                 _modules[module].main(query, page_limit=1)
             else:
                 _modules[module].main(query)
@@ -102,8 +110,10 @@ class InteractiveMode:
         !n <string> - Search on nyaa.si for anime.
         !t <string> - Search on ThePirateBay.
         !k <string> - Search on KickAssTorrents.
+        !r <string> - Search on RarBg
+        !x <string> - Search on 1337x
         !s <string> - Search on SkyTorrents
-        !x <string> - Search on XBit.pw
+        !b <string> - Search on xBit.pw
         ===========================================
         These commands are only available after a `config.ini` file has been set.
         See the documentation for more information.
@@ -118,7 +128,10 @@ def inter():
     try:
         i = InteractiveMode()
         while True:
-            data = input(Config().colorify("yellow", '\ntorrench > '))
+            if not i.OS_WIN:
+                data = input(Config().colorify("yellow", '\ntorrench > '))
+            else:
+                data = input('\ntorrench > ')
             i.logger.debug(data)
             i.parser(data)
     except (KeyboardInterrupt, EOFError):

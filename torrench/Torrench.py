@@ -14,91 +14,112 @@ class Torrench(Config):
     This class resolves input arguments.
     Following arguments are present -
 
-    positional arguments:
-      search                Enter search string
-
     optional arguments:
-      -h, --help            show this help message and exit
-      -d, --distrowatch     Search distrowatch
-      -t, --thepiratebay    Search thepiratebay (TPB)
-      -k, --kickasstorrent  Search KickassTorrent (KAT)
-      -s, --skytorrents     Search SkyTorrents
-      -n, --nyaa            Search Nyaa
-      -x, --xbit            Search XBit.pw
-      --top                 Get top torrents [TPB/SkyTorrents]
-      --copy                Copy magnetic link to clipboard
-      -p LIMIT, --page-limit LIMIT
-                            Number of pages to fetch results from (1 page = 30 results).
-                            [default: 1] [TPB/KAT/SkyTorrents]
-      -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
-      -v, --version         Display version and exit.
+        -h, --help            show this help message and exit
+        -i, --interactive     Enable interactive mode for searches
+        -v, --version         Display version and exit.
+
+    Main Sites:
+        search                Search LinuxTracker (default)
+        -d, --distrowatch     Search Distrowatch
+
+    Optional Sites:
+        Requires configuration (disabled by default)
+
+        -t, --thepiratebay        Search thepiratebay (TPB)
+        -k, --kickasstorrent     Search KickassTorrent (KAT)
+        -s, --skytorrents     Search SkyTorrents
+        -x, --x1337           Search 1337x
+        -r, --rarbg           Search RarBg
+        -n, --nyaa            Search Nyaa
+        -b, --xbit            Search XBit.pw
+
+    Additional options:
+        --copy               Copy magnetic link to clipboard
+        --top                 Get TOP torrents [TPB/SkyTorrents]
+        -p LIMIT, --page-limit LIMIT
+                            Number of pages to fetch results from. [default: 1]
+                            [TPB/KAT/SkyT]
+        -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
     """
 
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.54)"
+        self.__version__ = "Torrench (1.0.56)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None
         self.page_limit = 0
+        self.module_args = []
 
     def define_args(self):
         """All input arguments are defined here."""
         self.logger.debug("command-input: %s" % (sys.argv))
-        parser = argparse.ArgumentParser(description="Command-line torrent search tool.")
-        parser.add_argument("-d",
+        parser = argparse.ArgumentParser(description="A Simple Command-line torrent search program.")
+        main_sites = parser.add_argument_group("Main Sites")
+        optional_sites = parser.add_argument_group("Optional Sites", "Requires configuration (disabled by default)")
+        misc = parser.add_argument_group("Additional options")
+        main_sites.add_argument("search",
+                            help="Search LinuxTracker (default)",
+                            nargs="?",
+                            default=None)
+        main_sites.add_argument("-d",
                             "--distrowatch",
                             action="store_true",
-                            help="Search distrowatch")
-        parser.add_argument("-t",
+                            help="Search Distrowatch")
+        optional_sites.add_argument("-t",
                             "--thepiratebay",
                             action="store_true",
                             help="Search thepiratebay (TPB)")
-        parser.add_argument("-k",
+        optional_sites.add_argument("-k",
                             "--kickasstorrent",
                             action="store_true",
                             help="Search KickassTorrent (KAT)")
-        parser.add_argument("search",
-                            help="Enter search string",
-                            nargs="?",
-                            default=None)
-        parser.add_argument("-s",
+        optional_sites.add_argument("-s",
                             "--skytorrents",
                             action="store_true",
                             help="Search SkyTorrents")
-        parser.add_argument("-n",
+        optional_sites.add_argument("-x",
+                            "--x1337",
+                            action="store_true",
+                            help="Search 1337x")
+        optional_sites.add_argument("-r",
+                            "--rarbg",
+                            action="store_true",
+                            help="Search RarBg")
+        optional_sites.add_argument("-n",
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
-        parser.add_argument("-x",
+        optional_sites.add_argument("-b",
                             "--xbit",
                             action="store_true",
                             help="Search XBit.pw")
+        misc.add_argument("--copy",
+                            action="store_true",
+                            default=False,
+                            help="Copy magnetic link to clipboard")
+        misc.add_argument("--top",
+                            action="store_true",
+                            default=False,
+                            help="Get TOP torrents [TPB/SkyTorrents]")
+        misc.add_argument("-p",
+                            "--page-limit",
+                            type=int,
+                            help="Number of pages to fetch results from. [default: 1] [TPB/KAT/SkyT] ",
+                            default=1,
+                            dest="limit")
+        misc.add_argument("-c",
+                            "--clear-html",
+                            action="store_true",
+                            default=False,
+                            help="Clear all [TPB] torrent description HTML files and exit.")
         parser.add_argument("-i",
                             "--interactive",
                             default=False,
                             action="store_true",
                             help="Enable interactive mode for searches")
-        parser.add_argument("--top",
-                            action="store_true",
-                            default=False,
-                            help="Get top torrents")
-        parser.add_argument("--copy",
-                            action="store_true",
-                            default=False,
-                            help="Copy magnetic link to clipboard")
-        parser.add_argument("-p",
-                            "--page-limit",
-                            type=int,
-                            help="Number of pages to fetch results from (1 page = 30 results).\n [default: 1]",
-                            default=1,
-                            dest="limit")
-        parser.add_argument("-c",
-                            "--clear-html",
-                            action="store_true",
-                            default=False,
-                            help="Clear all [TPB] torrent description HTML files and exit.")
         parser.add_argument("-v",
                             "--version",
                             action='version',
@@ -159,6 +180,8 @@ class Torrench(Config):
             self.args.thepiratebay,
             self.args.kickasstorrent,
             self.args.skytorrents,
+            self.args.rarbg,
+            self.args.x1337,
             self.args.nyaa,
             self.args.xbit
         )  # These modules are only enabled through manual configuration.
@@ -171,7 +194,7 @@ class Torrench(Config):
 
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
-                print("\nConfig file not configured. Configure to continue. Read docs for more info.\n")
+                print("\nConfig file not configured. Configure to continue. Read docs for more info.")
                 print("Config file either does not exist or is not enabled! Exiting!")
                 sys.exit(2)
             else:
@@ -207,6 +230,16 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s]" % (self.input_title))
                     import torrench.modules.xbit as xbit
                     xbit.main(self.input_title)
+                elif self.args.rarbg:
+                    self.logger.debug("Using RarBg")
+                    self.logger.debug("Input title: [%s]" % (self.input_title))
+                    import torrench.modules.rarbg as rbg
+                    rbg.main(self.input_title)
+                elif self.args.x1337:
+                    self.logger.debug("Using 1337x")
+                    self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
+                    import torrench.modules.x1337 as x13
+                    x13.main(self.input_title, self.page_limit)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

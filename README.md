@@ -28,16 +28,23 @@ _(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 
 Following websites are supported:
-* linuxtracker.org - Download linux distros ISO torrents.
-* DistroWatch - Another linux distro ISOs repository.
-* The Pirate Bay (TPB)**\***
-* KickassTorrents (KAT)**\***
-* SkyTorrents **\***
-* Nyaa[.]si **\***
-* XBit[.]pw **\***
-* _More to come..._
 
-I have tested it on following platforms (and it works great):
+<center>
+| MAIN SITES |
+| :--------------: |
+| LinuxTracker ```(default)``` |
+| DistroWatch ```(-d)``` |
+| **Sites hosting illegal content (disabled by default)**\* |
+| The Pirate Bay (TPB) |
+|KickassTorrents (KAT)|
+|RarBg|
+|1337x|
+|SkyTorrents|
+|Nyaa[.]si|
+|XBit[.]pw|
+</center>
+
+Tested on following platforms:
 * **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
 * **Linux:** Debian/Ubuntu, Fedora, Arch
 
@@ -48,13 +55,13 @@ I have tested it on following platforms (and it works great):
 
 ---
 
-#### \* Using TPB/KAT/SkyT/Nyaa/XBit
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+#### \* Sites hosting illegal content (MUST READ)
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit... from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using the above-mentioned sites from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)
-* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) if you decided to them.
+* [Configuration instructions](https://github.com/kryptxy/torrench#configuration-instructions) if you decide to use them.
 
 _Torrench initially began as a python learning project for me. I am sure there are ways to implement code I wrote in a much better/efficient way. Do [let me know](https://github.com/kryptxy/torrench#contact). Alternatively, you can also send a pull request. See [Contributing](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)._
 
@@ -67,8 +74,6 @@ _Torrench initially began as a python learning project for me. I am sure there a
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
 * Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
 ```
-$ sudo python3 -m pip install --upgrade torrench
-## OR
 $ sudo pip3 install --upgrade torrench
 ```
 * Alternatively, build from source (python-setuptools)
@@ -88,12 +93,12 @@ Windows does not require any additional packages. Everything required to run thi
 ### Osx
 
 Please note OSX requires to install package `pyopenssl`:
-
-    pip install pyopenssl
-
+```
+$ pip3 install pyopenssl
+```
 
 ### Configuration instructions:
-1. Download **config.ini** from [Sync](https://ln.sync.com/dl/26cd652e0/nqzvd8b3-9gqs3pdu-32btqm2c-9r6mbymm) / [TinyUpload](http://s000.tinyupload.com/index.php?file_id=12737623922646772242)
+1. Download **config.ini** from [HERE]()
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 	* **MacOS -** Next bullet (setup instructions).
@@ -116,59 +121,77 @@ $ torrench [Options] <SEARCH_STRING>
 
 ## Options
 ```bash
-    positional arguments:
-      search                Enter search string
+optional arguments:
+        -h, --help            show this help message and exit
+        -i, --interactive     Enable interactive mode for searches
+        -v, --version         Display version and exit.
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -d, --distrowatch     Search distrowatch
-      -t, --thepiratebay    Search thepiratebay (TPB)
-      -k, --kickasstorrent  Search KickassTorrent (KAT)
-      -s, --skytorrents     Search SkyTorrents
-      -n, --nyaa            Search Nyaa
-      -x, --xbit            Search XBit.pw
-      --top                 Get top torrents [TPB/SkyTorrents]
-      --copy                Copy magnetic link to clipboard
-      -p LIMIT, --page-limit LIMIT
-                            Number of pages to fetch results from (1 page = 30 results).
-                            [default: 1] [TPB/KAT/SkyTorrents]
-      -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
-      -v, --version         Display version and exit.
+Main Sites:
+        search                Search LinuxTracker (default)
+        -d, --distrowatch     Search Distrowatch
+
+Optional Sites:
+        Requires configuration (disabled by default)
+
+        -t, --thepiratebay    Search thepiratebay (TPB)
+        -k, --kickasstorrent    Search KickassTorrent (KAT)
+        -s, --skytorrents     Search SkyTorrents
+        -x, --x1337           Search 1337x
+        -r, --rarbg           Search RarBg
+        -n, --nyaa            Search Nyaa
+        -b, --xbit            Search XBit.pw
+
+Additional options:
+        --copy                Copy magnetic link to clipboard
+        --top                 Get TOP torrents [TPB/SkyTorrents]
+        -p LIMIT, --page-limit LIMIT
+                    Number of pages to fetch results from. [default: 1] [TPB/KAT/SkyTorrents]
+        -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
  ```
 
 ## Features
-* Supports all \*nix distros
 * Displays results in organized, tabular form.
-* Add torrent directly to client from torrench. See [HERE](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md#23092017-v1054) for more.
-* Copy magnetic link to clipboard (```--copy```)
-* [linuxtracker] Supports filtering search using categories.
-* Interactive mode for searching across modules
+* Load torrent to client from torrench.
+* Copy magnetic link to clipboard (```$ torrench -t 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
+* Interactive mode for searching across modules (```--interactive```)
+* Get TOP torrents [TPB/SkyTorrents] (```--top```)
 
-**[TPB/KAT]**
-* Surf torrents Ad-free
-* Fetch Torrents on basis of pages [1 page = 30 results (max)] [(-p) argument].
-* **Display colored results on basis of uploader's status** (Very useful when choosing torrent).
-	* TPB:
-		* VIP Uploaders [results in green]
-		* Trusted Uploader [results in magenta]
-		* General Uploader
-	* KAT (KickassTorrents):
-		* Verified uploaders [Uploader's text in yellow]
-		* Seeds [in green]
-		* Leeches [in red]
-* Add torrent directly to torrent client through **magnetic links** without opening/fetching details.
-* Get upstream link which can be opened using browser.
+### Loading torrent to client
 
-**[TPB-Only]**
-* Get complete torrent details (Description, comments, torrent download). **Torrent details are available in dynamically-generated HTML pages.**
-* Fetch Comments on basis of pages [Useful when torrent has large number of comments, and not all comments are intended to be fetched].
-* Get TPB Top Torrents (--top)
+#### [LINUX/MacOS]
+* Requires **[torrench.ini](https://github.com/kryptxy/torrench/blob/master/torrench.ini)** config file.
+    * Default directory: **$XDG_CONFIG_HOME/torrench**
+    * Fallback: **$HOME/.config/torrench/**
+* Set the default torrent client name in config file.
+    * ```CLIENT = <name>```
+* Clients tested:
+    * Transmission (```transmission-remote```, ```transmission-gtk```, ```transmission-qt```)
+    * Deluge (```deluge```, ```deluge-console```)
+    * qBittorrent
+* If someone tried ```rtorrent```, please report.
+
+* **Setting up ```transmission-remote```**
+    * Requires running **transmission-daemon** service
+    * Torrent is added to transmission client using **transmission-remote** utitlity.
+    * **(IMP)** For AUTHENTICATION - ```$TR_AUTH``` environment variable is used.
+        * [TR_AUTH="username:password"]
+    * **(IMP)** For PORT/SERVER - Set the PORT and SERVER variable in **[torrench.ini](https://github.com/kryptxy/torrench/blob/master/torrench.ini)** file accordingly.
+        * If ```$TR_AUTH``` or PORT/SERVER are not set, the following (default) values are used:
+        * DEFAULTS
+            * Username - [None]
+            * password - [None]
+            * SERVER - localhost (127.0.0.1)
+            * PORT - 9091
+
+#### [Windows]
+* In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser should automatically open the (default) client and load torrent to the client.
+
 
 ### Note
 * A torrent might take long to fetch results. I have generally faced this issue when running torrench for the first time. When this happens:
 	* Abort the ongoing search [Ctrl+C]
 	* Search again. The second time generally works fine.
-* KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. If you know of some working proxy, you can edit KAT_URL in config.ini  with that working proxy. Alternatively, use TPB or SkyTorrents. They are pretty reliable and works most of the time.
+* KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. Consider alternatives if they do not work.
 
 ---
 
@@ -192,7 +215,11 @@ $ torrench -x "fedora" ## Search XBit for fedora distros ISO
 ![distrowatch](images/screenshots/distrowatch.png)
 ![distrowatch](images/screenshots/distrowatch.gif)
 
-#### XBit[.]pw
+#### 1337x
+![xbit](images/screenshots/1337x.png)
+![xbit](images/screenshots/1337x.gif)
+
+#### XBit[dot]pw
 ![xbit](images/screenshots/xbit.png)
 ![xbit](images/screenshots/xbit.gif)
 
@@ -219,6 +246,12 @@ $ torrench -k "guardians of the galaxy"
 ![illegal](images/screenshots/kat.png)
 
 ![illegal](images/screenshots/kat.gif)
+
+#### RarBg Examples
+```bash
+$ torrench -r "mr robot"
+```
+![illegal](images/screenshots/rarbg.gif)
 _(Click to expand)_
 
 #### SkyTorrents Examples
@@ -231,7 +264,7 @@ $ torrench -s "narcos"
 ![illegal](images/screenshots/sky.gif)
 _(Click to expand)_
 
-#### Nyaa[.]si Examples
+#### Nyaa[dot]si Examples
 ```bash
 $ torrench -n "naruto"
 ```
@@ -249,13 +282,12 @@ Please see [CONTRIBUTING](https://github.com/kryptxy/torrench/blob/master/CONTRI
 
 ## Contact
 * E-mail : kryptxy@protonmail.com
-* [Twitter (DM)](https://twitter.com/kryptxy) [Quick-response]
-* [Telegram](http://t.me/kryptxy) [Quick-response]
+* [Twitter (DM)](https://twitter.com/kryptxy)
+* [Telegram](http://t.me/kryptxy)
 
 ## Thank you
 * Contributors for giving your time to this project and improving it.
 * Users for your valuable feedback and suggestions.
-* MacOS testers for testing torrench and reporting.
 
 ## Licence
 ```

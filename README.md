@@ -9,7 +9,7 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [Optional Sites (TPB/KAT/1337x,,,) Usage](https://github.com/kryptxy/torrench#-using-tpbkatskytnyaaxbit)
+* [Optional Sites (TPB/KAT/1337x,,,) Usage](https://github.com/kryptxy/torrench#-sites-hosting-illegal-content-must-read)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)
@@ -60,6 +60,7 @@ Tested on following platforms:
 #### \* Sites hosting illegal content (MUST READ)
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit... from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
+* Using these sites is completely optional. They would never interfere/cause any problems when searching linuxtracker/distowatch.
 * Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
 * Neither I, nor the tool shall be held responsible for any action taken against you for using the above-mentioned sites from torrench.
 * Illegal searches [examples](https://github.com/kryptxy/torrench#searches-considered-illegal)

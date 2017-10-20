@@ -4,7 +4,6 @@ import requests
 import logging
 import sys
 import time
-import platform
 from torrench.utilities.Config import Config
 
 
@@ -39,8 +38,6 @@ class XBit(Config):
         self.mylist = []
         self.mapper = []
         self.data = {}
-        if platform.system() == "Windows":
-            self.OS_WIN = True
         self.output_headers = [
                 'ID', 'NAME', 'INDEX', 'SIZE', 'DISCOVERED']
 
@@ -72,9 +69,6 @@ class XBit(Config):
             for result in results[:-1]:
                 torrent_id = result['ID']
                 torrent_name = result['NAME']
-                # Handling Unicode characters in windows.
-                if self.OS_WIN:
-                    torrent_name = torrent_name.encode('ascii', 'replace').decode()
                 magnet = result['MAGNET']
                 torrent_size = result['SIZE']
                 torrent_discovered = result['DISCOVERED']

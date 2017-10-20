@@ -1,6 +1,5 @@
 """SkyTorrents Module."""
 import sys
-import platform
 import logging
 from torrench.utilities.Config import Config
 
@@ -15,7 +14,6 @@ class SkyTorrents(Config):
     upstream link and files to be downloaded with torrent can be
     printed on console.
     Torrent can be added to client directly
-    (still needs tweaking. may not work as epected)
 
     This class inherits Config class. Config class inherits
     Common class. The Config class provides proxies list fetched
@@ -33,9 +31,6 @@ class SkyTorrents(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
-        self.OS_WIN = False
-        if platform.system() == 'Windows':
-            self.OS_WIN = True
         self.index = 0
         self.page = 0
         self.total_fetch_time = 0

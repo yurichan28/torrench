@@ -1,7 +1,6 @@
 """KickassTorrents Module."""
 
 import sys
-import platform
 import logging
 from torrench.utilities.Config import Config
 
@@ -37,9 +36,6 @@ class KickassTorrents(Config):
         self.proxy = None
         self.soup = None
         self.soup_dict = {}
-        self.OS_WIN = False
-        if platform.system() == "Windows":
-            self.OS_WIN = True
         self.index = 0
         self.total_fetch_time = 0
         self.mylist = []
@@ -114,12 +110,6 @@ class KickassTorrents(Config):
                     if name is None:
                         name = i.find('a', class_='cellMainLink').get_text().split("[[")[0]
                     # Handling Unicode characters in windows.
-                    if self.OS_WIN:
-                        try:
-                            name = name.encode('ascii', 'replace').decode()
-                        except AttributeError as e:
-                            self.logger.debug(e)
-                            pass
                     torrent_link = i.find('a', class_='cellMainLink')['href']
                     uploader_name = i.find('span', class_='lightgrey').get_text().split(" ")[-4]
                     category = i.find('span', class_='lightgrey').get_text().split(" ")[-2]

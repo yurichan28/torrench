@@ -1,4 +1,4 @@
-"""nyaa.si module"""
+"""nyaa.si module."""
 
 import sys
 import logging
@@ -11,9 +11,6 @@ class NyaaTracker(Config):
 
     This class fetches results from nyaa.si
     and displays in tabular form.
-    Selected torrent is downloaded to hard-drive.
-
-    Default download location is $HOME/Downloads/torrench
 
     Known problems:
     - If the torrent name in the website is too long (200 chars+) the table will be displayed incorrectly in the terminal.
@@ -70,8 +67,6 @@ class NyaaTracker(Config):
         t_names = []
         for name in self.soup.find_all('td', {'colspan': '2'}):
             n = name.get_text().replace('\n', '')
-            if self.OS_WIN:
-                n = n.encode('ascii', 'replace').decode()
             t_names.append(n)
         if t_names:
             return t_names
@@ -109,7 +104,7 @@ class NyaaTracker(Config):
         for size in self.soup.find_all('td', {'class': 'text-center'}):
             if size.get_text().endswith(("GiB", "MiB")):
                 if self.OS_WIN:
-                    t_size.append( size.get_text())
+                    t_size.append(size.get_text())
                 else:
                     t_size.append(self.colorify("yellow", size.get_text()))
             else:

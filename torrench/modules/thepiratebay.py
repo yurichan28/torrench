@@ -1,7 +1,6 @@
 """The Pirate Bay Module."""
 
 import sys
-import platform
 import logging
 import torrench.modules.tpb_details as tpb_details
 from torrench.utilities.Config import Config
@@ -30,9 +29,6 @@ class ThePirateBay(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
-        self.OS_WIN = False
-        if platform.system() == "Windows":
-            self.OS_WIN = True
         self.index = 0
         self.page = 0
         self.total_fetch_time = 0
@@ -162,7 +158,6 @@ class ThePirateBay(Config):
                     self.logger.debug("No results found for given input! Exiting!")
                     sys.exit(2)
                 data = content.find_all('tr')
-
                 for i in data[1:]:
                     name = i.find('a', class_='detLink').string
                     uploader = i.find('font', class_="detDesc").a
@@ -173,9 +168,6 @@ class ThePirateBay(Config):
                         uploader = i.find('font', class_="detDesc").i.string
                     else:
                         uploader = uploader.string
-                    if self.OS_WIN:
-                        # Handling Unicode characters in windows.
-                        name = name.encode('ascii', 'replace').decode()
                     comments = i.find(
                         'img', {'src': '//%s/static/img/icon_comment.gif' % (self.proxy.split('/')[2])})
                     # Total number of comments

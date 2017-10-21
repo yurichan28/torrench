@@ -1,7 +1,7 @@
 ### [21/10/2017] v1.0.56
 
-* Added two more sites
-    * 1337x
+* Added two more sites (**Please update the config.ini file accordingly**)
+    * 1337x
     * RarBg
 * Added interactive mode (```--interactive```).
 * Added ```deluge-console``` client support.

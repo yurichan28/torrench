@@ -31,7 +31,7 @@ Following websites are supported:
 
 <center>
 	
-| SITES ENABLED BY DEFAULT (LEGAL CONTENTS) |
+| SITES ENABLED |
 | :--------------: |
 | LinuxTracker ```(default)``` |
 | DistroWatch ```(-d)``` |

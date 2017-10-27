@@ -9,7 +9,7 @@
 
 ---
 * [About](https://github.com/kryptxy/torrench#about)
-* [Optional Sites (TPB/KAT/1337x,,,) Usage](https://github.com/kryptxy/torrench#-sites-hosting-illegal-content-must-read)
+* [Optional Sites (TPB/KAT/1337x..) Usage](https://github.com/kryptxy/torrench#-sites-hosting-illegal-content-must-read)
 * [Installation/Building from source](https://github.com/kryptxy/torrench#installationbuilding-from-source)
 * [Usage and Options](https://github.com/kryptxy/torrench#usage)
 * [Features](https://github.com/kryptxy/torrench#features)

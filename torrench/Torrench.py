@@ -92,6 +92,10 @@ class Torrench(Config):
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
+        optional_sites.add_argument("-i",
+                            "--idope",
+                            action="store_true",
+                            help="Search Idope")
         optional_sites.add_argument("-b",
                             "--xbit",
                             action="store_true",
@@ -115,8 +119,7 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Clear all [TPB] torrent description HTML files and exit.")
-        parser.add_argument("-i",
-                            "--interactive",
+        parser.add_argument("--interactive",
                             default=False,
                             action="store_true",
                             help="Enable interactive mode for searches")
@@ -183,6 +186,7 @@ class Torrench(Config):
             self.args.rarbg,
             self.args.x1337,
             self.args.nyaa,
+            self.args.idope,
             self.args.xbit
         )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
@@ -240,6 +244,11 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
                     import torrench.modules.x1337 as x13
                     x13.main(self.input_title, self.page_limit)
+                elif self.args.idope:
+                    self.logger.debug("Using Idope")
+                    self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
+                    import torrench.modules.idope as idp
+                    idp.main(self.input_title, self.page_limit)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

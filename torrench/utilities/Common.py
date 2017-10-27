@@ -58,8 +58,9 @@ class Common:
         """
         try:
             try:
+                headers = {"user-agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"}
                 self.start_time = time.time()
-                self.raw = requests.get(url, timeout=15)
+                self.raw = requests.get(url, timeout=15, headers=headers)
                 self.page_fetch_time = time.time() - self.start_time
                 self.logger.debug("returned status code: %d for url %s" % (self.raw.status_code, url))
             except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
@@ -171,6 +172,8 @@ class Common:
             max = 40
         elif site == 'x1337':
             max = 20
+        elif site == 'idope':
+            max = 10
         else:
             max = total_torrent_count
         exact_no_of_pages = total_torrent_count // max

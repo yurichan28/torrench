@@ -146,7 +146,7 @@ class Idope(Common):
                     selected_torrent, req_magnetic_link, torrent_link = self.mapper[temp-1]
                     print("Selected index [%d] - %s\n" % (temp, self.colorify("yellow", selected_torrent)))
                     self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
-                    temp2 = input("1. Print links [p]\n2. Load magnetic link to client [l]\n\nOption [p/l/g]: ")
+                    temp2 = input("1. Print links [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
                     temp2 = temp2.lower()
                     self.logger.debug("selected option: [%c]" % (temp2))
                     if temp2 == 'p':

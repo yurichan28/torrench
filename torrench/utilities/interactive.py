@@ -11,6 +11,7 @@ import torrench.modules.thepiratebay as tpb_module
 import torrench.modules.xbit as xbit_module
 import torrench.modules.x1337 as x13
 import torrench.modules.rarbg as rarbg
+import torrench.modules.idope as idope
 from torrench.utilities.Config import Config
 
 
@@ -64,6 +65,7 @@ class InteractiveMode:
             '!b': xbit_module,
             '!s': sky,
             '!r': rarbg,
+            '!i': idope,
             '!x': x13
         }
 
@@ -86,7 +88,7 @@ class InteractiveMode:
         _modules = self._set_modules()
         if query and module in _modules and not query.isspace():
             self.logger.debug("Selected module %s, query: %s" % ((module), query))
-            if module in ['!t', '!k', '!s', '!x']:
+            if module in ['!t', '!k', '!s', '!i', '!x']:
                 _modules[module].main(query, page_limit=1)
             else:
                 _modules[module].main(query)

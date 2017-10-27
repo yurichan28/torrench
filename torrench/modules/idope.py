@@ -1,11 +1,11 @@
 """Idope Module."""
 
 import sys
-from torrench.utilities.Common import Common
+from torrench.utilities.Config import Config
 import logging
 
 
-class Idope(Common):
+class Idope(Config):
     """
     Idope class.
 
@@ -27,8 +27,9 @@ class Idope(Common):
 
     def __init__(self, title, page_limit):
         """Initialisations."""
-        Common.__init__(self)
-        self.proxy = "https://idope.se"
+        Config.__init__(self)
+        self.proxies = self.get_proxies('idope')
+        self.proxy = self.proxies[0]
         self.logger = logging.getLogger('log1')
         self.title = title
         self.pages = page_limit

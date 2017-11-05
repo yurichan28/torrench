@@ -39,7 +39,7 @@ class SkyTorrents(Config):
         self.soup_dict = {}
         self.soup = None
         self.output_headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
-                               "INDEX", "SIZE", "FILES", "UPLOADED", "SEEDS", "LEECHES"]
+                               "INDEX", "SIZE", "FILES", "UPLOADED", "S/L"]
         ######################################
         self.top = "/top1000/all/ed/%d/?l=en-us" % (self.page)
         self.file_count = 0
@@ -180,7 +180,9 @@ class SkyTorrents(Config):
 
                     self.mapper.insert(self.index, (name, magnet, link, self.file_count))
                     #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, self.file_count, uploaded, seeds, leeches]
-                    self.mylist = [name + display_votes, "--"+str(self.index)+"--", size, self.file_count, uploaded, seeds, leeches]
+                    self.mylist = [name + display_votes,
+                            "--"+str(self.index)+"--", size, self.file_count,
+                            uploaded, (seeds + '/' + leeches)]
                     masterlist.append(self.mylist)
 
             if masterlist == []:

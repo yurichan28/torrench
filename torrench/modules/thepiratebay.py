@@ -37,7 +37,7 @@ class ThePirateBay(Config):
         self.soup_dict = {}
         self.soup = None
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S', 'L', 'DATE', 'C']
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S/L', 'DATE', 'C']
         ###################################
         self.non_color_name = None
         self.top = "/top/all"
@@ -200,7 +200,8 @@ class ThePirateBay(Config):
                     self.mapper.insert(self.index, (name, magnet, link))
 
                     self.mylist = [categ + " > " + sub_categ, name, "--" +
-                        str(self.index) + "--", uploader, size, seeds, leeches, date, comment]
+                        str(self.index) + "--", uploader, size, (seeds + '/' +
+                            leeches), date, comment]
                     masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")
             self.show_output(masterlist, self.output_headers)

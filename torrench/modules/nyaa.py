@@ -31,7 +31,7 @@ class NyaaTracker(Config):
         self.OS_WIN = False
         if platform.system() == "Windows":
             self.OS_WIN = True
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L']
+        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE']
 
     def check_proxy(self, proxy: str):
         """
@@ -148,6 +148,9 @@ class NyaaTracker(Config):
             sizes = self.parse_sizes()
             seeds = self.parse_seeds()
             leeches = self.parse_leeches()
+            seedleech = []
+            for seed, leech in zip(seeds, leeches):
+                seedleech.append(seed + '/' + leech)
             magnets = self.parse_magnets()
             self.index = len(urls)
         except (KeyError, AttributeError) as e:
@@ -160,7 +163,7 @@ class NyaaTracker(Config):
             return -1
         self.logger.debug("Results fetched. Showing table.")
         self.mapper.insert(self.index+1, (name, urls, magnets))
-        return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seeds, leeches))
+        return list(zip(name, ["--"+str(idx)+"--" for idx in range(1, self.index+1)], sizes, seedleech))
 
     def after_output_text(self):
         """

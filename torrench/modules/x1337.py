@@ -44,7 +44,7 @@ class x1337(Config):
         self.mapper = []
         self.soup_dict = {}
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'SE', 'LE', 'TIME', 'SIZE', 'UL', 'C']
+                'CATEG', 'NAME', 'INDEX', 'SE/LE', 'TIME', 'SIZE', 'UL', 'C']
 
     def check_proxy(self):
         """
@@ -166,7 +166,7 @@ class x1337(Config):
                     self.index += 1
                     self.mapper.insert(self.index, (name, link))
                     self.mylist = [category, name, "--" +
-                        str(self.index) + "--", seeds, leeches, date, size, uploader, comments]
+                        str(self.index) + "--", seeds + '/' + leeches, date, size, uploader, comments]
                     masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")
             self.show_output(masterlist, self.output_headers)

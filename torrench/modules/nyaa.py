@@ -70,7 +70,7 @@ class NyaaTracker(Config):
             t_names.append(n)
         if t_names:
             return t_names
-        print("Unable to parse torrent name.")
+        print("\nYour search returned no results.\nIf you think this is a bug, report on the Torrench Github repo: https://github.com/kryptxy/torrench")
         sys.exit(2)
 
     def parse_urls(self):
@@ -81,10 +81,7 @@ class NyaaTracker(Config):
                     t_urls.append(self.colorify('yellow', 'https://nyaa.si'+url['href']))
             except AttributeError:
                 pass
-        if t_urls:
-            return t_urls
-        print("Unable to parse torrent URLs.")
-        sys.exit(2)
+        return t_urls
 
     def parse_magnets(self):
         t_magnets = []
@@ -94,10 +91,7 @@ class NyaaTracker(Config):
                     t_magnets.append(url['href'])
             except KeyError:
                 pass
-        if t_magnets:
-            return t_magnets
-        print("Unable to parse magnet links.")
-        sys.exit(2)
+        return t_magnets
 
     def parse_sizes(self):
         t_size = []
@@ -109,28 +103,19 @@ class NyaaTracker(Config):
                     t_size.append(self.colorify("yellow", size.get_text()))
             else:
                 pass
-        if t_size:
-            return t_size
-        print("Unable to parse size of files.")
-        sys.exit(2)
+        return t_size
 
     def parse_seeds(self):
         t_seeds = []
         for seed in self.soup.find_all('td', {'style': 'color: green;'}):
             t_seeds.append(self.colorify("green", seed.get_text()))
-        if t_seeds:
-            return t_seeds
-        print("Unable to parse seeds")
-        sys.exit(2)
+        return t_seeds
 
     def parse_leeches(self):
         t_leeches = []
         for leech in self.soup.find_all('td', {'style': 'color: red;'}):
             t_leeches.append(self.colorify("red", leech.get_text()))
-        if t_leeches:
-            return t_leeches
-        print("Unable to parse leechers")
-        sys.exit(2)
+        return t_leeches
 
     def fetch_results(self):
         """
@@ -229,4 +214,5 @@ def main(title):
 
 
 if __name__ == "__main__":
-    print("Modules are not supposed to be run standalone.")
+    prompt = input("> ")
+    main(prompt)

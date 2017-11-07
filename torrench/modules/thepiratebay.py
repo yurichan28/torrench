@@ -37,7 +37,7 @@ class ThePirateBay(Config):
         self.soup_dict = {}
         self.soup = None
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S', 'L', 'DATE', 'C']
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'SE/LE', 'DATE', 'C']
         ###################################
         self.non_color_name = None
         self.top = "/top/all"
@@ -191,6 +191,8 @@ class ThePirateBay(Config):
                     leeches = i.find_all('td', align="right")[1].string
                     date = i.find('font', class_="detDesc").get_text().split(' ')[1].replace(',', "")
                     size = i.find('font', class_="detDesc").get_text().split(' ')[3].replace(',', "")
+                    seeds = self.colorify("green", seeds)
+                    leeches = self.colorify("red", leeches)
                     # Unique torrent id
                     torr_id = i.find('a', {'class': 'detLink'})["href"].split('/')[2]
                     # Upstream torrent link
@@ -200,7 +202,8 @@ class ThePirateBay(Config):
                     self.mapper.insert(self.index, (name, magnet, link))
 
                     self.mylist = [categ + " > " + sub_categ, name, "--" +
-                        str(self.index) + "--", uploader, size, seeds, leeches, date, comment]
+                        str(self.index) + "--", uploader, size, (seeds + '/' +
+                            leeches), date, comment]
                     masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")
             self.show_output(masterlist, self.output_headers)

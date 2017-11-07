@@ -27,7 +27,7 @@ class RarBg(Config):
         self.mapper = []
         self.total_fetch_time = 0
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'SIZE', 'SE', 'LE', 'DATE'
+                'CATEG', 'NAME', 'INDEX', 'SIZE', 'S/L', 'DATE'
                 ]
 
     def get_token(self):
@@ -60,8 +60,10 @@ class RarBg(Config):
                 name = result['title']
                 category = result['category']
                 magnet = result['download']
-                seeds = result['seeders']
-                leeches = result['leechers']
+                seeds = str(result['seeders'])
+                leeches = str(result['leechers'])
+                seeds = self.colorify("green", seeds)
+                leeches = self.colorify("red", leeches)
                 size = result['size']
                 date = result['pubdate']
                 date = " ".join(date.split(" ")[0:2])
@@ -75,7 +77,7 @@ class RarBg(Config):
                 self.mapper.insert(self.index, (name, magnet, link))
                 self.index += 1
                 self.mylist = [category, name, "--" +
-                    str(self.index) + "--", size, seeds, leeches, date]
+                    str(self.index) + "--", size, seeds + '/' + leeches, date]
                 masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")
             self.show_output(masterlist, self.output_headers)

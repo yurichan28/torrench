@@ -41,7 +41,7 @@ class KickassTorrents(Config):
         self.mylist = []
         self.mapper = []
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S', 'L', 'DATE', 'C']
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'SE/LE', 'C']
 
     def check_proxy(self):
         """
@@ -128,7 +128,9 @@ class KickassTorrents(Config):
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, torrent_link))
 
-                    self.mylist = [category, name, '--' + str(self.index) + '--', uploader_name, size, date_added, seeds, leeches, comment_count]
+                    self.mylist = [category, name, '--' + str(self.index) +
+                            '--', uploader_name, size, date_added, (seeds + '/'
+                                + leeches), comment_count]
                     masterlist.append(self.mylist)
 
             if masterlist == []:

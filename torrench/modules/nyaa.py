@@ -214,5 +214,4 @@ def main(title):
 
 
 if __name__ == "__main__":
-    prompt = input("> ")
-    main(prompt)
+    print("Modules are not supposed to be run standalone.")

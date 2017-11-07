@@ -37,7 +37,7 @@ class ThePirateBay(Config):
         self.soup_dict = {}
         self.soup = None
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'S/L', 'DATE', 'C']
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'SE/LE', 'DATE', 'C']
         ###################################
         self.non_color_name = None
         self.top = "/top/all"
@@ -191,6 +191,8 @@ class ThePirateBay(Config):
                     leeches = i.find_all('td', align="right")[1].string
                     date = i.find('font', class_="detDesc").get_text().split(' ')[1].replace(',', "")
                     size = i.find('font', class_="detDesc").get_text().split(' ')[3].replace(',', "")
+                    seeds = self.colorify("green", seeds)
+                    leeches = self.colorify("red", leeches)
                     # Unique torrent id
                     torr_id = i.find('a', {'class': 'detLink'})["href"].split('/')[2]
                     # Upstream torrent link

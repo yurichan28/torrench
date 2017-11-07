@@ -41,7 +41,7 @@ class KickassTorrents(Config):
         self.mylist = []
         self.mapper = []
         self.output_headers = [
-                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'S/L', 'C']
+                'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'SE/LE', 'C']
 
     def check_proxy(self):
         """

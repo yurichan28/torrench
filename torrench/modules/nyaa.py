@@ -203,7 +203,7 @@ def main(title):
     """
     try:
         print("\n[Nyaa.si]\n")
-        nyaa = NyaaTracker(title)
+        nyaa = NyaaTracker(title.replace("\"", ""))
         results = nyaa.fetch_results()
         nyaa.show_output([result for result in results], nyaa.output_headers)
         nyaa.after_output_text()

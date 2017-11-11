@@ -105,7 +105,7 @@ class InteractiveMode:
             Available commands:
         !h or help  - Help text (this)
         !q or quit  - Quit interactive mode
-        !t <string> - Search on LinuxTorrents
+        !l <string> - Search on LinuxTorrents
         !d <string> - Search on DistroWatch
 
         =========== Requires Config file ==========

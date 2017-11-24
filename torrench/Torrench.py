@@ -33,6 +33,7 @@ class Torrench(Config):
         -r, --rarbg           Search RarBg
         -n, --nyaa            Search Nyaa
         -b, --xbit            Search XBit.pw
+        -g, --libgen          Search LibGen (Ebooks)
 
     Additional options:
         --copy               Copy magnetic link to clipboard
@@ -100,6 +101,10 @@ class Torrench(Config):
                             "--xbit",
                             action="store_true",
                             help="Search XBit.pw")
+        optional_sites.add_argument("-g",
+                            "--libgen",
+                            action="store_true",
+                            help="Search LibGen (Ebooks)")
         misc.add_argument("--copy",
                             action="store_true",
                             default=False,
@@ -187,7 +192,8 @@ class Torrench(Config):
             self.args.x1337,
             self.args.nyaa,
             self.args.idope,
-            self.args.xbit
+            self.args.xbit,
+            self.args.libgen
         )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
@@ -249,6 +255,11 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
                     import torrench.modules.idope as idp
                     idp.main(self.input_title, self.page_limit)
+                elif self.args.libgen:
+                    self.logger.debug("Using LibGen")
+                    self.logger.debug("Input ISBN: [%s]" % (self.input_title))
+                    import torrench.modules.libgen as libg
+                    libg.main(self.input_title)
         elif self.args.distrowatch:
             self.logger.debug("Using distrowatch")
             self.logger.debug("Input title: [%s]" % (self.input_title))

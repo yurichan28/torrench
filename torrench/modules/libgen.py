@@ -1,10 +1,11 @@
 """LibGen Module."""
 
-import requests
-from torrench.utilities.Config import Config
 import logging
 import sys
 import time
+
+import requests
+from torrench.utilities.Config import Config
 
 
 class LibGen(Config):
@@ -22,6 +23,7 @@ class LibGen(Config):
         self.isbn = isbn
         self.index = 0
         self.mapper = []
+        self.mapper2 = []
         self.total_fetch_time = 0
         self.output_headers = [
                 'Author(s)',
@@ -31,8 +33,6 @@ class LibGen(Config):
                 'Year',
                 'Language',
                 ]
-        self.mapper2 = []
-        self.title = None
 
     def search_torrent(self):
         """To search torrent for given input.
@@ -49,12 +49,13 @@ class LibGen(Config):
             self.total_fetch_time = time.time() - start_time
             if results == []:
                 print("No results found for given input!")
-                print("Important: LibGen (for now) supports searching for Ebooks using ISBN number ONLY. More information in docs.")
+                print("\nNote: LibGen (for now) supports searching for Ebooks using book's ISBN-10 number ONLY.")
+                print("Please refer docs for more information about the same.")
                 self.logger.debug("No results found!")
                 self.logger.debug("Exiting!")
                 sys.exit(2)
             for result in results:
-                self.title = result['title']
+                title = result['title']
                 author = result['author']
                 edition = result['edition']
                 pages = result['pages']
@@ -67,12 +68,12 @@ class LibGen(Config):
                 size = "{:.2f} MB".format(size/1000000)
                 descr = result['descr']
                 self.index += 1
-                self.mapper2.insert(self.index, (self.title, author, edition, pages, publisher, extension, language, year, md5, size, descr))
+                self.mapper2.insert(self.index, (title, author, edition, pages, publisher, extension, language, year, md5, size, descr))
                 #################################################################
                 size = self.colorify("green", " ({}) ".format(size))
                 extension = self.colorify("yellow", "({})".format(extension))
-                self.mapper.insert(self.index, (self.title+size+extension, md5))
-                self.mylist = [author, self.title+size+extension, "--" +
+                self.mapper.insert(self.index, (title+size+extension, md5))
+                self.mylist = [author, title+size+extension, "--" +
                     str(self.index) + "--", publisher, year, language]
                 masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")

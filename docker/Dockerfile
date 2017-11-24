@@ -1,6 +1,10 @@
-FROM jaymoulin/rpi-python:alpine-3
+FROM python:alpine3.6 as builder
 
-MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
+COPY qemu-*-static /usr/bin/
+
+FROM builder
+
+LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
 COPY torrench.ini /root/.config/torrench/torrench.ini
 RUN apk add g++ gcc libxml2-dev libxslt-dev --update && \
 apk add linux-headers openssl --update --virtual .build-deps && \

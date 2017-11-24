@@ -120,9 +120,10 @@ class LibGen(Config):
                     selected_torrent, torrent_md5 = self.mapper[temp-1]
                     self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
                     print("Selected index [%d] - %s\n" % (temp, self.colorify("yellow", selected_torrent)))
-                    temp2 = input("1. Print Details [p]\n2. Load torrent to client [l]\n3. Download torrent ONLY [d]\n\nOption [p/l]: ")
+                    temp2 = input("1. Print Details [p]\n2. Load torrent to client [l]\n3. Download torrent ONLY [d]\n\nOption [p/l/d]: ")
                     temp2 = temp2.lower()
                     self.logger.debug("selected option: [%c]" % (temp2))
+                    load = 0
                     if temp2 not in ['p', 'l', 'd']:
                         self.logger.debug("Inappropriate input! Should be [l/d] only!")
                         print("Bad input!")
@@ -133,15 +134,11 @@ class LibGen(Config):
                     else:
                         if temp2 == 'l':
                             load = 1
-                        else:
-                            load = 0
                         try:
                             self.logger.debug("Loading magnetic link to client")
-                            ext = self.mapper2[temp-1][5]
-                            dload_title = self.title + " ({})".format(ext)
                             dload_link = "book/index.php?md5={}&oftorrent=".format(torrent_md5)
                             dload_link = self.proxy + dload_link
-                            self.download(dload_link, dload_title, load)
+                            self.download(dload_link, torrent_md5, load)
                         except Exception as e:
                             self.logger.exception(e)
                             continue

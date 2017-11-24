@@ -12,6 +12,7 @@ import torrench.modules.xbit as xbit_module
 import torrench.modules.x1337 as x13
 import torrench.modules.rarbg as rarbg
 import torrench.modules.idope as idope
+import torrench.modules.libgen as libgen
 from torrench.utilities.Config import Config
 
 
@@ -44,7 +45,7 @@ class InteractiveMode:
             _exit(2)
         else:
             if query[:2] in self._extra_modules:
-                print('Unbound command, please see https://github.com/kryptxy/torrench#configuration-instructions')
+                print('Unbound command, please see https://github.com/kryptxy/torrench#-sites-hosting-illegal-content-must-read')
                 print('Try `!h` or `help` for help.')
             else:
                 self.logger.debug("Invalid command input")
@@ -66,7 +67,8 @@ class InteractiveMode:
             '!s': sky,
             '!r': rarbg,
             '!i': idope,
-            '!x': x13
+            '!x': x13,
+            '!g': libgen
         }
 
         if Config().file_exists():
@@ -116,6 +118,7 @@ class InteractiveMode:
         !x <string> - Search on 1337x
         !s <string> - Search on SkyTorrents
         !b <string> - Search on xBit.pw
+        !g <string> - Search on LibGen (Ebooks)
         ===========================================
         These commands are only available after a `config.ini` file has been set.
         See the documentation for more information.

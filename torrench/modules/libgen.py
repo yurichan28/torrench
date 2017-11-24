@@ -138,7 +138,7 @@ class LibGen(Config):
                             self.logger.debug("Loading magnetic link to client")
                             dload_link = "book/index.php?md5={}&oftorrent=".format(torrent_md5)
                             dload_link = self.proxy + dload_link
-                            self.download(dload_link, torrent_md5, load)
+                            self.download(dload_link, torrent_md5+".torrent", load)
                         except Exception as e:
                             self.logger.exception(e)
                             continue

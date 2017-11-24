@@ -135,12 +135,23 @@ class LinuxTracker(Common):
                     selected_index, dload = self.mapper[temp-1]
                     self.logger.debug("selected torrent: %s ; index: %d" % (selected_index, temp))
                     print("\nSelected index[%s] - %s" % (temp, self.colorify("yellow", selected_index)))
-                    self.get_torrent("http://linuxtracker.org/"+dload)
-            except (ValueError, IndexError, KeyError) as e:
+                    temp2 = input("\n1. Download Torrent and Load torrent to client [l]\n2. Download torrent ONLY [d]\n\nOption [l/d]: ")
+                    if temp2 not in ['l', 'd']:
+                        self.logger.debug("Inappropriate input! Should be [l/d] only!")
+                        print("Bad input!")
+                        continue
+                    elif temp2 == 'l':
+                        load = 1
+                    else:
+                        load = 0
+                    self.logger.debug("selected option: [%c]" % (temp2))
+                    self.get_torrent("http://linuxtracker.org/"+dload, load)
+            except (ValueError, IndexError, KeyError, TypeError) as e:
                 print("\nBad Input\n")
                 self.logger.exception(e)
+                continue
 
-    def get_torrent(self, url):
+    def get_torrent(self, url, load):
         """
         To get download URL.
 
@@ -154,12 +165,13 @@ class LinuxTracker(Common):
             torrent_name = link.split('&')[1].split('=')[1]
             dload_url = "http://linuxtracker.org/" + link
             self.logger.debug("torrent dload url: %s" % (url))
-            self.download(dload_url, torrent_name)
+            self.download(dload_url, torrent_name, load)
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
+
 
 def main(title):
     """Execution begins here."""

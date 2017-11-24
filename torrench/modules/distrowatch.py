@@ -71,11 +71,11 @@ class DistroWatch(Common):
         Default download location is $HOME/downloads/torrench
         """
         self.logger.debug("Selecting torrent...")
-        print("\nTorrent can be downloaded directly through index\n")
+        print("\nTorrent can be downloaded directly through index")
         temp = 9999
         while(temp != 0):
             try:
-                temp = int(input("(0 = exit)\nindex > "))
+                temp = int(input("\n\n(0 = exit)\nindex > "))
                 self.logger.debug("input index %d" % (temp))
                 if temp == 0:
                     print("\nBye!")
@@ -92,8 +92,18 @@ class DistroWatch(Common):
                     torrent_url = self.urllist[temp-1]
                     torrent_name = torrent_url.split('/')[5]
                     print("\nSelected index [%s] - %s" % (temp, selected_torrent))
-                    self.download(torrent_url, torrent_name)
-            except (ValueError, IndexError, KeyError) as e:
+                    load = 0
+                    temp2 = input("\n1. Download Torrent and Load torrent to client [l]\n2. Download torrent ONLY [d]\n\nOption [l/d]: ")
+                    if temp2 not in ['l', 'd']:
+                        self.logger.debug("Inappropriate input! Should be [l/d] only!")
+                        print("Bad input!\n")
+                        continue
+                    elif temp2 == 'l':
+                        load = 1
+                    else:
+                        load = 0
+                    self.download(torrent_url, torrent_name, load)
+            except (ValueError, IndexError, KeyError, TypeError) as e:
                 self.logger.exception(e)
                 print("\nBad Input\n")
 

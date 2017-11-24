@@ -1,5 +1,6 @@
 """Common Module - Used by all torrent-fetching modules."""
 import time
+import inspect
 import os
 import sys
 import platform
@@ -101,7 +102,7 @@ class Common:
             self.logger.exception(e)
             sys.exit(2)
 
-    def download(self, dload_url, torrent_name):
+    def download(self, dload_url, torrent_name, load):
         """
         Torrent download method.
 
@@ -109,23 +110,31 @@ class Common:
         Torrent is downloaded in ~/Downloads/torrench/
         """
         try:
+            mod = inspect.getmodulename(inspect.stack()[1][1])
+            modules_to_exclude = ['linuxtracker', 'distrowatch']
             self.logger.debug("Download begins...")
             home = os.path.expanduser(os.path.join('~', 'Downloads'))
             downloads_dir = os.path.join(home, 'torrench')
             self.logger.debug("Default download directory: %s", (downloads_dir))
+            if mod not in modules_to_exclude:
+                downloads_dir = os.path.join(downloads_dir, mod)
             if not os.path.exists(downloads_dir):
                 self.logger.debug("download directory does not exist.")
                 os.makedirs(downloads_dir)
                 self.logger.debug("created directory: %s", (downloads_dir))
 
-            with open(os.path.join(downloads_dir, torrent_name), "wb") as file:
+            torrent_file = os.path.join(downloads_dir, torrent_name)
+            with open(torrent_file, "wb") as file:
                 print("Downloading torrent...")
                 response = requests.get(dload_url)
                 file.write(response.content)
                 self.logger.debug("Download complete!")
                 print("Download complete!")
-                print("\nSaved in %s\n" %(downloads_dir))
+                print("\nSaved in %s\n" % (downloads_dir))
                 self.logger.debug("Saved in %s", (downloads_dir))
+            # Load torrent to client
+            if load == 1:
+                self.load_torrent(torrent_file)
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")
@@ -192,7 +201,6 @@ class Common:
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
-
 
     def copy_magnet(self, link):
         """Copy magnetic link to clipboard."""

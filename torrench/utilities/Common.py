@@ -134,7 +134,12 @@ class Common:
                 self.logger.debug("Saved in %s", (downloads_dir))
             # Load torrent to client
             if load == 1:
-                self.load_torrent(torrent_file)
+                if not self.OS_WIN:
+                    self.load_torrent(torrent_file)
+                else:
+                    print("Sorry. Torrents cannot be loaded from hard drive to client in windows.")
+                    print("This feature is not yet supported. More information about the same is available in docs.")
+                    print("The torrent file has been downloaded and can be loaded to client manually.")
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")

@@ -94,6 +94,7 @@ class Idope(Config):
                     age = "{} {}".format(r[2], r[3])
                     size = "{} {}".format(r[5], r[6])
                     seeds = r[8]
+                    seeds = self.colorify("green", seeds)
                     #files = r[10]
                     info_hash = r[11]
                     magnet = "magnet:?xt=urn:btih:{}&dn={}{}".format(info_hash, name, trackers)

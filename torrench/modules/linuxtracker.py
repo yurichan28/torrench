@@ -21,7 +21,7 @@ class LinuxTracker(Common):
         Common.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'S', 'L', 'COMPLETED', 'ADDED', ]
+        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED', 'ADDED', ]
         self.categ_url = "http://linuxtracker.org/index.php?page=torrents"
         self.index = 0
         self.categ_url_code = 0
@@ -92,13 +92,15 @@ class LinuxTracker(Common):
                 date = i.find_all('tr')[0].get_text().split(' ')[-2]
                 size = i.find_all('tr')[1].td.find(recursive=False, text=True).replace(' ', '')
                 seeds = i.find_all('tr')[2].get_text().split(' ')[-2]
+                seeds = self.colorify("green", seeds)
                 leeches = i.find_all('tr')[3].get_text().split(' ')[-2]
+                leeches = self.colorify("red", leeches)
                 completed = i.find_all('tr')[4].get_text().split(' ')[-3]
                 dload = i.find_all('td', {'align': 'right'})[0].find_all('a')[1]['href']
                 self.index += 1
                 # Map torrent name and download link with corresponding index
                 self.mapper.insert(self.index, (name, dload))
-                self.mylist = [name, "--" + str(self.index) + "--", size, seeds, leeches, completed, date]
+                self.mylist = [name, "--" + str(self.index) + "--", size, seeds+"/"+leeches, completed, date]
                 masterlist.append(self.mylist)
             except AttributeError as e:
                 self.logger.exception(e)

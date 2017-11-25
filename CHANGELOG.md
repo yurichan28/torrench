@@ -1,3 +1,16 @@
+### [25/11/2017] v1.0.58
+* Added two more sites (**Please update the config.ini file accordingly**)
+    * Idope
+    * LibGen (Ebooks)
+* Merge Seeds/Leeches into one column.
+* Colorify Seeds/Leeches column.
+* Linux/MacOS - Add linuxtracker/distrowatch downloaded torrents to client from torrench.
+* Fix nyaa not showing results in interactive mode.
+* Fix custom headers causing 1337x showing 'No results'.
+* Other minor code fixes and optimisations.
+
+---
+
 ### [21/10/2017] v1.0.56
 
 * Added two more sites (**Please update the config.ini file accordingly**)
@@ -7,6 +20,8 @@
 * Added ```deluge-console``` client support.
 * New help menu (```--help```)
 * Other minor bug fixes and code optimisations.
+
+---
 
 ### [28/09/2017] v1.0.54
 

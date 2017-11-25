@@ -19,32 +19,27 @@
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
-![mix](images/screenshots/mix.gif)
+![linuxtackerv](images/screenshots/linuxtracker.gif)
+
 _(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))_
 
 ---
 
 ## About
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
+Torrench supports following websites:
 
-Following websites are supported:
-
-<center>
-	
-| SITES ENABLED |
-| :--------------: |
-| LinuxTracker ```(default)``` |
-| DistroWatch ```(-d)``` |
-| **SITES DISABLED BY DEFAULT (Optional Sites)**\* |
-| The Pirate Bay (TPB) |
-|KickassTorrents (KAT)|
-|RarBg|
-|1337x|
-|SkyTorrents|
-|Nyaa[dot]si|
-|XBit[dot]pw|
-
-</center>
+| Sites Enabled | Sites Disabled |
+| :-------------- | :------------------------- |
+|LinuxTracker `(default)`|The Pirate Bay (TPB)|
+|DistroWatch `(-d)`|KickassTorrents (KAT)|
+||RarBg|
+||1337x|
+||SkyTorrents|
+||Nyaa[dot]si|
+||Idope|
+||LibGen (Ebooks)|
+||XBit[dot]pw|
 
 Tested on following platforms:
 * **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
@@ -53,12 +48,14 @@ Tested on following platforms:
 **[Reported by users]**
 * **macOS:** Yosemite, Sierra, High Sierra (10.13). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
-**IMPORTANT -** Please keep a close eye on [CHANGELOGS](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md). All updates info, addition setup info (whenever required), and everyting else related will be updated there.  
+* Note about **LibGen** - LibGen allows searching for Ebooks using book's **ISBN-10 number only**. Searching using book title is not supported. (LibGen API does not allow searching using title). A book's ISBN-10 number can be found with a simple google search, or on websites like Amazon.
+
+**IMPORTANT -** Please keep a close eye on [CHANGELOGS](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md). All updates info, addition setup info (whenever required), and everyting else related will be updated there.
 
 ---
 
-#### \* Sites hosting illegal content (MUST READ)
-By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa (anime)/XBit... from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
+#### \* Sites hosting illegal content (Disabled) (MUST READ)
+By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa/XBit... from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using these sites is completely optional. They would never interfere/cause any problems when searching linuxtracker/distowatch.
 * Using these sites in many countries is illegal. Using them can get you into un-intended troubles (e.g notices/block from ISP). Read [Legal issues](https://en.wikipedia.org/wiki/The_Pirate_Bay#Legal_issues)
@@ -87,11 +84,12 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.56/torrench-1.0.56.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.58/torrench-1.0.58.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
+        * For now, `linuxtacker`, `distrowatch` and `libgen` does not allow adding torrent to client from torrench. A `.torrent` file is downloaded to hard-drive. I was unable to find a way to load `.torrent` to client from torrench. I'll try to figure this out when I'll get time. Till then, torrent should be loaded manually after it is downloaded. Also, if someone has a work-around for the same, let me know?
 
 ### Osx
 
@@ -101,10 +99,10 @@ $ pip3 install pyopenssl
 ```
 
 ### Configuration instructions:
-1. Download/Update **config.ini** from [HERE](https://pastebin.com/reymRHSL)
+1. Download/Update the [**config.ini**](https://pastebin.com/reymRHSL) file.
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
-	* **MacOS -** Next bullet (setup instructions).
+	* **MacOS -** See minimal setup guide below.
 2. Enable it
 	* Open config.ini file
 	* Set ```enable=1```
@@ -137,12 +135,14 @@ Optional Sites:
         Requires configuration (disabled by default)
 
         -t, --thepiratebay    Search thepiratebay (TPB)
-        -k, --kickasstorrent    Search KickassTorrent (KAT)
+        -k, --kickasstorrent  Search KickassTorrent (KAT)
         -s, --skytorrents     Search SkyTorrents
         -x, --x1337           Search 1337x
         -r, --rarbg           Search RarBg
         -n, --nyaa            Search Nyaa
+        -i, --idope           Search Idope
         -b, --xbit            Search XBit.pw
+        -g, --libgen          Search LibGen (Ebooks)
 
 Additional options:
         --copy                Copy magnetic link to clipboard
@@ -155,7 +155,7 @@ Additional options:
 ## Features
 * Displays results in organized, tabular form.
 * Load torrent to client from torrench.
-* Copy magnetic link to clipboard (```$ torrench -t 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
+* Copy magnetic link to clipboard (```$ torrench -x 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
 * Interactive mode for searching across modules (```--interactive```)
 * Get TOP torrents [TPB/SkyTorrents] (```--top```)
 
@@ -209,36 +209,51 @@ $ torrench -d "solus" ## Search distrowatch for solus ISO
 $ torrench -x "fedora" ## Search XBit for fedora distros ISO
 ```
 #### Linuxtracker
-
-![ubuntu](images/screenshots/ubuntu.png)
-![fedora](images/screenshots/linux.gif)
+```bash
+$ torrench "fedora workstation"
+```
+![linuxtracker](images/screenshots/linuxtracker.gif)
+![linuxtracker](images/screenshots/linuxtracker.png)
 
 #### DistroWatch
-
-![distrowatch](images/screenshots/distrowatch.png)
+```bash
+$ torrench -d "ubuntu"
+```
 ![distrowatch](images/screenshots/distrowatch.gif)
 
 #### 1337x
-![xbit](images/screenshots/1337x.png)
-![xbit](images/screenshots/1337x.gif)
+```bash
+$ torrench -x "ubuntu"
+```
+![1337x](images/screenshots/1337x.png)
+
+#### Idope
+```bash
+$ torrench -i "opensuse"
+```
+![illegal](images/screenshots/idope.png)
+
 
 #### XBit[dot]pw
+```bash
+$ torrench -x "fedora"
+```
 ![xbit](images/screenshots/xbit.png)
-![xbit](images/screenshots/xbit.gif)
 
 ---
 ### Searches considered illegal
 #### TPB Examples
+
 ```bash
-$ torrench -t "suicide squad"	## Search suicide squad TPB
 $ torrench -t "game of thrones s07e02" -p 2	## Search and fetch 2 pages TPB for GOT s07e02
+$ torrench -t "windows 7"
 ```
 ![illegal](images/screenshots/tpb.png)
 
 ![illegal](images/screenshots/html.png)
 _(Dynamically-generated Torrent description HTML page)_
 
-![illegal](images/screenshots/got.gif)
+![illegal](images/screenshots/tpb.gif)
 _(Click to expand)_
 
 #### KAT Examples
@@ -248,13 +263,11 @@ $ torrench -k "guardians of the galaxy"
 ```
 ![illegal](images/screenshots/kat.png)
 
-![illegal](images/screenshots/kat.gif)
-
 #### RarBg Examples
 ```bash
 $ torrench -r "mr robot"
 ```
-![illegal](images/screenshots/rarbg.gif)
+![illegal](images/screenshots/rarbg.png)
 _(Click to expand)_
 
 #### SkyTorrents Examples
@@ -262,9 +275,7 @@ _(Click to expand)_
 $ torrench -s "hannibal"
 $ torrench -s "narcos"
 ```
-![illegal](images/screenshots/sky.png)
-
-![illegal](images/screenshots/sky.gif)
+![illegal](images/screenshots/skyt.png)
 _(Click to expand)_
 
 #### Nyaa[dot]si Examples
@@ -273,7 +284,11 @@ $ torrench -n "naruto"
 ```
 ![illegal](images/screenshots/nyaa.png)
 
-![illegal](images/screenshots/nyaa.gif)
+#### LibGen Examples (Ebooks)
+```bash
+$ torrench -g 1593272901
+```
+![illegal](images/screenshots/libgen.png)
 
 ---
 

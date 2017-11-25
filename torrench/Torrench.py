@@ -20,34 +20,35 @@ class Torrench(Config):
         -v, --version         Display version and exit.
 
     Main Sites:
-        search                Search LinuxTracker (default)
+        [search]                Search LinuxTracker (default)
         -d, --distrowatch     Search Distrowatch
 
     Optional Sites:
         Requires configuration (disabled by default)
 
-        -t, --thepiratebay        Search thepiratebay (TPB)
-        -k, --kickasstorrent     Search KickassTorrent (KAT)
+        -t, --thepiratebay    Search thepiratebay (TPB)
+        -k, --kickasstorrent  Search KickassTorrent (KAT)
         -s, --skytorrents     Search SkyTorrents
         -x, --x1337           Search 1337x
         -r, --rarbg           Search RarBg
         -n, --nyaa            Search Nyaa
+        -i, --idope           Search Idope
         -b, --xbit            Search XBit.pw
         -g, --libgen          Search LibGen (Ebooks)
 
     Additional options:
-        --copy               Copy magnetic link to clipboard
+        --copy                Copy magnetic link to clipboard
         --top                 Get TOP torrents [TPB/SkyTorrents]
         -p LIMIT, --page-limit LIMIT
-                            Number of pages to fetch results from. [default: 1]
-                            [TPB/KAT/SkyT]
+                                Number of pages to fetch results from. [default: 1]
+                                [TPB/KAT/SkyT]
         -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
     """
 
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.56)"
+        self.__version__ = "Torrench (1.0.58)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None

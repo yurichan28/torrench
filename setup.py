@@ -10,7 +10,7 @@ except ImportError:
 
 DESCRIPTION = 'Command-line torrent search program for Windows, Linux and  MacOS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs.'
-VERSION = '1.0.56'
+VERSION = '1.0.58'
 
 setup(
     name="torrench",
@@ -25,7 +25,7 @@ setup(
     long_description=(LONG_DESCRIPTION),
     entry_points={'console_scripts': ['torrench = torrench.__main__:main']},
     zip_safe=False,
-    keywords=['torrents', 'thepiratebay', 'kickasstorrents', 'CLI', 'linuxtracker', 'distrowatch', 'skytorrents', 'rarbg', '1337x'],
+    keywords=['torrents', 'distrowatch', 'linuxtracker', 'linux', 'windows', 'cli', 'terminal'],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

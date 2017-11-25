@@ -59,7 +59,7 @@ class Common:
         """
         try:
             try:
-                headers = {"user-agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"}
+                headers = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0"}
                 self.start_time = time.time()
                 self.raw = requests.get(url, timeout=15, headers=headers)
                 self.page_fetch_time = time.time() - self.start_time

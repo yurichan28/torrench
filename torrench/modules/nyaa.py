@@ -1,9 +1,11 @@
 """nyaa.si module."""
 
-import sys
 import logging
 import platform
+import sys
+
 from torrench.utilities.Config import Config
+
 
 class NyaaTracker(Config):
     """
@@ -158,44 +160,21 @@ class NyaaTracker(Config):
         """
         oplist = [self.index, self.total_fetch_time]
         self.after_output('nyaa', oplist)
-
+    
     def select_torrent(self):
-        """Select torrent from table using index."""
-        while True:
-            try:
-                prompt = int(input("\n(0 to exit)\nIndex > "))
-                self.logger.debug("Selected index {idx}".format(idx=prompt))
-                if prompt == 0:
-                    print("Bye!")
-                    break
-                else:
-                    selected_torrent, download_url, magnet_url = self.mapper[0][0][prompt-1], self.mapper[0][1][prompt-1], self.mapper[0][2][prompt-1]
-                    selected_torrent = self.colorify("yellow", selected_torrent)
-                    print("Selected index [{idx}] - {torrent}\n".format(idx=prompt, torrent=selected_torrent))
-                    # Print Magnetic link / load magnet to client
-                    prompt2 = input("1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
-                    prompt2 = prompt2.lower()
-                    self.logger.debug("selected option: [%c]" % (prompt2))
-                    if prompt2 == 'p':
-                        self.logger.debug("printing magnetic link and upstream link")
-                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", magnet_url)))
-                        self.copy_magnet(magnet_url)
-                        print("\n\nUpstream link: {url}\n".format(url=download_url))
-                    elif prompt2 == 'l':
-                        try:
-                            self.logger.debug("Loading torrent to client")
-                            self.load_torrent(magnet_url)
-                        except Exception as e:
-                            self.logger.exception(e)
-                            continue
-            except (ValueError, IndexError, TypeError) as e:
-                print("\nBad Input!")
-                self.logger.exception(e)
-                continue
+        """
+        Select torrent
 
-    def get_torrent(self, url, name):
-        """Download the .torrent file to the computer."""
-        self.download(url, name+'.torrent')
+        Torrent is selected using index value.
+        All of its functionality is defined in Common.py file.
+        """
+        self.logger.debug("Output displayed. Selecting torrent")
+        while True:
+            index = self.select_index(len(self.mapper[0][0]))
+            if index == 0:
+                continue
+            self.select_option(self.mapper, index, 'nyaa')
+
 
 def main(title):
     """

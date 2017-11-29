@@ -1,8 +1,9 @@
 """Idope Module."""
 
-import sys
-from torrench.utilities.Config import Config
 import logging
+import sys
+
+from torrench.utilities.Config import Config
 
 
 class Idope(Config):
@@ -123,55 +124,17 @@ class Idope(Config):
 
     def select_torrent(self):
         """
-        To select required torrent.
+        Select torrent
 
-        Torrent is selected through index value.
-        Two options are present:
-        1. To print magnetic link and upstream link to console.
-        Further, torrent can be added directly to client (Note: May not work everytime.)
-        2. To load torrent to client.
+        Torrent is selected using index value.
+        All of its functionality is defined in Common.py file.
         """
-        self.logger.debug("Selecting torrent...")
-        temp = 9999
-        while(temp != 0):
-            try:
-                temp = int(input("\n(0=exit)\nindex > "))
-                self.logger.debug("selected index %d" % (temp))
-                if temp == 0:
-                    print("\nBye!")
-                    self.logger.debug("Torrench quit!")
-                    break
-                elif temp < 0:
-                    print("\nBad Input!")
-                    continue
-                else:
-                    selected_torrent, req_magnetic_link, torrent_link = self.mapper[temp-1]
-                    print("Selected index [%d] - %s\n" % (temp, self.colorify("yellow", selected_torrent)))
-                    self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
-                    temp2 = input("1. Print links [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
-                    temp2 = temp2.lower()
-                    self.logger.debug("selected option: [%c]" % (temp2))
-                    if temp2 == 'p':
-                        self.logger.debug("printing magnetic link and upstream link")
-                        print("\nMagnetic link - %s" % (self.colorify("red",  req_magnetic_link)))
-                        self.copy_magnet(req_magnetic_link)
-                        print("\n\nUpstream link - %s\n" % (self.colorify("yellow", torrent_link)))
-                    elif temp2 == 'l':
-                        try:
-                            self.logger.debug("Loading magnetic link to client")
-                            self.load_torrent(req_magnetic_link)
-                        except Exception as e:
-                            self.logger.exception(e)
-                            continue
-                    else:
-                        self.logger.debug("Inappropriate input! Should be [p/l/g] only!")
-                        print("Bad input!")
-                        continue
-            except (ValueError, IndexError, TypeError) as e:
-                print("\nBad Input!")
-                self.logger.exception(e)
+        self.logger.debug("Output displayed. Selecting torrent")
+        while True:
+            index = self.select_index(len(self.mapper))
+            if index == 0:
                 continue
-
+            self.select_option(self.mapper, index, 'idope')
 
 def main(title, page_limit):
     """Execution begins here."""
@@ -184,4 +147,4 @@ def main(title, page_limit):
 
 
 if __name__ == "__main__":
-    main()
+    print("It's a module!")

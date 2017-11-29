@@ -1,7 +1,8 @@
 """KickassTorrents Module."""
 
-import sys
 import logging
+import sys
+
 from torrench.utilities.Config import Config
 
 
@@ -59,7 +60,7 @@ class KickassTorrents(Config):
             print("Trying %s" % (self.colorify("yellow", proxy)))
             self.logger.debug("Trying proxy: %s" % (proxy))
             self.soup = self.http_request(proxy)
-            if self.soup.find('a')['href'] != proxy + "full/" or self.soup == -1:
+            if self.soup.find('a')['href'] != proxy + "/full/" or self.soup == -1:
                 print("Bad proxy!")
                 count += 1
                 if count == len(self.proxies):
@@ -84,7 +85,7 @@ class KickassTorrents(Config):
         for self.page in range(self.pages):
             print("\nFetching from page: %d" % (self.page+1))
             self.logger.debug("fetching page %d/%d" % (self.page, self.pages))
-            search = "usearch/%s/%d/" % (self.title, self.page + 1)
+            search = "/usearch/%s/%d/" % (self.title, self.page + 1)
             self.soup, time = self.http_request_time(self.proxy + search)
             print("Page fetched!")
             self.logger.debug("Page fetched in %.2f sec!" % (time))
@@ -125,6 +126,7 @@ class KickassTorrents(Config):
                     seeds = self.colorify("green", misc_details[2].string)
                     leeches = self.colorify("red", misc_details[3].string)
                     magnet = i.find('a', {'title': 'Torrent magnet link'})['href']
+                    torrent_link = self.proxy+torrent_link
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, torrent_link))
 
@@ -156,55 +158,19 @@ class KickassTorrents(Config):
         oplist = [self.index, self.total_fetch_time]
         self.after_output('kat', oplist)
 
-
     def select_torrent(self):
         """
-        To select required torrent.
+        Select torrent
 
-        Torrent is selected through index value.
-        Prints magnetic link and upstream link to console.
-        Also, torrent can be added directly to client
-        (Note: Might not work as expected.)
+        Torrent is selected using index value.
+        All of its functionality is defined in Common.py file.
         """
-        self.logger.debug("torrent select!")
-        temp = 9999
-        while(temp != 0):
-            try:
-                temp = int(input("\n(0=exit)\nindex > "))
-                self.logger.debug("selected index: %d" % (temp))
-                if temp == 0:
-                    self.logger.debug("Torrench quit!")
-                    print("\nBye!\n")
-                    break
-                elif temp < 0:
-                    print("\nBad Input!")
-                    continue
-                else:
-                    selected_torrent, req_magnetic_link, req_torr_link = self.mapper[temp-1]
-                    selected_torrent = self.colorify("yellow", selected_torrent)
-                    print("Selected index [%d] - %s\n" % (temp, selected_torrent))
-                    self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
-                    # Print Magnetic link / load magnet to client
-                    temp2 = input("\n1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
-                    temp2 = temp2.lower()
-                    self.logger.debug("selected option: [%c]" % (temp2))
-                    if temp2 == 'p':
-                        self.logger.debug("printing magnetic link and upstream link")
-                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", req_magnetic_link)))
-                        self.copy_magnet(req_magnetic_link)
-                        upstream_link = self.colorify("yellow", self.proxy + req_torr_link)
-                        print("\n\nUpstream Link: %s \n\n" % (upstream_link))
-                    elif temp2 == 'l':
-                        try:
-                            self.logger.debug("Loading torrent to client")
-                            self.load_torrent(req_magnetic_link)
-                        except Exception as e:
-                            self.logger.exception(e)
-                            continue
-            except (ValueError, IndexError, TypeError) as e:
-                print("\nBad Input!")
-                self.logger.exception(e)
+        self.logger.debug("Output displayed. Selecting torrent")
+        while True:
+            index = self.select_index(len(self.mapper))
+            if index == 0:
                 continue
+            self.select_option(self.mapper, index, 'kat')
 
 
 def main(title, page_limit):

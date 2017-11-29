@@ -1,6 +1,7 @@
 """SkyTorrents Module."""
-import sys
 import logging
+import sys
+
 from torrench.utilities.Config import Config
 
 
@@ -39,10 +40,9 @@ class SkyTorrents(Config):
         self.soup_dict = {}
         self.soup = None
         self.output_headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
-                               "INDEX", "SIZE", "FILES", "UPLOADED", "SE/LE"]
+                               "INDEX", "SIZE", "UPLOADED", "SE/LE"]
         ######################################
         self.top = "/top1000/all/ed/%d/?l=en-us" % (self.page)
-        self.file_count = 0
 
     def check_proxy(self):
         """
@@ -153,7 +153,6 @@ class SkyTorrents(Config):
                     data = content[i]
                     results = data.find_all("td")
                     name = results[0].find_all('a')[0].string
-                    name = name.encode('ascii', 'replace').decode()
                     upvotes = '0'
                     downvotes = '0'
                     try:
@@ -172,18 +171,17 @@ class SkyTorrents(Config):
                     link = results[0].find_all('a')[0]['href']
                     magnet = results[0].find_all('a')[1]['href']
                     size = results[1].string
-                    self.file_count = results[2].string
+                    #self.file_count = results[2].string
                     uploaded = results[3].string
                     seeds = results[4].string
                     leeches = results[5].string
                     seeds = self.colorify("green", seeds)
                     leeches = self.colorify("red", leeches)
                     self.index += 1
-
-                    self.mapper.insert(self.index, (name, magnet, link, self.file_count))
-                    #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, self.file_count, uploaded, seeds, leeches]
+                    self.mapper.insert(self.index, (name, magnet, self.proxy+link))
+                    #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, uploaded, seeds, leeches]
                     self.mylist = [name + display_votes,
-                            "--"+str(self.index)+"--", size, self.file_count,
+                            "--"+str(self.index)+"--", size,
                             uploaded, (seeds + '/' + leeches)]
                     masterlist.append(self.mylist)
 
@@ -211,64 +209,19 @@ class SkyTorrents(Config):
 
     def select_torrent(self):
         """
-        To select required torrent.
+        Select torrent
 
-        Torrent is selected through index value.
-        Prints magnetic link and upstream link and torrent files present
-        to console.
-        Also, torrent can be added directly to client
-        (Note: Might not work as expected.)
+        Torrent is selected using index value.
+        All of its functionality is defined in Common.py file.
         """
-        self.logger.debug("Selecting torrent...")
-        temp = 9999
-        while(temp != 0):
-            try:
-                temp = int(input("\n(0=exit)\nindex > "))
-                self.logger.debug("selected index %d" % (temp))
-                if temp == 0:
-                    print("\nBye!")
-                    self.logger.debug("Torrench quit!")
-                    break
-                elif temp < 0:
-                    print("\nBad Input!")
-                    continue
-                else:
-                    selected_torrent, req_magnetic_link, torrent_link, self.file_count = self.mapper[temp-1]
-                    selected_torrent = self.colorify("yellow", selected_torrent)
-                    print("\nSelected index [%d] - %s\n" % (temp, selected_torrent))
-                    self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, temp))
-
-                    # Show torrent files?
-                    option = input("Show torrent files? [y/n]: ")
-                    self.logger.debug("View torrent files: [%s]" % (option))
-                    if (option == 'y' or option == 'Y'):
-                        self.show_files(torrent_link)
-                        self.logger.debug("Torrent files displayed.")
-                    elif (option == 'n' or option == 'N' or option == ""):
-                        self.logger.debug("Torrent files NOT displayed.")
-
-                    # Print Magnetic link / load magnet to client
-                    temp2 = input("\n1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n\nOption [p/l]: ")
-                    temp2 = temp2.lower()
-                    self.logger.debug("selected option: [%c]" % (temp2))
-                    if temp2 == 'p':
-                        self.logger.debug("printing magnetic link and upstream link")
-                        print("\nMagnet link: {magnet}".format(magnet=self.colorify("red", req_magnetic_link)))
-                        self.copy_magnet(req_magnetic_link)
-                        upstream_link = self.colorify("yellow", self.proxy + torrent_link)
-                        print("\n\nUpstream link: {url}\n".format(url=upstream_link))
-                    elif temp2 == 'l':
-                        try:
-                            self.logger.debug("Loading torrent to client")
-                            self.load_torrent(req_magnetic_link)
-                        except Exception as e:
-                            self.logger.exception(e)
-                            continue
-            except (ValueError, IndexError, TypeError) as e:
-                print("\nBad Input!")
-                self.logger.exception(e)
+        self.logger.debug("Output displayed. Selecting torrent")
+        while True:
+            index = self.select_index(len(self.mapper))
+            if index == 0:
                 continue
+            self.select_option(self.mapper, index, 'sky')
 
+    '''
     def show_files(self, torrent_link):
         """To fetch and print files available in torrent."""
         self.logger.debug("Show torrent files selected")
@@ -281,6 +234,7 @@ class SkyTorrents(Config):
                 size = soup.find_all("tr")[i+1].find_all('td')[1].string
                 print("> %s  (%s)" % (name, self.colorify("green", size)))
         self.logger.debug("Files fetched!")
+    '''
 
 
 def main(title, page_limit):

@@ -1,8 +1,8 @@
 """The Pirate Bay Module."""
 
-import sys
 import logging
-import torrench.modules.tpb_details as tpb_details
+import sys
+
 from torrench.utilities.Config import Config
 
 
@@ -222,65 +222,20 @@ class ThePirateBay(Config):
         """
         oplist = [self.index, self.total_fetch_time]
         self.after_output('tpb', oplist)
-
+    
     def select_torrent(self):
         """
-        To select required torrent.
+        Select torrent
 
-        Torrent is selected through index value.
-        Two options are present:
-        1. To print magnetic link and upstream link to console.
-        Further, torrent can be added directly to client (Note: May not work everytime.)
-        2. To fetch torrent details (saved in dynamically generated .html file)
+        Torrent is selected using index value.
+        All of its functionality is defined in Common.py file.
         """
-        self.logger.debug("Selecting torrent...")
-        temp = 9999
-        while(temp != 0):
-            try:
-                temp = int(input("\n(0=exit)\nindex > "))
-                self.logger.debug("selected index %d" % (temp))
-                if temp == 0:
-                    print("\nBye!")
-                    self.logger.debug("Torrench quit!")
-                    break
-                elif temp < 0:
-                    print("\nBad Input!")
-                    continue
-                else:
-                    selected_torrent, req_magnetic_link, torrent_link = self.mapper[temp-1]
-                    print("Selected index [%d] - %s\n" % (temp, selected_torrent))
-                    self.logger.debug("selected torrent: %s ; index: %d" % (self.non_color_name, temp))
-                    temp2 = input("1. Print magnetic link [p]\n2. Load magnetic link to client [l]\n3. Get torrent details [g]\n\nOption [p/l/g]: ")
-                    temp2 = temp2.lower()
-                    self.logger.debug("selected option: [%c]" % (temp2))
-                    if temp2 == 'p':
-                        self.logger.debug("printing magnetic link and upstream link")
-                        print("\nMagnetic link - %s" % (self.colorify("red",  req_magnetic_link)))
-                        self.copy_magnet(req_magnetic_link)
-                        print("\n\nUpstream link - %s\n" % (self.colorify("yellow", torrent_link)))
-                    elif temp2 == 'l':
-                        try:
-                            self.logger.debug("Loading magnetic link to client")
-                            self.load_torrent(req_magnetic_link)
-                        except Exception as e:
-                            self.logger.exception(e)
-                            continue
-                    elif temp2 == 'g':
-                        print("Fetching details for torrent index [%d] : %s" % (
-                            temp, selected_torrent))
-                        self.logger.debug("fetching torrent details...")
-                        file_url = tpb_details.get_details(torrent_link, str(temp))
-                        self.logger.debug("details fetched. saved in %s" % (file_url))
-                        file_url = self.colorify("yellow", file_url)
-                        print("File URL: %s \n" % (file_url))
-                    else:
-                        self.logger.debug("Inappropriate input! Should be [p/l/g] only!")
-                        print("Bad input!")
-                        continue
-            except (ValueError, IndexError, TypeError) as e:
-                print("\nBad Input!")
-                self.logger.exception(e)
+        self.logger.debug("Output displayed. Selecting torrent")
+        while True:
+            index = self.select_index(len(self.mapper))
+            if index == 0:
                 continue
+            self.select_option(self.mapper, index, 'tpb')
 
 
 def main(title, page_limit):

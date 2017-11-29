@@ -1,18 +1,20 @@
 """Common Module - Used by all torrent-fetching modules."""
-import time
 import inspect
+import logging
 import os
-import sys
 import platform
+import subprocess
+import sys
+import time
+import webbrowser
+from configparser import SafeConfigParser
+
+import colorama
 import requests
 from bs4 import BeautifulSoup
-import colorama
-from tabulate import tabulate
-import logging
-import subprocess
-import webbrowser
+
 import pyperclip
-from configparser import SafeConfigParser
+from tabulate import tabulate
 
 
 class Common:
@@ -206,16 +208,241 @@ class Common:
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
+    
+    def select_index(self, len):
+        """
+        Select index method.
+
+        Once output is displayed, specific torrent is selected using
+        its corresponding index value.
+
+        len is the total number of records fetched.
+        Index starts from 0 upto len(total number of records.)
+
+        The selected index is returned to to caller module.
+        """
+        self.logger.debug("Selecting torrent index")
+        try:
+            index = None
+            while index != 'q':
+                index = input("\n(q = quit)\nindex > ")
+                self.logger.debug("selected index %s" % (index))
+                if index == 'q':
+                    print("\nBye!")
+                    self.logger.debug("Torrench quit!")
+                    sys.exit(2)
+                else:
+                    index = int(index)
+                if index < 1 or index > len:
+                    print("\nBad Input!")
+                    continue
+                else:
+                    return index
+        except (ValueError, TypeError) as e:
+            print("\nBad Input!")
+            self.logger.exception(e)
+            return 0
+
+    def select_option(self, mapper, index, site):
+        """
+        Select option method.
+
+        After index is selected, few options are displayed
+        asking as to what to do with selected torrents.
+
+        Options are as follows:
+        [COMMON TO ALL MODULES/WEBSITES]
+        [1] Print links (magnetic, upstream): Prints magnetic and upstream links
+        on screen. Further, those links can be copied to clipboard
+        [2] Load torrent to client: To load torrent to client from torrench
+        [r] Return: To return to previous screen/options
+        [q] Quit: To quit torrench
+
+        [ONLY-FOR-TPB]
+        [3] Get torrent details: To fetch torrent details and store those in a custom
+        HTML page.
+        """
+        try:
+            if site == 'nyaa':
+                selected_torrent = mapper[0][0][index-1]
+            else:
+                selected_torrent = mapper[index-1][0]
+            self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, index))
+            print("\nSelected index [%d] - %s\n" % (index, selected_torrent))
+            option_one = "[1] Print links (magnetic, upstream)\n"
+            option_two = "[2] Load torrent to client\n"
+            option_three = "[3] Get torrent details\n"
+            option_return = "[r] Return\n"
+            option_quit = "[q] Quit\n"
+            if site == 'tpb':
+                options = option_one + option_two + option_three + option_return + option_quit
+            else:
+                options = option_one + option_two + option_return + option_quit
+            print(options)
+            self.logger.debug("Selecting option")
+            opt = input("Option > ")
+            self.logger.debug("Selected option: {}".format(opt))
+            if opt == '':
+                raise ValueError
+            elif opt in 'rR':
+                self.logger.debug(option_return)
+                return
+            elif opt in 'qQ':
+                self.logger.debug("Torrench quit!")
+                print("\nBye!\n")
+                sys.exit(2)
+            else:
+                opt = int(opt)
+                if opt == 1:
+                    self.logger.debug(option_one)
+                    magnetic_link, torrent_link = self.get_links(mapper, index, site)
+                    self.print_links(magnetic_link, torrent_link)
+                elif opt == 2:
+                    self.logger.debug(option_two)
+                    magnetic_link, torrent_link = self.get_links(mapper, index, site)
+                    self.load_torrent(magnetic_link)
+                
+                # Fetch TPB torrent details. fetch_tpb_details is defined in Common.py file itself.
+                elif opt == 3 and site == 'tpb':
+                    self.logger.debug(option_three)
+                    magnetic_link, torrent_link = self.get_links(mapper, index, site)
+                    print("Fetching details for torrent index [{}]: {}".format(index, selected_torrent))
+                    file_url = self.fetch_tpb_details(torrent_link, index)
+                    file_url_color = self.colorify("yellow", file_url)
+                    print("File URL: {}".format(file_url_color))
+                    self.copylink_clipboard(file_url)
+                else:
+                    raise ValueError
+            self.select_option(mapper, index, site)
+        except (ValueError, TypeError) as e:
+                print("\nBad Input!\n")
+                self.logger.exception(e)
+                self.select_option(mapper, index, site)
+    
+    def get_links(self, mapper, index, site):
+        """
+        Get links method.
+
+        This method fetches and returns magnetic/upstream links.
+        """
+        try:
+            self.logger.debug("Fetching magnetic and upstream links for {}".format(site))
+            if site == '1337x':
+                torrent_link = mapper[index-1][-1]
+                magnetic_link = self.get_1337x_magnet(torrent_link)
+            elif site == 'nyaa':
+                torrent_link = mapper[0][1][index-1]
+                magnetic_link = mapper[0][2][index-1]
+            else:
+                torrent_link = mapper[index-1][-1]
+                magnetic_link = mapper[index-1][-2]
+            self.logger.debug("Links fetched successfully.")
+            return magnetic_link, torrent_link
+        except Exception as e:
+            print("Something went wrong. See logs for details.")
+            self.logger.exception(e)
+
+    def print_links(self, req_magnetic_link, torrent_link):
+        """
+        Print links method.
+
+        This method is called when option [1] is selected from select_option()
+        method. Prints magnetic and upstream links on screen.
+
+        Further, two more options are available:
+        [1] Copy magnetic link to clipboard
+        [2] Copy upstream Link to clipboard
+        [r] Return: To return to previous screen.
+        """
+        try:
+            self.logger.debug("Printing magnetic and upstream links")
+            print("\nMagnetic link - %s" % (self.colorify("red",  req_magnetic_link)))
+            print("\n\nUpstream link - %s\n" % (self.colorify("yellow", torrent_link)))
+            option_one = "[1] Copy magnetic link to clipboard\n"
+            option_two = "[2] Copy upstream Link to clipboard\n"
+            option_return = "[r] Return\n"
+            options = option_one + option_two + option_return
+            print(options)
+            try:
+                opt = input("Option > ")
+                self.logger.debug("Selected option: {}".format(opt))
+                if opt == '':
+                    raise ValueError
+                elif opt in 'rR':
+                    self.logger.debug(option_return)
+                    return
+                else:
+                    opt = int(opt)
+                    if opt == 1:
+                        self.logger.debug("{}: {}".format(opt, option_one))
+                        self.copylink_clipboard(req_magnetic_link)
+                    elif opt == 2:
+                        self.logger.debug("{}: {}".format(opt, option_two))
+                        self.copylink_clipboard(torrent_link)
+                    else:
+                        raise ValueError
+            except (ValueError, TypeError) as e:
+                    print("\nBad Input!\n")
+                    self.logger.exception(e)
+                    self.print_links(req_magnetic_link, torrent_link)
+        except Exception as e:
+            print("Something went wrong. See logs for details.")
+            self.logger.exception(e)
+            return
+
+    def copylink_clipboard(self, link):
+        """Copy Magnetic/Upstream link to clipboard"""
+        try:
+            self.logger.debug("Copying magnetic/upstream link to clipboard")
+            pyperclip.copy(link)
+            self.logger.debug("Copied successfully.")
+            message = "Link copied to clipboard.\n"
+            print(self.colorify("green", message))
+        except Exception as e:
+            print("Something went wrong.")
+            print("Please make sure [xclip] package is installed.")
+            print("See logs for details.\n\n")
+            self.logger.error(e)
+
+    def get_1337x_magnet(self, link):
+        """Module to get magnetic link of torrent.
+
+        Magnetic link is fetched from torrent's info page.
+        """
+        print("Fetching magnetic link...")
+        self.logger.debug("Fetching magnetic link")
+        soup = self.http_request(link)
+        magnet = soup.find('ul', class_="download-links-dontblock").a['href']
+        return magnet
+
+    def fetch_tpb_details(self, link, index):
+        """
+        Fetch TPB torrent details and save it in custom HTML file.
+        
+        The file is stored in hard-drive with link printed and copied to clipboard
+        automatically.
+        """
+        import torrench.modules.tpb_details as tpb_details
+        self.logger.debug("fetching torrent details...")
+        file_url = tpb_details.get_details(link, str(index))
+        self.logger.debug("details fetched. saved in %s" % (file_url))
+        return file_url
 
     def copy_magnet(self, link):
-        """Copy magnetic link to clipboard."""
+        """Copy magnetic link to clipboard.
+        
+        This method is different from copylink_clipboard().
+        This method handles the --copy argument.
+
+        If --copy argument is supplied, magnetic link is copied to clipboard.
+        """
         from torrench.Torrench import Torrench
         tr = Torrench()
         if tr.check_copy():
             try:
                 pyperclip.copy(link)
                 print("(Magnetic link copied to clipboard)")
-            except pyperclip.exceptions.PyperclipException as e:
+            except Exception as e:
                 print("(Unable to copy magnetic link to clipboard. Is [xclip] installed?)")
                 print("(See logs for details)")
                 self.logger.error(e)

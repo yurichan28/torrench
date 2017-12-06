@@ -29,7 +29,7 @@ _(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 Torrench supports following websites:
 
-| Sites Enabled | Sites Disabled |
+| Sites Enabled | Sites Disabled (Requires Configuration) |
 | :-------------- | :------------------------- |
 |LinuxTracker `(default)`|The Pirate Bay (TPB)|
 |DistroWatch `(-d)`|KickassTorrents (KAT)|

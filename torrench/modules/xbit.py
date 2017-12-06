@@ -38,75 +38,63 @@ class XBit(Config):
         self.total_fetch_time = 0
         self.mylist = []
         self.mapper = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.data = {}
         self.output_headers = [
                 'ID', 'NAME', 'INDEX', 'SIZE', 'DISCOVERED']
 
-    def get_data(self):
+    def search_torrent(self):
         """
-        To get JSON data from xbit.pw.
-
-        At max. 100 torrents can be fetched for given input query.
-        """
-        search = "api?search=%s&limit=100" % (self.title)
-        start_time = time.time()
-        raw = requests.get(self.proxy+search).json()
-        self.total_fetch_time = time.time() - start_time
-        self.data = raw
-
-    def parse_data(self):
-        """
-        Parsing JSON.
+        Obtain and parse JSON.
 
         Torrent id, name, magnet, size and date are fetched.
         """
         try:
+            search = "api?search=%s&limit=100" % (self.title)
+            print("Fetching results...")
+            start_time = time.time()
+            raw = requests.get(self.proxy+search).json()
+            self.total_fetch_time = time.time() - start_time
+            print("[in {:.2f} sec]".format(self.total_fetch_time))
+            self.data = raw
             masterlist = []
             results = self.data['dht_results']
             if results == [{}]:
-                print("\nNo results found for given input!\n")
-                self.logger.debug("No results fetched!")
-                sys.exit(2)
+                return
             for result in results[:-1]:
                 torrent_id = result['ID']
-                torrent_name = result['NAME']
+                name = result['NAME']
                 magnet = result['MAGNET']
-                torrent_size = result['SIZE']
-                torrent_discovered = result['DISCOVERED']
+                size = result['SIZE']
+                date = result['DISCOVERED']
                 self.index += 1
-                self.mapper.insert(self.index, (magnet, torrent_name))
-                self.mylist = [torrent_id, torrent_name, "--"+str(self.index)+"--", torrent_size, torrent_discovered]
+                self.mapper.insert(self.index, (name, magnet, 'None'))
+                self.mylist = [torrent_id, name, "--"+str(self.index)+"--", size, date]
                 masterlist.append(self.mylist)
-            self.show_output(masterlist, self.output_headers)
+                seeds = None
+                self.mylist_crossite = [name, self.index, size, seeds, date]
+                self.masterlist_crossite.append(self.mylist_crossite)
+            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
-        Text to be displayed after results are displayed.
-        """
-        try:
-            print("\nTotal %d torrents" % (self.index))
-            print("Total time: %.2f sec" % (self.total_fetch_time))
-            self.logger.debug("fetched ALL results in %.2f sec" % (self.total_fetch_time))
-            print("\nEnter torrent's index value (Maximum one index)\n")
-        except Exception as e:
-            self.logger.exception(e)
-            print("Error message: %s" %(e))
-            print("Something went wrong! See logs for details. Exiting!")
-            sys.exit(2)
+        After output is displayed, Following text is displayed on console.
 
-    def select_torrent(self):
+        Text includes instructions, total torrents fetched, total pages,
+        and total time taken to fetch results.
         """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
+        oplist = [self.index, self.total_fetch_time]
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
+        self.after_output('xbit', oplist)
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -121,14 +109,20 @@ def main(title):
         xb = XBit(title)
         print("Using %s" %(xb.colorify("yellow", xb.proxy)))
         print("Fetching results...")
-        xb.get_data()
-        xb.parse_data()
-        xb.after_output_text()
-        print(xb.mapper[0])
-        xb.select_torrent()
+        masterlist = xb.search_torrent()
+        if masterlist is None:
+            print("\nNo results found for given input!")
+            xb.logger.debug("No results fetched!")
+            sys.exit(2)
+        xb.post_fetch(masterlist)
     except KeyboardInterrupt:
         xb.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
+    xb = XBit(title)
+    return xb
 
 
 if __name__ == "__main__":

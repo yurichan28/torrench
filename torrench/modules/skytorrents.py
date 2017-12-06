@@ -37,10 +37,12 @@ class SkyTorrents(Config):
         self.total_fetch_time = 0
         self.mylist = []
         self.mapper = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.soup_dict = {}
         self.soup = None
         self.output_headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
-                               "INDEX", "SIZE", "UPLOADED", "SE/LE"]
+                               "INDEX", "SIZE", "date", "SE/LE"]
         ######################################
         self.top = "/top1000/all/ed/%d/?l=en-us" % (self.page)
 
@@ -172,49 +174,41 @@ class SkyTorrents(Config):
                     magnet = results[0].find_all('a')[1]['href']
                     size = results[1].string
                     #self.file_count = results[2].string
-                    uploaded = results[3].string
+                    date = results[3].string
                     seeds = results[4].string
                     leeches = results[5].string
-                    seeds = self.colorify("green", seeds)
-                    leeches = self.colorify("red", leeches)
+                    seeds_color = self.colorify("green", seeds)
+                    leeches_color = self.colorify("red", leeches)
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, self.proxy+link))
-                    #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, uploaded, seeds, leeches]
+                    #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, date, seeds, leeches]
                     self.mylist = [name + display_votes,
                             "--"+str(self.index)+"--", size,
-                            uploaded, (seeds + '/' + leeches)]
+                            date, (seeds_color + '/' + leeches_color)]
                     masterlist.append(self.mylist)
-
-            if masterlist == []:
-                print("No results found for given input!")
-                self.logger.debug("No results found for given input! Exiting!")
-                sys.exit(2)
-            self.logger.debug("Results fetched successfully!")
-            self.show_output(masterlist, self.output_headers)
+                    # Lists used for cross-site
+                    self.mylist_crossite = [name+display_votes, self.index, size, seeds+'/'+leeches, date]
+                    self.masterlist_crossite.append(self.mylist_crossite)
+            return masterlist
         except Exception as e:
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             self.logger.exception(e)
             sys.exit(2)
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
         After output is displayed, Following text is displayed on console.
 
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
         oplist = [self.index, self.total_fetch_time]
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
         self.after_output('sky', oplist)
-
-    def select_torrent(self):
-        """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -247,12 +241,20 @@ def main(title, page_limit):
         if title is None:
             sky.get_top_html()
         sky.get_html()
-        sky.parse_html()
-        sky.after_output_text()
-        sky.select_torrent()
+        masterlist = sky.parse_html()
+        if masterlist == []:
+            print("\nNo results found for given input!")
+            sky.logger.debug("No results found for given input! Exiting!")
+            sys.exit(2)
+        sky.post_fetch(masterlist)
     except KeyboardInterrupt:
         sky.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
+    sky = SkyTorrents(title, page_limit)
+    return sky
 
 
 if __name__ == "__main__":

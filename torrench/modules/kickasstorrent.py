@@ -41,6 +41,8 @@ class KickassTorrents(Config):
         self.total_fetch_time = 0
         self.mylist = []
         self.mapper = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.output_headers = [
                 'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'SE/LE', 'C']
 
@@ -83,11 +85,11 @@ class KickassTorrents(Config):
         Uses http_request_time() from Common.py module.
         """
         for self.page in range(self.pages):
-            print("\nFetching from page: %d" % (self.page+1))
+            print("Fetching from page: %d" % (self.page+1))
             self.logger.debug("fetching page %d/%d" % (self.page, self.pages))
             search = "/usearch/%s/%d/" % (self.title, self.page + 1)
             self.soup, time = self.http_request_time(self.proxy + search)
-            print("Page fetched!")
+            print("[in %.2f sec]" % (time))
             self.logger.debug("Page fetched in %.2f sec!" % (time))
             self.total_fetch_time += time
             self.soup_dict[self.page] = self.soup
@@ -112,35 +114,31 @@ class KickassTorrents(Config):
                         name = i.find('a', class_='cellMainLink').get_text().split("[[")[0]
                     # Handling Unicode characters in windows.
                     torrent_link = i.find('a', class_='cellMainLink')['href']
-                    uploader_name = i.find('span', class_='lightgrey').get_text().split(" ")[-4]
+                    uploader = i.find('span', class_='lightgrey').get_text().split(" ")[-4]
                     category = i.find('span', class_='lightgrey').get_text().split(" ")[-2]
                     verified_uploader = i.find('a', {'title': 'Verified Torrent'})
                     if verified_uploader is not None:
-                        uploader_name = self.colorify("yellow", uploader_name)
+                        uploader = self.colorify("yellow", uploader)
                         comment_count = i.find('a', class_='icommentjs').get_text()
                     if comment_count == '':
                         comment_count = 0
                     misc_details = i.find_all('td', class_='center')
                     size = misc_details[0].string
-                    date_added = misc_details[1].string
-                    seeds = self.colorify("green", misc_details[2].string)
-                    leeches = self.colorify("red", misc_details[3].string)
+                    date = misc_details[1].string
+                    seeds = misc_details[2].string
+                    leeches = misc_details[3].string
+                    seeds_color = self.colorify("green", seeds)
+                    leeches_color = self.colorify("red", leeches)
                     magnet = i.find('a', {'title': 'Torrent magnet link'})['href']
                     torrent_link = self.proxy+torrent_link
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, torrent_link))
-
                     self.mylist = [category, name, '--' + str(self.index) +
-                            '--', uploader_name, size, date_added, (seeds + '/'
-                                + leeches), comment_count]
+                            '--', uploader, size, date, seeds_color+'/'+leeches_color, comment_count]
+                    self.mylist_crossite = [name+" ({})".format(uploader), self.index, size, seeds+'/'+leeches, date]
+                    self.masterlist_crossite.append(self.mylist_crossite)
                     masterlist.append(self.mylist)
-
-            if masterlist == []:
-                print("\nNo results found for given input!\n")
-                self.logger.debug("\nNo results found for given input! Exiting!")
-                sys.exit(2)
-            self.logger.debug("Results fetched successfully!")
-            self.show_output(masterlist, self.output_headers)
+            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" %(e))
@@ -148,24 +146,19 @@ class KickassTorrents(Config):
             sys.exit(2)
 
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
         After output is displayed, Following text is displayed on console.
 
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
         oplist = [self.index, self.total_fetch_time]
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
         self.after_output('kat', oplist)
-
-    def select_torrent(self):
-        """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -181,12 +174,20 @@ def main(title, page_limit):
         kat = KickassTorrents(title, page_limit)
         kat.check_proxy()
         kat.get_html()
-        kat.parse_html()
-        kat.after_output_text()
-        kat.select_torrent()
+        masterlist = kat.parse_html()
+        if masterlist == []:
+            print("\nNo results found for given input!")
+            kat.logger.debug("\nNo results found for given input! Exiting!")
+            sys.exit(2)
+        kat.post_fetch(masterlist)
     except KeyboardInterrupt:
         kat.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
+    tpb = KickassTorrents(title, page_limit)
+    return tpb
 
 
 if __name__ == "__main__":

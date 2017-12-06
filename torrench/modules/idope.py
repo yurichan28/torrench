@@ -41,6 +41,8 @@ class Idope(Config):
         self.index = 0
         self.mylist = []
         self.mapper = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.output_headers = [
                 'NAME', 'INDEX', 'SIZE', 'SEEDS', 'AGE']
 
@@ -55,7 +57,7 @@ class Idope(Config):
         """
         try:
             for self.page in range(self.pages):
-                print("\nFetching from page: %d" % (self.page+1))
+                print("Fetching from page: %d" % (self.page+1))
                 search = "/torrent-list/{}/?p={}".format(self.title, self.page+1)
                 self.soup, time = self.http_request_time(self.proxy + search)
                 self.logger.debug("fetching page %d/%d" % (self.page+1, self.pages))
@@ -84,9 +86,7 @@ class Idope(Config):
                 results = self.soup.findAll('div', class_='resultdiv')
                 trackers = self.soup.find('input', id='hidetrack')['value']
                 if results == []:
-                    print("\nNo results found for given input!")
-                    self.logger.debug("No results found for given input! Exiting!")
-                    sys.exit(2)
+                    return
                 for result in results:
                     name = " ".join(result.a.div.string.split())
                     link = result.a['href']
@@ -95,41 +95,38 @@ class Idope(Config):
                     age = "{} {}".format(r[2], r[3])
                     size = "{} {}".format(r[5], r[6])
                     seeds = r[8]
-                    seeds = self.colorify("green", seeds)
+                    seeds_color = self.colorify("green", seeds)
                     #files = r[10]
                     info_hash = r[11]
                     magnet = "magnet:?xt=urn:btih:{}&dn={}{}".format(info_hash, name, trackers)
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, link))
                     self.mylist = [name, "--" +
-                        str(self.index) + "--", size, seeds, age]
+                        str(self.index) + "--", size, seeds_color, age]
                     masterlist.append(self.mylist)
+                    self.mylist_crossite = [name, self.index, size, seeds, age]
+                    self.masterlist_crossite.append(self.mylist_crossite)
             self.logger.debug("Results fetched successfully!")
-            self.show_output(masterlist, self.output_headers)
+            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
         After output is displayed, Following text is displayed on console.
 
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
         oplist = [self.index, self.total_fetch_time]
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
         self.after_output('idope', oplist)
-
-    def select_torrent(self):
-        """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -138,12 +135,24 @@ class Idope(Config):
 
 def main(title, page_limit):
     """Execution begins here."""
-    print("\n[Idope]")
+    try:
+        print("\n[Idope]")
+        idp = Idope(title, page_limit)
+        idp.get_html()
+        masterlist = idp.parse_html()
+        if masterlist is None:
+            print("\nNo results found for given input!")
+            idp.logger.debug("No results found for given input! Exiting!")
+            sys.exit(2)
+        idp.post_fetch(masterlist)
+    except KeyboardInterrupt:
+        idp.logger.debug("Keyboard interupt! Exiting!")
+        print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
     idp = Idope(title, page_limit)
-    idp.get_html()
-    idp.parse_html()
-    idp.after_output_text()
-    idp.select_torrent()
+    return idp
 
 
 if __name__ == "__main__":

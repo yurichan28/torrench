@@ -33,6 +33,8 @@ class ThePirateBay(Config):
         self.page = 0
         self.total_fetch_time = 0
         self.mylist = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.mapper = []
         self.soup_dict = {}
         self.soup = None
@@ -154,9 +156,7 @@ class ThePirateBay(Config):
                 self.soup = self.soup_dict[page]
                 content = self.soup.find('table', id="searchResult")
                 if content is None:
-                    print("\nNo results found for given input!")
-                    self.logger.debug("No results found for given input! Exiting!")
-                    sys.exit(2)
+                    return
                 data = content.find_all('tr')
                 for i in data[1:]:
                     name = i.find('a', class_='detLink').string
@@ -191,8 +191,8 @@ class ThePirateBay(Config):
                     leeches = i.find_all('td', align="right")[1].string
                     date = i.find('font', class_="detDesc").get_text().split(' ')[1].replace(',', "")
                     size = i.find('font', class_="detDesc").get_text().split(' ')[3].replace(',', "")
-                    seeds = self.colorify("green", seeds)
-                    leeches = self.colorify("red", leeches)
+                    seeds_color = self.colorify("green", seeds)
+                    leeches_color = self.colorify("red", leeches)
                     # Unique torrent id
                     torr_id = i.find('a', {'class': 'detLink'})["href"].split('/')[2]
                     # Upstream torrent link
@@ -200,37 +200,33 @@ class ThePirateBay(Config):
                     magnet = i.find_all('a', {'title': 'Download this torrent using magnet'})[0]['href']
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, link))
-
                     self.mylist = [categ + " > " + sub_categ, name, "--" +
-                        str(self.index) + "--", uploader, size, (seeds + '/' +
-                            leeches), date, comment]
+                        str(self.index) + "--", uploader, size, (seeds_color + '/' +
+                            leeches_color), date, comment]
+                    self.mylist_crossite = [name+" ({})".format(uploader), self.index, size, seeds+'/'+leeches, date]
+                    self.masterlist_crossite.append(self.mylist_crossite)
                     masterlist.append(self.mylist)
             self.logger.debug("Results fetched successfully!")
-            self.show_output(masterlist, self.output_headers)
+            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
         After output is displayed, Following text is displayed on console.
 
         Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
         oplist = [self.index, self.total_fetch_time]
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
         self.after_output('tpb', oplist)
-    
-    def select_torrent(self):
-        """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -249,12 +245,20 @@ def main(title, page_limit):
             tpb.get_top_html()
         else:
             tpb.get_html()
-        tpb.parse_html()
-        tpb.after_output_text()
-        tpb.select_torrent()
+        masterlist = tpb.parse_html()
+        if masterlist is None:
+            print("\nNo results found for given input!")
+            tpb.logger.debug("No results found for given input! Exiting!")
+            sys.exit(2)
+        tpb.post_fetch(masterlist)
     except KeyboardInterrupt:
         tpb.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
+    tpb = ThePirateBay(title, page_limit)
+    return tpb
 
 
 if __name__ == "__main__":

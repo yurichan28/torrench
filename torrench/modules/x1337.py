@@ -43,6 +43,8 @@ class x1337(Config):
         self.total_fetch_time = 0
         self.mylist = []
         self.mapper = []
+        self.mylist_crossite = []
+        self.masterlist_crossite = []
         self.soup_dict = {}
         self.output_headers = [
                 'CATEG', 'NAME', 'INDEX', 'SE/LE', 'TIME', 'SIZE', 'UL', 'C']
@@ -137,9 +139,7 @@ class x1337(Config):
                 self.soup = self.soup_dict[page]
                 content = self.soup.find('table', class_='table-list')
                 if content is None:
-                    print("\nNo results found for given input!")
-                    self.logger.debug("No results found for given input! Exiting!")
-                    sys.exit(2)
+                    return
                 results = content.find_all('tr')
                 for result in results[1:]:
                     content = result.findAll('td')
@@ -155,8 +155,11 @@ class x1337(Config):
                     seeds = content[1].string
                     leeches = content[2].string
                     if not self.OS_WIN:
-                        seeds = self.colorify("green", seeds)
-                        leeches = self.colorify("red", leeches)
+                        seeds_color = self.colorify("green", seeds)
+                        leeches_color = self.colorify("red", leeches)
+                    else:
+                        seeds_color = seeds
+                        leeches_color = leeches
                     date = content[3].string
                     size = content[4].findAll(text=True)[0]
                     uploader = content[5].string
@@ -167,34 +170,31 @@ class x1337(Config):
                     self.index += 1
                     self.mapper.insert(self.index, (name, link))
                     self.mylist = [category, name, "--" +
-                        str(self.index) + "--", seeds + '/' + leeches, date, size, uploader, comments]
+                        str(self.index) + "--", seeds_color + '/' + leeches_color, date, size, uploader, comments]
                     masterlist.append(self.mylist)
+                    self.mylist_crossite = [name+" ({})".format(uploader), self.index, size, seeds+'/'+leeches, date]
+                    self.masterlist_crossite.append(self.mylist_crossite)
             self.logger.debug("Results fetched successfully!")
-            self.show_output(masterlist, self.output_headers)
+            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
 
-    def after_output_text(self):
+    def post_fetch(self, masterlist):
         """
         After output is displayed, Following text is displayed on console.
 
-        Text includes total torrents fetched, total pages,
+        Text includes instructions, total torrents fetched, total pages,
         and total time taken to fetch results.
         """
+        self.logger.debug("Displaying output result table.")
+        self.show_output(masterlist, self.output_headers)
         oplist = [self.index, self.total_fetch_time]
-        self.after_output('x1337', oplist)
-
-    def select_torrent(self):
-        """
-        Select torrent
-
-        Torrent is selected using index value.
-        All of its functionality is defined in Common.py file.
-        """
-        self.logger.debug("Output displayed. Selecting torrent")
+        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
+        self.after_output('1337x', oplist)
+        self.logger.debug("Selecting torrent")
         while True:
             index = self.select_index(len(self.mapper))
             if index == 0:
@@ -204,11 +204,23 @@ class x1337(Config):
 
 def main(title, page_limit):
     """Execution begins here."""
-    print("\n[1337x]\n")
-    print("Obtaining proxies...")
+    try:
+        print("\n[1337x]\n")
+        print("Obtaining proxies...")
+        x13 = x1337(title, page_limit)
+        x13.check_proxy()
+        x13.get_html()
+        masterlist = x13.parse_html()
+        if masterlist is None:
+            print("\nNo results found for given input!")
+            x13.logger.debug("No results found for given input! Exiting!")
+            sys.exit(2)
+        x13.post_fetch(masterlist)
+    except KeyboardInterrupt:
+        x13.logger.debug("Keyboard interupt! Exiting!")
+        print("\n\nAborted!")
+
+
+def cross_site(title, page_limit):
     x13 = x1337(title, page_limit)
-    x13.check_proxy()
-    x13.get_html()
-    x13.parse_html()
-    x13.after_output_text()
-    x13.select_torrent()
+    return x13

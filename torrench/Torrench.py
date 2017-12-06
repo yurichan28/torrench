@@ -1,9 +1,10 @@
 """Torrench Module."""
 
-import os
-import sys
 import argparse
 import logging
+import os
+import sys
+
 from torrench.utilities.Config import Config
 
 
@@ -134,6 +135,20 @@ class Torrench(Config):
                             action='version',
                             version=self.__version__,
                             help="Display version and exit.")
+        parser.add_argument("-C",
+                            "--cross_site",
+                            default=False,
+                            action="store_true",
+                            help="Enable cross-site search")
+        parser.add_argument("--sorted",
+                            default=False,
+                            action="store_true",
+                            help="[Cross-site-only] sort results on basis of Seeds.")
+        parser.add_argument("--no-merge",
+                            default=False,
+                            action="store_true",
+                            help="(Cross-site) Do not merge results in one table")
+
         self.args = parser.parse_args()
 
     def check_copy(self):
@@ -206,7 +221,7 @@ class Torrench(Config):
         if any(_PRIVATE_MODULES):
             if not self.file_exists():
                 print("\nConfig file not configured. Configure to continue. Read docs for more info.")
-                print("Config file either does not exist or is not enabled! Exiting!")
+                print("Config file either does not exist or is not enabled! Exiting!\n")
                 sys.exit(2)
             else:
                 if self.args.thepiratebay:
@@ -235,7 +250,7 @@ class Torrench(Config):
                 elif self.args.nyaa:
                     self.logger.debug("Using Nyaa.si")
                     import torrench.modules.nyaa as nyaa
-                    nyaa.main(self.input_title)
+                    nyaa.main(self.input_title, self.page_limit)
                 elif self.args.xbit:
                     self.logger.debug("Using XBit.pw")
                     self.logger.debug("Input title: [%s]" % (self.input_title))
@@ -282,19 +297,24 @@ def main():
     try:
         tr = Torrench()
         tr.define_args()
-        if tr.args.top:
-            if tr.args.thepiratebay or tr.args.skytorrents:
-                tr.resolve_args()
-            else:
-                print("error: --top is only supported with -t/-s")
-                sys.exit(2)
+        if tr.args.cross_site:
+            tr.logger.debug("Using cross-site")
+            import torrench.utilities.cross_site as cs
+            cs.main(tr.args)
         else:
-            tr.input_title = tr.args.search
-            tr.page_limit = tr.args.limit
-            if not tr.args.clear_html and not tr.args.interactive:
-                tr.verify_input()
-                tr.input_title = tr.input_title.replace("'", "")
-            tr.resolve_args()
+            if tr.args.top:
+                if tr.args.thepiratebay or tr.args.skytorrents:
+                    tr.resolve_args()
+                else:
+                    print("error: --top is only supported with -t/-s")
+                    sys.exit(2)
+            else:
+                tr.input_title = tr.args.search
+                tr.page_limit = tr.args.limit
+                if not tr.args.clear_html and not tr.args.interactive:
+                    tr.verify_input()
+                    tr.input_title = tr.input_title.replace("'", "")
+                tr.resolve_args()
     except KeyboardInterrupt as e:
         tr.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")

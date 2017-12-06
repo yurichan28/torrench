@@ -1,5 +1,6 @@
 # Torrench - Command-line torrent search tool
 ![Build Status](https://travis-ci.org/kryptxy/torrench.svg?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/38685c00c3604b608d908b5ae7a6da51)](https://www.codacy.com/app/kryptxy/torrench?utm_source=github.com&utm_medium=referral&utm_content=kryptxy/torrench&utm_campaign=badger)
 [![GitHub release](https://img.shields.io/github/release/kryptxy/torrench.svg)]()
 [![PyPI](https://img.shields.io/pypi/v/torrench.svg)](https://pypi.python.org/pypi/torrench/)
 [![AUR](https://img.shields.io/aur/version/torrench.svg)](https://aur.archlinux.org/packages/torrench/)

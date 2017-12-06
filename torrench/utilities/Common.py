@@ -190,6 +190,8 @@ class Common:
             max = 20
         elif site == 'idope':
             max = 10
+        elif site == 'nyaa':
+            max = 75
         else:
             max = total_torrent_count
         exact_no_of_pages = total_torrent_count // max
@@ -202,7 +204,6 @@ class Common:
         try:
             print("\nTotal %d torrents [%d pages]" % (total_torrent_count, exact_no_of_pages))
             print("Total time: %.2f sec" % (total_fetch_time))
-            print("\nEnter torrent's INDEX value\n")
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" %(e))
@@ -225,6 +226,7 @@ class Common:
         try:
             index = None
             while index != 'q':
+                print("\nEnter torrent's INDEX value")
                 index = input("\n(q = quit)\nindex > ")
                 self.logger.debug("selected index %s" % (index))
                 if index == 'q':
@@ -234,6 +236,7 @@ class Common:
                 else:
                     index = int(index)
                 if index < 1 or index > len:
+                    self.logger.debug("Bad Input!")
                     print("\nBad Input!")
                     continue
                 else:
@@ -263,12 +266,10 @@ class Common:
         HTML page.
         """
         try:
-            if site == 'nyaa':
-                selected_torrent = mapper[0][0][index-1]
-            else:
-                selected_torrent = mapper[index-1][0]
+            selected_torrent = mapper[index-1][0]
             self.logger.debug("selected torrent: %s ; index: %d" % (selected_torrent, index))
-            print("\nSelected index [%d] - %s\n" % (index, selected_torrent))
+            selected_torrent_colored = self.colorify("yellow", selected_torrent)
+            print("\nSelected index [%d] - %s\n" % (index, selected_torrent_colored))
             option_one = "[1] Print links (magnetic, upstream)\n"
             option_two = "[2] Load torrent to client\n"
             option_three = "[3] Get torrent details\n"
@@ -327,12 +328,9 @@ class Common:
         """
         try:
             self.logger.debug("Fetching magnetic and upstream links for {}".format(site))
-            if site == '1337x':
+            if site in ['1337x', 'x1337']:
                 torrent_link = mapper[index-1][-1]
                 magnetic_link = self.get_1337x_magnet(torrent_link)
-            elif site == 'nyaa':
-                torrent_link = mapper[0][1][index-1]
-                magnetic_link = mapper[0][2][index-1]
             else:
                 torrent_link = mapper[index-1][-1]
                 magnetic_link = mapper[index-1][-2]
@@ -511,6 +509,10 @@ class Common:
                         self.logger.debug("torrent added! (PID: %d)" %(p.pid))
                 elif client == 'deluge-console':
                     p = subprocess.Popen([client, 'add', link], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+                    print(self.colorify("green", "Success (PID: %d)") %(p.pid))
+                    self.logger.debug("torrent added! (PID: %d)" %(p.pid))
+                elif client == 'browser':
+                    p = subprocess.Popen(['firefox', link], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     print(self.colorify("green", "Success (PID: %d)") %(p.pid))
                     self.logger.debug("torrent added! (PID: %d)" %(p.pid))
                 else:

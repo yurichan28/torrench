@@ -29,16 +29,18 @@ class ThePirateBay(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
+        self.class_name = self.__class__.__name__.lower()
         self.index = 0
         self.page = 0
         self.total_fetch_time = 0
         self.mylist = []
+        self.masterlist = []
         self.mylist_crossite = []
         self.masterlist_crossite = []
         self.mapper = []
         self.soup_dict = {}
         self.soup = None
-        self.output_headers = [
+        self.headers = [
                 'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'SE/LE', 'DATE', 'C']
         ###################################
         self.non_color_name = None
@@ -150,7 +152,6 @@ class ThePirateBay(Config):
         Also, a mapper[] is used to map 'index'
         with torrent name, link and magnetic link
         """
-        masterlist = []
         try:
             for page in self.soup_dict:
                 self.soup = self.soup_dict[page]
@@ -199,39 +200,18 @@ class ThePirateBay(Config):
                     link = "%s/torrent/%s" % (self.proxy, torr_id)
                     magnet = i.find_all('a', {'title': 'Download this torrent using magnet'})[0]['href']
                     self.index += 1
-                    self.mapper.insert(self.index, (name, magnet, link))
+                    self.mapper.insert(self.index, (name, magnet, link, self.class_name))
                     self.mylist = [categ + " > " + sub_categ, name, "--" +
-                        str(self.index) + "--", uploader, size, (seeds_color + '/' +
-                            leeches_color), date, comment]
+                                str(self.index) + "--", uploader, size, (seeds_color + '/' +
+                                leeches_color), date, comment]
+                    self.masterlist.append(self.mylist)
                     self.mylist_crossite = [name+" ({})".format(uploader), self.index, size, seeds+'/'+leeches, date]
                     self.masterlist_crossite.append(self.mylist_crossite)
-                    masterlist.append(self.mylist)
-            self.logger.debug("Results fetched successfully!")
-            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
-
-    def post_fetch(self, masterlist):
-        """
-        After output is displayed, Following text is displayed on console.
-
-        Text includes instructions, total torrents fetched, total pages,
-        and total time taken to fetch results.
-        """
-        self.logger.debug("Displaying output result table.")
-        self.show_output(masterlist, self.output_headers)
-        oplist = [self.index, self.total_fetch_time]
-        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
-        self.after_output('tpb', oplist)
-        self.logger.debug("Selecting torrent")
-        while True:
-            index = self.select_index(len(self.mapper))
-            if index == 0:
-                continue
-            self.select_option(self.mapper, index, 'tpb')
 
 
 def main(title, page_limit):
@@ -245,12 +225,9 @@ def main(title, page_limit):
             tpb.get_top_html()
         else:
             tpb.get_html()
-        masterlist = tpb.parse_html()
-        if masterlist is None:
-            print("\nNo results found for given input!")
-            tpb.logger.debug("No results found for given input! Exiting!")
-            sys.exit(2)
-        tpb.post_fetch(masterlist)
+        tpb.parse_html()
+        tpb.post_fetch()
+        print("\nBye!")
     except KeyboardInterrupt:
         tpb.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
@@ -262,4 +239,4 @@ def cross_site(title, page_limit):
 
 
 if __name__ == "__main__":
-    print("Its a module!")
+    print("It's a module!")

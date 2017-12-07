@@ -22,16 +22,19 @@ class RarBg(Config):
         Config.__init__(self)
         self.proxies = self.get_proxies('rarbg')
         self.proxy = self.proxies[0]
-        self.logger = logging.getLogger('log1')
         self.title = title
+        self.logger = logging.getLogger('log1')
+        self.class_name = self.__class__.__name__.lower()
         self.index = 0
         self.raw = None
         self.token = None
         self.mapper = []
+        self.mylist = []
+        self.masterlist = []
         self.mylist_crossite = []
         self.masterlist_crossite = []
         self.total_fetch_time = 0
-        self.output_headers = [
+        self.headers = [
                 'CATEG', 'NAME', 'INDEX', 'SIZE', 'S/L', 'DATE'
                 ]
 
@@ -49,7 +52,6 @@ class RarBg(Config):
         The API gives out results in JSON format.
         """
         try:
-            masterlist = []
             params = "mode=search&app_id=torrench&sort=seeders&limit=100&format=json_extended&search_string={}&token={}".format(self.title, self.token)
             start_time = time.time()
             self.logger.debug("Fetching results")
@@ -76,39 +78,18 @@ class RarBg(Config):
                     size *= 1024
                     size_end = "MB"
                 size = "{0:.2f} {1}".format(size, size_end)
-                self.mapper.insert(self.index, (name, magnet, link))
+                self.mapper.insert(self.index, (name, magnet, link, self.class_name))
                 self.index += 1
                 self.mylist = [category, name, "--" +
                     str(self.index) + "--", size, seeds_color + '/' + leeches_color, date]
-                masterlist.append(self.mylist)
+                self.masterlist.append(self.mylist)
                 self.mylist_crossite = [name, self.index, size, seeds+'/'+leeches, date]
                 self.masterlist_crossite.append(self.mylist_crossite)
-            self.logger.debug("Results fetched successfully!")
-            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
-
-    def post_fetch(self, masterlist):
-        """
-        After output is displayed, Following text is displayed on console.
-
-        Text includes instructions, total torrents fetched, total pages,
-        and total time taken to fetch results.
-        """
-        self.logger.debug("Displaying output result table.")
-        self.show_output(masterlist, self.output_headers)
-        oplist = [self.index, self.total_fetch_time]
-        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
-        self.after_output('rarbg', oplist)
-        self.logger.debug("Selecting torrent")
-        while True:
-            index = self.select_index(len(self.mapper))
-            if index == 0:
-                continue
-            self.select_option(self.mapper, index, 'rarbg')
 
 
 def main(title):
@@ -117,14 +98,8 @@ def main(title):
     rbg = RarBg(title)
     rbg.get_token()
     time.sleep(0.75)
-    masterlist = rbg.search_torrent()
-    if masterlist is None:
-        error = rbg.raw['error']
-        print(error)
-        rbg.logger.debug(error)
-        rbg.logger.debug("Exiting!")
-        sys.exit(2)
-    rbg.post_fetch(masterlist)
+    rbg.search_torrent()
+    rbg.post_fetch()
 
 
 def cross_site(title, page_limit):

@@ -1,4 +1,5 @@
 """SkyTorrents Module."""
+
 import logging
 import sys
 
@@ -32,16 +33,18 @@ class SkyTorrents(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
+        self.class_name = self.__class__.__name__.lower()
         self.index = 0
         self.page = 0
         self.total_fetch_time = 0
-        self.mylist = []
         self.mapper = []
+        self.mylist = []
+        self.masterlist = []
         self.mylist_crossite = []
         self.masterlist_crossite = []
         self.soup_dict = {}
         self.soup = None
-        self.output_headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
+        self.headers = ["NAME  ["+self.colorify("green", "+UPVOTES")+"/"+self.colorify("red", "-DOWNVOTES")+"]",
                                "INDEX", "SIZE", "date", "SE/LE"]
         ######################################
         self.top = "/top1000/all/ed/%d/?l=en-us" % (self.page)
@@ -144,7 +147,6 @@ class SkyTorrents(Config):
         with torrent name, link and magnetic link
         and files_count (counts number of files torrent has)
         """
-        masterlist = []
         try:
             for page in self.soup_dict:
                 self.soup = self.soup_dict[page]
@@ -180,55 +182,20 @@ class SkyTorrents(Config):
                     seeds_color = self.colorify("green", seeds)
                     leeches_color = self.colorify("red", leeches)
                     self.index += 1
-                    self.mapper.insert(self.index, (name, magnet, self.proxy+link))
+                    self.mapper.insert(self.index, (name, magnet, self.proxy+link, self.class_name))
                     #self.mylist = [name + "["+str(upvotes)+"/"+str(downvotes)+"]", "--"+str(self.index)+"--", size, date, seeds, leeches]
                     self.mylist = [name + display_votes,
                             "--"+str(self.index)+"--", size,
                             date, (seeds_color + '/' + leeches_color)]
-                    masterlist.append(self.mylist)
+                    self.masterlist.append(self.mylist)
                     # Lists used for cross-site
                     self.mylist_crossite = [name+display_votes, self.index, size, seeds+'/'+leeches, date]
                     self.masterlist_crossite.append(self.mylist_crossite)
-            return masterlist
         except Exception as e:
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             self.logger.exception(e)
             sys.exit(2)
-
-    def post_fetch(self, masterlist):
-        """
-        After output is displayed, Following text is displayed on console.
-
-        Text includes instructions, total torrents fetched, total pages,
-        and total time taken to fetch results.
-        """
-        self.logger.debug("Displaying output result table.")
-        self.show_output(masterlist, self.output_headers)
-        oplist = [self.index, self.total_fetch_time]
-        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
-        self.after_output('sky', oplist)
-        self.logger.debug("Selecting torrent")
-        while True:
-            index = self.select_index(len(self.mapper))
-            if index == 0:
-                continue
-            self.select_option(self.mapper, index, 'sky')
-
-    '''
-    def show_files(self, torrent_link):
-        """To fetch and print files available in torrent."""
-        self.logger.debug("Show torrent files selected")
-        self.logger.debug("Torrent has %d files" %(int(self.file_count)))
-        if int(self.file_count) > 0:
-            soup = self.http_request(self.proxy + torrent_link)
-            print("\nTotal %d files" % (int(self.file_count)))
-            for i in range(int(self.file_count)):
-                name = soup.find_all("tr")[i+1].find_all('td')[0].string
-                size = soup.find_all("tr")[i+1].find_all('td')[1].string
-                print("> %s  (%s)" % (name, self.colorify("green", size)))
-        self.logger.debug("Files fetched!")
-    '''
 
 
 def main(title, page_limit):
@@ -241,12 +208,8 @@ def main(title, page_limit):
         if title is None:
             sky.get_top_html()
         sky.get_html()
-        masterlist = sky.parse_html()
-        if masterlist == []:
-            print("\nNo results found for given input!")
-            sky.logger.debug("No results found for given input! Exiting!")
-            sys.exit(2)
-        sky.post_fetch(masterlist)
+        sky.parse_html()
+        sky.post_fetch()
     except KeyboardInterrupt:
         sky.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")

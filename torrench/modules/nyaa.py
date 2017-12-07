@@ -28,8 +28,11 @@ class Nyaa(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
+        self.class_name = self.__class__.__name__.lower()
         self.index = 0
         self.mapper = []
+        self.mylist = []
+        self.masterlist = []
         self.mylist_crossite = []
         self.masterlist_crossite = []
         self.page = 0
@@ -39,7 +42,7 @@ class Nyaa(Config):
         self.OS_WIN = False
         if platform.system() == "Windows":
             self.OS_WIN = True
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED']
+        self.headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED']
 
     def get_html(self):
         """
@@ -52,7 +55,7 @@ class Nyaa(Config):
         """
         try:
             for self.page in range(self.pages):
-                print("Fetching from page: %d" % (self.page+1))
+                print("\nFetching from page: %d" % (self.page+1))
                 search = "/?f=0&c=0_0&q={}&s=seeders&o=desc&p={}".format(self.title, self.page+1)
                 self.soup, time = self.http_request_time(self.proxy + search)
                 self.logger.debug("fetching page %d/%d" % (self.page+1, self.pages))
@@ -74,7 +77,6 @@ class Nyaa(Config):
         Also, a mapper[] is used to map 'index'
         with torrent name and link
         """
-        masterlist = []
         try:
             for page in self.soup_dict:
                 self.soup = self.soup_dict[page]
@@ -99,38 +101,17 @@ class Nyaa(Config):
                         seeds_color = seeds
                         leeches_color = leeches
                     self.index += 1
-                    self.mapper.insert(self.index, (name, magnet, self.proxy+link))
+                    self.mapper.insert(self.index, (name, magnet, self.proxy+link, self.class_name))
                     self.mylist = [name, "--" +
                         str(self.index) + "--", seeds_color + '/' + leeches_color, date, size, completed]
-                    masterlist.append(self.mylist)
+                    self.masterlist.append(self.mylist)
                     self.mylist_crossite = [name, self.index, size, seeds+'/'+leeches, date]
                     self.masterlist_crossite.append(self.mylist_crossite)
-            self.logger.debug("Results fetched successfully!")
-            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" % (e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
-
-    def post_fetch(self, masterlist):
-        """
-        After output is displayed, Following text is displayed on console.
-
-        Text includes instructions, total torrents fetched, total pages,
-        and total time taken to fetch results.
-        """
-        self.logger.debug("Displaying output result table.")
-        self.show_output(masterlist, self.output_headers)
-        oplist = [self.index, self.total_fetch_time]
-        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
-        self.after_output('nyaa', oplist)
-        self.logger.debug("Selecting torrent")
-        while True:
-            index = self.select_index(len(self.mapper))
-            if index == 0:
-                continue
-            self.select_option(self.mapper, index, 'nyaa')
 
 
 def main(title, page_limit):
@@ -138,15 +119,12 @@ def main(title, page_limit):
     Execution will begin here.
     """
     try:
-        print("\n[Nyaa.si]\n")
+        print("\n[Nyaa.si]")
         nyaa = Nyaa(title, page_limit)
         nyaa.get_html()
-        masterlist = nyaa.parse_html()
-        if masterlist is None:
-            print("\nNo results found for given input!")
-            nyaa.logger.debug("\nNo results found for given input! Exiting!")
-            sys.exit(2)
-        nyaa.post_fetch(masterlist)
+        nyaa.parse_html()
+        nyaa.post_fetch()
+        print("\nBye!")
     except KeyboardInterrupt:
         nyaa.logger.debug("Interrupt detected. Terminating.")
         print("Terminated")

@@ -33,17 +33,19 @@ class KickassTorrents(Config):
         self.title = title
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
+        self.class_name = self.__class__.__name__.lower()
         self.page = 0
         self.proxy = None
         self.soup = None
         self.soup_dict = {}
         self.index = 0
         self.total_fetch_time = 0
-        self.mylist = []
         self.mapper = []
+        self.mylist = []
+        self.masterlist = []
         self.mylist_crossite = []
         self.masterlist_crossite = []
-        self.output_headers = [
+        self.headers = [
                 'CATEG', 'NAME', 'INDEX', 'UPLOADER', 'SIZE', 'DATE', 'SE/LE', 'C']
 
     def check_proxy(self):
@@ -71,7 +73,7 @@ class KickassTorrents(Config):
                     sys.exit(2)
             else:
                 self.logger.debug("Connected to proxy...")
-                print("Available!\n")
+                print("Available!")
                 self.proxy = proxy
                 break
 
@@ -85,7 +87,7 @@ class KickassTorrents(Config):
         Uses http_request_time() from Common.py module.
         """
         for self.page in range(self.pages):
-            print("Fetching from page: %d" % (self.page+1))
+            print("\nFetching from page: %d" % (self.page+1))
             self.logger.debug("fetching page %d/%d" % (self.page, self.pages))
             search = "/usearch/%s/%d/" % (self.title, self.page + 1)
             self.soup, time = self.http_request_time(self.proxy + search)
@@ -102,7 +104,6 @@ class KickassTorrents(Config):
         Also, a mapper[] is used to map 'index'
         with torrent name, link and magnetic link
         """
-        masterlist = []
         try:
             for page in self.soup_dict:
                 self.soup = self.soup_dict[page]
@@ -132,38 +133,17 @@ class KickassTorrents(Config):
                     magnet = i.find('a', {'title': 'Torrent magnet link'})['href']
                     torrent_link = self.proxy+torrent_link
                     self.index += 1
-                    self.mapper.insert(self.index, (name, magnet, torrent_link))
+                    self.mapper.insert(self.index, (name, magnet, torrent_link, self.class_name))
                     self.mylist = [category, name, '--' + str(self.index) +
                             '--', uploader, size, date, seeds_color+'/'+leeches_color, comment_count]
+                    self.masterlist.append(self.mylist)
                     self.mylist_crossite = [name+" ({})".format(uploader), self.index, size, seeds+'/'+leeches, date]
                     self.masterlist_crossite.append(self.mylist_crossite)
-                    masterlist.append(self.mylist)
-            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" %(e))
             print("Something went wrong! See logs for details. Exiting!")
             sys.exit(2)
-
-
-    def post_fetch(self, masterlist):
-        """
-        After output is displayed, Following text is displayed on console.
-
-        Text includes instructions, total torrents fetched, total pages,
-        and total time taken to fetch results.
-        """
-        self.logger.debug("Displaying output result table.")
-        self.show_output(masterlist, self.output_headers)
-        oplist = [self.index, self.total_fetch_time]
-        self.logger.debug("Displaying after_output text: total torrents and fetch_time")
-        self.after_output('kat', oplist)
-        self.logger.debug("Selecting torrent")
-        while True:
-            index = self.select_index(len(self.mapper))
-            if index == 0:
-                continue
-            self.select_option(self.mapper, index, 'kat')
 
 
 def main(title, page_limit):
@@ -174,20 +154,17 @@ def main(title, page_limit):
         kat = KickassTorrents(title, page_limit)
         kat.check_proxy()
         kat.get_html()
-        masterlist = kat.parse_html()
-        if masterlist == []:
-            print("\nNo results found for given input!")
-            kat.logger.debug("\nNo results found for given input! Exiting!")
-            sys.exit(2)
-        kat.post_fetch(masterlist)
+        kat.parse_html()
+        kat.post_fetch()
+        print("\nBye!")
     except KeyboardInterrupt:
         kat.logger.debug("Keyboard interupt! Exiting!")
         print("\n\nAborted!")
 
 
 def cross_site(title, page_limit):
-    tpb = KickassTorrents(title, page_limit)
-    return tpb
+    kat = KickassTorrents(title, page_limit)
+    return kat
 
 
 if __name__ == "__main__":

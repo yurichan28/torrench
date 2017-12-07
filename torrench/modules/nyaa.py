@@ -158,4 +158,4 @@ def cross_site(title, page_limit):
 
 
 if __name__ == "__main__":
-    main('naruto', 1)
+    print("Modules are not supposed to be run standalone")

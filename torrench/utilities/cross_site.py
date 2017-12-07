@@ -16,7 +16,7 @@ class CrossSite(Config):
         self.mapper = []
         self.total_time = 0
         self.headers = ["NAME (UPLOADER)", "INDEX", "SIZE", "SE/LE", "UPLOADED"]
-        self.api_sites = ['RarBg', 'XBit']
+        self.api_sites = ['rarbg', 'xbit']
         self.class_list = []
         self.class_name = None
         self.args = None
@@ -29,7 +29,8 @@ class CrossSite(Config):
                         'idope',
                         'kickasstorrent',
                         'nyaa',
-                        'xbit'
+                        'xbit',
+                        'rarbg'
                         ]
     
     def stage_one(self, sites):
@@ -55,7 +56,7 @@ class CrossSite(Config):
             module = importlib.import_module("torrench.modules.{}".format(site))
             module_obj = module.cross_site(self.title, self.pages)
             self.logger.debug("Using module {}".format(self.class_name))
-            self.class_name = module_obj.__class__.__name__
+            self.class_name = module_obj.class_name
             self.class_list.append(self.class_name)
             self.class_name_color = self.colorify("red", self.class_name)
             module_obj.index = index
@@ -118,7 +119,7 @@ class CrossSite(Config):
         for i, j, k in zip(mlist, mapper, self.class_list):
             mapper_no_merge.insert(index_no_merge, (i, j, k))
             index_no_merge += 1
-            self.show_output(mapper_no_merge[temp][0], self.headers)
+            self.show_output(mapper_no_merge[temp][0])
             temp += 1
         
         # Select website, and proceed further with index selection...
@@ -132,18 +133,21 @@ class CrossSite(Config):
                 opt = int(input("\nSelect Site > "))
                 self.logger.debug("Option entered: {}".format(opt))
                 if opt > 0:
-                    req_mapper = mapper_no_merge[opt-1][1]
-                    self.show_output(mapper_no_merge[opt-1][0], self.headers)
+                    self.mapper = mapper_no_merge[opt-1][1]
+                    self.show_output()
                     site_name = mapper_no_merge[opt-1][2]
                     print("\n[{}]\n".format(site_name))
-                    self.logger.debug("Selected site [{}]: {}".format(opt, site_name))
+                    self.logger.debug("Selected site [{}]: {}".format(opt, self.class_name))
                     while True:
-                        ind = self.select_index(len(req_mapper))
+                        index = self.select_index(len(self.mapper))
                         self.logger.debug("Got index: {}".format(index))
-                        if ind == 0:
+                        if index == 0:
                             continue
+                        elif index == 'r':
+                            break
                         else:
-                            self.select_option(req_mapper, ind, self.class_name)
+                            print(site_name.lower())
+                            self.select_option(index)
             except (ValueError, UnboundLocalError, Exception) as e:
                 self.logger.exception(e)
                 print("Bad Input")
@@ -190,9 +194,9 @@ class CrossSite(Config):
                 self.mapper = temp_mapper
             except Exception as e:
                 self.logger.debug(e)
-                pass
+                print(e)
         self.colorify_seeds_leeches()
-        self.show_output(self.masterlist, self.headers)
+        self.show_output()
         print("\nTotal {} torrents in {:.2f} sec.\n".format(len(self.masterlist), self.total_time))
         self.logger.debug("\nTotal {} torrents in {:.2f} sec.\n".format(len(self.masterlist), self.total_time))
         while True:
@@ -200,7 +204,7 @@ class CrossSite(Config):
             self.logger.debug("Got index: {}".format(ind))
             if ind == 0:
                 continue
-            self.select_option(self.mapper, ind, self.class_name)
+            self.select_option(ind)
     
     def colorify_seeds_leeches(self):
         """
@@ -210,13 +214,11 @@ class CrossSite(Config):
         This function colorifies them and add them to masterlist
         """
         for i in range(len(self.masterlist)):
-            try:
-                seeds = str(self.masterlist[i][3].split('/')[0])
-            except Exception as e:
+            seeds = str(self.masterlist[i][3].split('/')[0])
+            leeches = str(self.masterlist[i][3].split('/')[1])
+            if seeds == '-1':
                 seeds = 'NA'
-            try:
-                leeches = str(self.masterlist[i][3].split('/')[1])
-            except Exception as e:
+            if leeches == '-1':
                 leeches = 'NA'
             leeches = self.colorify("red", leeches)
             seeds = self.colorify("green", seeds)

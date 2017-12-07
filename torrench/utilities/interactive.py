@@ -2,17 +2,18 @@
 import logging
 import platform
 from sys import exit as _exit
+
 import torrench.modules.distrowatch as distrowatch
+import torrench.modules.idope as idope
 import torrench.modules.kickasstorrent as kat
+import torrench.modules.libgen as libgen
 import torrench.modules.linuxtracker as linuxtracker
 import torrench.modules.nyaa as nyaa_module
+import torrench.modules.rarbg as rarbg
 import torrench.modules.skytorrents as sky
 import torrench.modules.thepiratebay as tpb_module
-import torrench.modules.xbit as xbit_module
 import torrench.modules.x1337 as x13
-import torrench.modules.rarbg as rarbg
-import torrench.modules.idope as idope
-import torrench.modules.libgen as libgen
+import torrench.modules.xbit as xbit_module
 from torrench.utilities.Config import Config
 
 
@@ -90,7 +91,7 @@ class InteractiveMode:
         _modules = self._set_modules()
         if query and module in _modules and not query.isspace():
             self.logger.debug("Selected module %s, query: %s" % ((module), query))
-            if module in ['!t', '!k', '!s', '!i', '!x']:
+            if module in ['!t', '!k', '!s', '!i', '!x', '!n']:
                 _modules[module].main(query, page_limit=1)
             else:
                 _modules[module].main(query)
@@ -138,6 +139,7 @@ def inter():
             else:
                 data = input('\ntorrench > ')
             i.logger.debug(data)
+            data = data.replace("'", "")
             i.parser(data)
     except (KeyboardInterrupt, EOFError):
         print('Terminated.')

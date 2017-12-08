@@ -123,7 +123,6 @@ class CrossSite(Config):
             temp += 1
         
         # Select website, and proceed further with index selection...
-        # TODO: Add (r = return) to return to site choices.
         while True:
             try:
                 print()
@@ -146,7 +145,6 @@ class CrossSite(Config):
                         elif index == 'r':
                             break
                         else:
-                            print(site_name.lower())
                             self.select_option(index)
             except (ValueError, UnboundLocalError, Exception) as e:
                 self.logger.exception(e)
@@ -193,8 +191,9 @@ class CrossSite(Config):
                     index += 1
                 self.mapper = temp_mapper
             except Exception as e:
+                print("Something went wrong! See logs for details.")
                 self.logger.debug(e)
-                print(e)
+                sys.exit(2)
         self.colorify_seeds_leeches()
         self.show_output()
         print("\nTotal {} torrents in {:.2f} sec.\n".format(len(self.masterlist), self.total_time))
@@ -204,8 +203,11 @@ class CrossSite(Config):
             self.logger.debug("Got index: {}".format(ind))
             if ind == 0:
                 continue
-            self.select_option(ind)
-    
+            elif ind == 'r':
+                break
+            else:
+                self.select_option(ind)
+
     def colorify_seeds_leeches(self):
         """
         Colorify seeds/leeches

@@ -65,7 +65,7 @@ class ThePirateBay(Config):
         This continues until working proxy is found.
         If no proxy is found, program exits.
         """
-        count = 1
+        count = 0
         for proxy in self.proxies:
             print("Trying %s" % (self.colorify("yellow", proxy)))
             self.logger.debug("Trying proxy: %s" % (proxy))

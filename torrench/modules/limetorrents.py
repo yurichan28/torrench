@@ -20,9 +20,7 @@ class LimeTorrents(Config):
     def __init__(self, title, page_limit):
         """Initialisations."""
         Config.__init__(self)
-        #self.proxies = self.get_proxies('tpb')
-        #self.proxy = None
-        self.proxies = ["https://www.limetorrents.cc"]
+        self.proxies = self.get_proxies('limetorrents')
         self.proxy = None
         self.title = title
         self.pages = page_limit

@@ -30,7 +30,8 @@ class CrossSite(Config):
                         'kickasstorrent',
                         'nyaa',
                         'xbit',
-                        'rarbg'
+                        'rarbg',
+                        'limetorrents'
                         ]
     
     def stage_one(self, sites):

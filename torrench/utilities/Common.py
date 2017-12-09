@@ -128,7 +128,7 @@ class Common:
             st = inspect.stack()
             module = st[1][0].f_locals['self'].__module__.split('.')[-1]
             if module == 'interactive':
-                self.logger.debug("module: interactive. Returning to caller.".format(module))
+            self.logger.debug("module: interactive. Returning to caller.".format(module))
                 return
             sys.exit(2)
         
@@ -179,6 +179,8 @@ class Common:
             m = 10
         elif self.class_name == 'nyaa':
             m = 75
+        elif self.class_name == 'limetorrents':
+            m = 50
         else:
             m = total_torrent_count
         exact_no_of_pages = total_torrent_count // m
@@ -324,9 +326,9 @@ class Common:
         """
         try:
             self.logger.debug("Fetching magnetic and upstream links for {}".format(self.class_name))
-            if self.class_name == 'x1337':
+            if self.class_name in ['x1337', 'limetorrents']:
                 torrent_link = self.mapper[index-1][-2]
-                magnetic_link = self.get_1337x_magnet(torrent_link)
+                magnetic_link = self.get_magnet_external(torrent_link)
             else:
                 torrent_link = self.mapper[index-1][-2]
                 magnetic_link = self.mapper[index-1][-3]
@@ -383,16 +385,21 @@ class Common:
             print("Something went wrong. See logs for details.")
             self.logger.exception(e)
             return
-    
-    def get_1337x_magnet(self, link):
-        """Module to get magnetic link of torrent.
 
+    def get_magnet_external(self, link):
+        """
+        Module to get magnetic link of torrent.
+
+        For 1337x, limetorrents modules.
         Magnetic link is fetched from torrent's info page.
         """
         print("Fetching magnetic link...")
         self.logger.debug("Fetching magnetic link")
         soup = self.http_request(link)
-        magnet = soup.find('ul', class_="download-links-dontblock").a['href']
+        if self.class_name == 'limetorrents':
+            magnet = soup.findAll('div', class_='dltorrent')[2].a['href']
+        elif self.class_name == 'x1337':
+            magnet = soup.find('ul', class_="download-links-dontblock").a['href']
         return magnet
 
     def fetch_tpb_details(self, link, index):

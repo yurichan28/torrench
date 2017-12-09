@@ -125,11 +125,14 @@ class Common:
         if self.masterlist is None or self.masterlist == []:
             print("\nNo results found for given input!")
             self.logger.debug("No results found for given input!")
-            st = inspect.stack()
-            module = st[1][0].f_locals['self'].__module__.split('.')[-1]
-            if module == 'interactive':
-            self.logger.debug("module: interactive. Returning to caller.".format(module))
-                return
+            try:
+                st = inspect.stack()
+                module = st[1][0].f_locals['self'].__module__.split('.')[-1]
+                if module == 'interactive':
+                    self.logger.debug("module: interactive. Returning to caller.".format(module))
+                    return
+            except KeyError:
+                pass
             sys.exit(2)
         
         # Masterlist is not empty. Proceed further.

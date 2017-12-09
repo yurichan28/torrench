@@ -21,11 +21,12 @@ class LinuxTracker(Common):
         Common.__init__(self)
         self.title = title
         self.logger = logging.getLogger('log1')
-        self.output_headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED', 'ADDED', ]
+        self.headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED', 'ADDED', ]
         self.categ_url = "http://linuxtracker.org/index.php?page=torrents"
         self.index = 0
         self.categ_url_code = 0
         self.mylist = []
+        self.masterlist = []
         self.category_mapper = []
         self.category_mapper = []
         self.mapper = []
@@ -81,7 +82,6 @@ class LinuxTracker(Common):
         """To fetch results for given input."""
         print("Fetching results...")
         self.logger.debug("Fetching...")
-        masterlist = []
         self.logger.debug("categ_url_code = %d ; url=%s" % (self.categ_url_code, self.url))
         soup = self.http_request(self.url)
         content = soup.find_all('table', {'class': 'lista', 'width': '100%'})
@@ -101,7 +101,7 @@ class LinuxTracker(Common):
                 # Map torrent name and download link with corresponding index
                 self.mapper.insert(self.index, (name, dload))
                 self.mylist = [name, "--" + str(self.index) + "--", size, seeds+"/"+leeches, completed, date]
-                masterlist.append(self.mylist)
+                self.masterlist.append(self.mylist)
             except AttributeError as e:
                 self.logger.exception(e)
                 pass
@@ -110,7 +110,6 @@ class LinuxTracker(Common):
             self.logger.debug("\nNo results found for given input! Exiting!")
             sys.exit(2)
         self.logger.debug("Results fetched successfully!")
-        return masterlist
 
     def select_torrent(self):
         """
@@ -188,8 +187,8 @@ def main(title):
         else:
             ltr.categ_url_code = 0
             ltr.logger.debug("Not displaying categories.")
-        masterlist = ltr.fetch_results()
-        ltr.show_output(masterlist, ltr.output_headers)
+        ltr.fetch_results()
+        ltr.show_output()
         ltr.select_torrent()
     except KeyboardInterrupt:
         ltr.logger.debug("Keyboard interupt! Exiting!")

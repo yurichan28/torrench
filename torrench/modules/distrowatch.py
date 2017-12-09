@@ -23,15 +23,15 @@ class DistroWatch(Common):
         self.logger = logging.getLogger('log1')
         self.index = 0
         self.mylist = []
+        self.masterlist = []
         self.urllist = []
         self.url = "https://distrowatch.com/dwres.php?resource=bittorrent"
-        self.output_headers = ['NAME', 'INDEX', 'UPLOADED']
+        self.headers = ['NAME', 'INDEX', 'UPLOADED']
         self.mapper = []
         self.soup = None
 
     def fetch_results(self):
         """To fetch results for given input."""
-        masterlist = []
         try:
             torrent = self.soup.find_all('td', 'torrent')
             torrent_date = self.soup.find_all('td', 'torrentdate')
@@ -46,7 +46,7 @@ class DistroWatch(Common):
                         self.index += 1
                         self.mapper.insert(self.index, (name))
                         self.mylist = [name, "--" + str(self.index) + "--", date]
-                        masterlist.append(self.mylist)
+                        self.masterlist.append(self.mylist)
                         self.urllist.append(url)
                 except AttributeError as e:
                     self.logger.exception(e)
@@ -55,7 +55,6 @@ class DistroWatch(Common):
                 print("No results found for give input!")
                 self.logger.debug("\nNo results found for given input! Exiting!")
                 sys.exit(2)
-            return masterlist
         except Exception as e:
             self.logger.exception(e)
             print("Error message: %s" %(e))
@@ -116,9 +115,9 @@ def main(title):
         dw = DistroWatch(title)
         print("Fetching results...")
         dw.soup = dw.http_request(dw.url)
-        masterlist = dw.fetch_results()
+        dw.fetch_results()
         dw.logger.debug("Results fetched successfully!")
-        dw.show_output(masterlist, dw.output_headers)
+        dw.show_output()
         dw.select_torrent()
     except KeyboardInterrupt as e:
         dw.logger.debug("Keyboard interupt! Exiting!")

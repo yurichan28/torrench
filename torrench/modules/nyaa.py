@@ -39,9 +39,6 @@ class Nyaa(Config):
         self.soup = None
         self.total_fetch_time = 0
         self.soup_dict = {}
-        self.OS_WIN = False
-        if platform.system() == "Windows":
-            self.OS_WIN = True
         self.headers = ['NAME', 'INDEX', 'SIZE', 'SE/LE', 'COMPLETED']
 
     def get_html(self):
@@ -94,12 +91,8 @@ class Nyaa(Config):
                     seeds = data[5].string
                     leeches = data[6].string
                     completed = data[7].string
-                    if not self.OS_WIN:
-                        seeds_color = self.colorify("green", seeds)
-                        leeches_color = self.colorify("red", leeches)
-                    else:
-                        seeds_color = seeds
-                        leeches_color = leeches
+                    seeds_color = self.colorify("green", seeds)
+                    leeches_color = self.colorify("red", leeches)
                     self.index += 1
                     self.mapper.insert(self.index, (name, magnet, self.proxy+link, self.class_name))
                     self.mylist = [name, "--" +

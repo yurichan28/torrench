@@ -36,9 +36,6 @@ class x1337(Config):
         self.pages = page_limit
         self.logger = logging.getLogger('log1')
         self.class_name = self.__class__.__name__.lower()
-        self.OS_WIN = False
-        if platform.system() == "Windows":
-            self.OS_WIN = True
         self.index = 0
         self.page = 0
         self.total_fetch_time = 0
@@ -155,12 +152,8 @@ class x1337(Config):
                     category = category.title()
                     seeds = content[1].string
                     leeches = content[2].string
-                    if not self.OS_WIN:
-                        seeds_color = self.colorify("green", seeds)
-                        leeches_color = self.colorify("red", leeches)
-                    else:
-                        seeds_color = seeds
-                        leeches_color = leeches
+                    seeds_color = self.colorify("green", seeds)
+                    leeches_color = self.colorify("red", leeches)
                     date = content[3].string
                     size = content[4].findAll(text=True)[0]
                     uploader = content[5].string

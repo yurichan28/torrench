@@ -95,6 +95,10 @@ class Torrench(Config):
                             "--nyaa",
                             action="store_true",
                             help="Search Nyaa")
+        optional_sites.add_argument("-l",
+                            "--limetorrents",
+                            action="store_true",
+                            help="Search LimeTorrents")
         optional_sites.add_argument("-i",
                             "--idope",
                             action="store_true",
@@ -209,7 +213,8 @@ class Torrench(Config):
             self.args.nyaa,
             self.args.idope,
             self.args.xbit,
-            self.args.libgen
+            self.args.libgen,
+            self.args.limetorrents
         )  # These modules are only enabled through manual configuration.
         if self.args.clear_html:
             if not self.args.thepiratebay:
@@ -266,6 +271,11 @@ class Torrench(Config):
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
                     import torrench.modules.x1337 as x13
                     x13.main(self.input_title, self.page_limit)
+                elif self.args.limetorrents:
+                    self.logger.debug("Using LimeTorrents")
+                    self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))
+                    import torrench.modules.limetorrents as lmt
+                    lmt.main(self.input_title, self.page_limit)
                 elif self.args.idope:
                     self.logger.debug("Using Idope")
                     self.logger.debug("Input title: [%s] ; page_limit: [%s]" % (self.input_title, self.page_limit))

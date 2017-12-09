@@ -118,10 +118,19 @@ class CrossSite(Config):
         self.logger.debug("Displaying output tables")
         for i, j, k in zip(mlist, mapper, self.class_list):
             mapper_no_merge.insert(index_no_merge, (i, j, k))
-            index_no_merge += 1
-            self.show_output(mapper_no_merge[temp][0])
-            temp += 1
-        
+            self.masterlist = mapper_no_merge[temp][0]
+            if self.masterlist == []:
+                del mapper_no_merge[index_no_merge]
+                pass
+            else:
+                self.colorify_seeds_leeches()
+                self.show_output()
+                temp += 1
+                index_no_merge += 1
+        if self.masterlist == []:
+            print("\nNo results found for given input!")
+            self.logger.debug("No results found for given input! Exiting!")
+            sys.exit(2)
         # Select website, and proceed further with index selection...
         while True:
             try:
@@ -132,11 +141,12 @@ class CrossSite(Config):
                 opt = int(input("\nSelect Site > "))
                 self.logger.debug("Option entered: {}".format(opt))
                 if opt > 0:
+                    self.masterlist = mapper_no_merge[opt-1][0]
                     self.mapper = mapper_no_merge[opt-1][1]
                     self.show_output()
                     site_name = mapper_no_merge[opt-1][2]
                     print("\n[{}]\n".format(site_name))
-                    self.logger.debug("Selected site [{}]: {}".format(opt, self.class_name))
+                    self.logger.debug("Selected site [{}]: {}".format(opt, site_name))
                     while True:
                         index = self.select_index(len(self.mapper))
                         self.logger.debug("Got index: {}".format(index))
@@ -242,6 +252,7 @@ def main(args):
             sys.exit(2)
         cs.args = args
         verify_input(cs)
+        cs.title = cs.title.replace("'", "")
         cs.logger.debug("Input title: {} ; page_limit: {}".format(title, pages))
         r = vars(args)
         arguments = [a for a, b in r.items() if b is True]

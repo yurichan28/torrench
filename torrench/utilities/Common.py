@@ -16,6 +16,8 @@ from bs4 import BeautifulSoup
 import pyperclip
 from tabulate import tabulate
 
+colorama.init()
+
 
 class Common:
     """
@@ -168,19 +170,19 @@ class Common:
         total_fetch_time = oplist[1]
         # `max` is maximum number of torrents in 1 page
         if self.class_name == 'thepiratebay' or self.class_name == 'kickasstorrent':
-            max = 30
+            m = 30
         elif self.class_name == 'skytorrents':
-            max = 40
+            m = 40
         elif self.class_name == 'x1337':
-            max = 20
+            m = 20
         elif self.class_name == 'idope':
-            max = 10
+            m = 10
         elif self.class_name == 'nyaa':
-            max = 75
+            m = 75
         else:
-            max = total_torrent_count
-        exact_no_of_pages = total_torrent_count // max
-        has_extra_pages = total_torrent_count % max
+            m = total_torrent_count
+        exact_no_of_pages = total_torrent_count // m
+        has_extra_pages = total_torrent_count % m
         if has_extra_pages > 0:
             exact_no_of_pages += 1
         self.logger.debug("Total torrents: %d" % (total_torrent_count))
@@ -438,19 +440,13 @@ class Common:
                 self.logger.debug("Saved in %s", (downloads_dir))
             # Load torrent to client
             if load == 1:
-                if not self.OS_WIN:
-                    self.load_torrent(torrent_file)
-                else:
-                    print("Sorry. Torrents cannot be loaded from hard drive to client in windows.")
-                    print("This feature is not yet supported. More information about the same is available in docs.")
-                    print("The torrent file has been downloaded and can be loaded to client manually.")
+                self.load_torrent(torrent_file)
         except KeyboardInterrupt as e:
             self.logger.exception(e)
             print("\nAborted!\n")
 
     def colorify(self, color, text):
         """To return colored text."""
-        colorama.init()
         self.colors = {
             "yellow": colorama.Fore.YELLOW + colorama.Style.BRIGHT,
             "green": colorama.Fore.GREEN + colorama.Style.BRIGHT,
@@ -562,9 +558,7 @@ class Common:
                     print(self.colorify("green", "Success (PID: %d)") %(p.pid))
                     self.logger.debug("torrent added! (PID: %d)" %(p.pid))
                 elif client == 'browser':
-                    p = subprocess.Popen(['firefox', link], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                    print(self.colorify("green", "Success (PID: %d)") %(p.pid))
-                    self.logger.debug("torrent added! (PID: %d)" %(p.pid))
+                    webbrowser.open_new_tab(link)
                 else:
                     """
                     Any other torrent client.
@@ -581,7 +575,10 @@ class Common:
                 The magnetic link is added to web-browser.
                 Web browser should be able to load torrent to client automatically
                 """
-                webbrowser.open_new_tab(link)
+                os.startfile(link)
+                print("(default-client)")
+                print(self.colorify("green", "Success!\n"))
+                self.logger.debug("Torrent added successfully.")
         except Exception as e:
             self.logger.exception(e)
             print(self.colorify("red",  "[ERROR]: %s") % (e))

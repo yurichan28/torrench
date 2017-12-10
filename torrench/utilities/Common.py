@@ -267,7 +267,7 @@ class Common:
             option_one = "[1] Print links (magnetic, upstream)\n"
             option_two = "[2] Load torrent to client\n"
             option_three = "[3] Get torrent details\n"
-            option_return = "[r] Return\n"
+            option_return = "---\n[r] Return\n"
             option_quit = "[q] Quit\n"
             self.class_name = self.mapper[index-1][-1]
             if self.class_name == 'thepiratebay':

@@ -1,3 +1,19 @@
+### [10/12/2017] v1.0.61
+
+* Added limetorrents
+* Added [cross-site search support]()
+* Added ability to **update config.ini file from torrench** (Note that config.ini file should be available previously) [`$ torrench -U`] (Thanks @datafanatic for suggestion)
+* Re-designed post-index-selection options menu.
+* Added `browser` option for Linux/MacOS as torrent client (torrench.ini) (requested by users).
+* Fixed `--interactive` mode bug that caused exiting of torrench if no results were found.
+* Nyaa: Search through pages (`-p`) is now possible.
+* [Windows] Fix loading .torrent files to client from torrench
+* [Windows] Display colored seeds/leeches for 1337x, nyaa modules.
+* [Windows] Fix cursor not being displayed in fullscreen cmd window.
+* Code re-factorization and many other bug fixes.
+
+---
+
 ### [25/11/2017] v1.0.58
 * Added two more sites (**Please update the config.ini file accordingly**)
     * Idope

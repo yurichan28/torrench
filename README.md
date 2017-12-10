@@ -165,7 +165,7 @@ Additional options:
 ## Features
 * Displays results in organized, tabular form.
 * Load torrent to client from torrench.
-* [Cross-site search](): Search multiple sites with a single command.
+* [Cross-site search](https://github.com/kryptxy/torrench/blob/master/README.md#cross-site-search): Search multiple sites with a single command.
 * Interactive mode for searching across modules (```--interactive```)
 * Copy magnetic link to clipboard (```$ torrench -x 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
 * Get TOP torrents [TPB/SkyTorrents] (```--top```)
@@ -207,7 +207,7 @@ Additional options:
 ---
 
 ### Cross-Site search
-Torrench supports cross-site search. This means it is possible to search multiple sites with a single command.
+It is possible to search multiple sites with a single command (Cross-site search)
 
 #### Sample
 `$ torrench -Ctisx 'ubuntu'`

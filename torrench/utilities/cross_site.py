@@ -137,7 +137,7 @@ class CrossSite(Config):
             try:
                 print()
                 for i, j in zip(range(len(mapper_no_merge)), mapper_no_merge):
-                    print("[{}] {}".format(i+1, j[2]))
+                    print("[{}] {}".format(i+1, j[2].upper()))
                 self.logger.debug("Selecting site")
                 opt = int(input("\nSelect Site > "))
                 self.logger.debug("Option entered: {}".format(opt))
@@ -146,7 +146,7 @@ class CrossSite(Config):
                     self.mapper = mapper_no_merge[opt-1][1]
                     self.show_output()
                     site_name = mapper_no_merge[opt-1][2]
-                    print("\n[{}]\n".format(site_name))
+                    print("\n[{}]\n".format(site_name.upper()))
                     self.logger.debug("Selected site [{}]: {}".format(opt, site_name))
                     while True:
                         index = self.select_index(len(self.mapper))

@@ -30,17 +30,20 @@ _(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))
 Torrench is a command-line program to search and download torrents from torrent-hosting sites. It's compatible under **Windows, Linux and MacOS**.
 Torrench supports following websites:
 
-| Sites Enabled | Sites Disabled (Requires Configuration) |
-| :-------------- | :------------------------- |
-|LinuxTracker `(default)`|The Pirate Bay (TPB)|
-|DistroWatch `(-d)`|KickassTorrents (KAT)|
-||RarBg|
-||1337x|
-||SkyTorrents|
-||Nyaa[dot]si|
-||Idope|
-||LibGen (Ebooks)|
-||XBit[dot]pw|
+**Supported Sites**
+
+* Linuxtracker (default)
+* Distrowatch
+* The Pirate Bay (TPB) **[D]**
+* KickassTorrents **[D]**
+* RarBG **[D]**
+* 1337x **[D]**
+* LimeTorrents **[D]**
+* SkyTorrents **[D]**
+* Nyaa **[D]**
+* Idope **[D]**
+* LibGen (Ebooks) (search only using book's ISBN) **[D]**
+* XBit **[D]**
 
 Tested on following platforms:
 * **Windows:** Win7 (32bit, 64bit), Win8, Win8.1, Win10.
@@ -49,13 +52,11 @@ Tested on following platforms:
 **[Reported by users]**
 * **macOS:** Yosemite, Sierra, High Sierra (10.13). [I do not own a Mac hardware, so unable to test it myself. If you find it working on your system (it should), update me?]
 
-* Note about **LibGen** - LibGen allows searching for Ebooks using book's **ISBN-10 number only**. Searching using book title is not supported. (LibGen API does not allow searching using title). A book's ISBN-10 number can be found with a simple google search, or on websites like Amazon.
-
 **IMPORTANT -** Please keep a close eye on [CHANGELOGS](https://github.com/kryptxy/torrench/blob/master/CHANGELOG.md). All updates info, addition setup info (whenever required), and everyting else related will be updated there.
 
 ---
 
-#### \* Sites hosting illegal content (Disabled) (MUST READ)
+#### \* **[D]** Sites hosting illegal content (Disabled) (MUST READ)
 By default, searching thepiratebay(TPB)/kickasstorrents(KAT)/SkyTorrents/Nyaa/XBit... from torrench is disabled. The user should configure and enable it to use. I have provided configuration steps, but before moving to configuration, please note the following:
 
 * Using these sites is completely optional. They would never interfere/cause any problems when searching linuxtracker/distowatch.
@@ -71,9 +72,9 @@ _Torrench initially began as a python learning project for me. I am sure there a
 ## Installation/Building from Source
 ### Linux
 
-* Requires [Python3](https://www.python.org/downloads/)
+* Requires [Python3](https://www.python.org/downloads/) (3.4+)
 * Arch Users - Can install from [AUR](https://aur.archlinux.org/packages/torrench/)
-* Other distro users [Ubuntu,Fedora,Suse,etc...] can use pip (python3-pip) (install/upgrade)
+* Other distro users [Ubuntu,Fedora,Suse,etc...] can use **pip3** (install/upgrade)
 ```
 $ sudo pip3 install --upgrade torrench
 ```
@@ -85,12 +86,13 @@ $ sudo python3 setup.py install
 ### Windows
 Windows does not require any additional packages. Everything required to run this software is provided in executable (Does not even require python pre-installed).
 
-* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.58/torrench-1.0.58.exe)
+* Download latest [torrench executable](https://github.com/kryptxy/torrench/releases/download/v1.0.61/torrench-1.0.61.exe)
 * That's it. Run using cmd/powershell [```> torrench.exe <search>```]
 
 	* NOTE:
 		* In windows, the default location for storing [TPB] html files is ```C:\Users\<user>\.torrench\temp```
-        * For now, `linuxtacker`, `distrowatch` and `libgen` does not allow adding torrent to client from torrench. A `.torrent` file is downloaded to hard-drive. I was unable to find a way to load `.torrent` to client from torrench. I'll try to figure this out when I'll get time. Till then, torrent should be loaded manually after it is downloaded. Also, if someone has a work-around for the same, let me know?
+        * ~~For now, `linuxtacker`, `distrowatch` and `libgen` does not allow adding torrent to client from torrench. A `.torrent` file is downloaded to hard-drive. I was unable to find a way to load `.torrent` to client from torrench. I'll try to figure this out when I'll get time. Till then, torrent should be loaded manually after it is downloaded. Also, if someone has a work-around for the same, let me know?~~ 
+        **FIXED in v1.0.61**
 
 ### Osx
 
@@ -100,7 +102,7 @@ $ pip3 install pyopenssl
 ```
 
 ### Configuration instructions:
-1. Download/Update the [**config.ini**](https://pastebin.com/reymRHSL) file.
+1. Download the [**config.ini**](https://pastebin.com/reymRHSL) file.
 	* **Windows -** Copy the config file in ```C:\Users\<user>\.config\torrench\``` (create any missing directories)
 	* **Linux -** Default location is ```$XDG_CONFIG_HOME/torrench/```. If ```$XDG_CONFIG_HOME``` is not defined, it fallbacks to ```$HOME/.config/torrench/``` (Create any missing directories).
 	* **MacOS -** See minimal setup guide below.
@@ -109,6 +111,8 @@ $ pip3 install pyopenssl
 	* Set ```enable=1```
 	* Save and exit
 3. That's it.
+
+* Once setup, config file can be updated using [`$ torrench -U`]. Setting this up manually for the first time is mandatory though.
 
 _Config file [minimal setup guide](https://gist.github.com/kryptxy/788a052ab8ae9cb5dacdd72d88d3f0ea) (Windows/Linux/MacOS)_
 
@@ -124,41 +128,50 @@ $ torrench [Options] <SEARCH_STRING>
 ## Options
 ```bash
 optional arguments:
-        -h, --help            show this help message and exit
-        -i, --interactive     Enable interactive mode for searches
-        -v, --version         Display version and exit.
+    -h, --help            show this help message and exit
+    -v, --version         Display version and exit.
+    -C, --cross_site      Enable cross-site search
+    -U, --update-config   Update config.ini file.
+    --interactive         Enable interactive mode for searches
+    --no-merge            (Cross-site) Do not merge results in one table
+    --sorted              (Cross-site) sort results on basis of Seeds.
 
 Main Sites:
-        search                Search LinuxTracker (default)
-        -d, --distrowatch     Search Distrowatch
+    search                Search LinuxTracker (default)
+    -d, --distrowatch     Search Distrowatch
 
 Optional Sites:
-        Requires configuration (disabled by default)
+  Requires configuration (disabled by default)
 
-        -t, --thepiratebay    Search thepiratebay (TPB)
-        -k, --kickasstorrent  Search KickassTorrent (KAT)
-        -s, --skytorrents     Search SkyTorrents
-        -x, --x1337           Search 1337x
-        -r, --rarbg           Search RarBg
-        -n, --nyaa            Search Nyaa
-        -i, --idope           Search Idope
-        -b, --xbit            Search XBit.pw
-        -g, --libgen          Search LibGen (Ebooks)
+    -t, --thepiratebay    Search thepiratebay (TPB)
+    -k, --kickasstorrent  Search KickassTorrent (KAT)
+    -s, --skytorrents     Search SkyTorrents
+    -x, --x1337           Search 1337x
+    -r, --rarbg           Search RarBg
+    -n, --nyaa            Search Nyaa
+    -l, --limetorrents    Search LimeTorrents
+    -i, --idope           Search Idope
+    -b, --xbit            Search XBit.pw
+    -g, --libgen          Search LibGen (Ebooks)
 
 Additional options:
-        --copy                Copy magnetic link to clipboard
-        --top                 Get TOP torrents [TPB/SkyTorrents]
-        -p LIMIT, --page-limit LIMIT
-                    Number of pages to fetch results from. [default: 1] [TPB/KAT/SkyTorrents]
-        -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+    -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+    -p LIMIT, --page-limit LIMIT
+                            Number of pages to fetch results from. [default: 1]
+    --copy                Copy magnetic link to clipboard
+    --top                 Get TOP torrents [TPB/SkyTorrents]
  ```
 
 ## Features
 * Displays results in organized, tabular form.
 * Load torrent to client from torrench.
-* Copy magnetic link to clipboard (```$ torrench -x 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
+* [Cross-site search](): Search multiple sites with a single command.
 * Interactive mode for searching across modules (```--interactive```)
+* Copy magnetic link to clipboard (```$ torrench -x 'ubuntu' --copy```) [Linux systems require ```xclip``` package additionally]
 * Get TOP torrents [TPB/SkyTorrents] (```--top```)
+* *Much more...*
+
+---
 
 ### Loading torrent to client
 
@@ -188,19 +201,40 @@ Additional options:
             * PORT - 9091
 
 #### [Windows]
-* In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser should automatically open the (default) client and load torrent to the client.
+* ~~In windows, by default the magnetic link is opened in browser. If a torrent client is installed, the browser should automatically open the (default) client and load torrent to the client.~~
+* Instead of opening torrent in browser, torrent is loaded directly to **default torrent client**. Works for both magnetic links and .torrent files.
 
+---
+
+### Cross-Site search
+Torrench supports cross-site search. This means it is possible to search multiple sites with a single command.
+
+#### Sample
+`$ torrench -Ctisx 'ubuntu'`
+
+![cross-site](images/screenshots/cross.gif)
+*(Click to expand)*
+
+**USAGE**
+-  Use `-C` argument to search multiple sites. Example: `$ torrench -Ctlxsb 'fedora'`
+- By default, the results are merged into a **single table**. To view results separately, use `--no-merge` argument. This would give an option to select site, followed by torrent selection.
+- By default the results are merged on the basis of order of fetch.
+        Eg: If TPB is fetched first followed by KAT, final table will have all results of TPB followed by KAT.
+        To sort results, use `--sort` argument. Results are sorted on basis of **seeds**.
+- As of now, **linuxtracker, distrowatch and libgen are not supported.** Rest all can be used for cross-site.
+
+---
 
 ### Note
 * A torrent might take long to fetch results. I have generally faced this issue when running torrench for the first time. When this happens:
 	* Abort the ongoing search [Ctrl+C]
 	* Search again. The second time generally works fine.
 * KAT Proxy is quite shaky, and might not work at all times. I have been unable to find any reliable KAT proxy. Consider alternatives if they do not work.
+* Searching **LibGen** - LibGen allows searching for Ebooks using book's **ISBN-10 number only**. Searching using book title is not supported. (LibGen API does not allow searching using title). A book's ISBN-10 number can be found with a simple google search, or on websites like Amazon.
 
 ---
 
 ## Samples
-(It might be possible that samples look a little diff. from present torrench UI. **There shouldn't and won't be** any major difference though. I will update samples when there is any major change in UI/display.).
 
 ```bash
 $ torrench "ubuntu desktop 16.04"	## Search Linuxtracker for Ubuntu Desktop 16.04 distro ISO
@@ -208,6 +242,7 @@ $ torrench "fedora workstation"	## Search for Fedora Workstation distro ISO
 $ torrench -d "opensuse" ## Search distrowatch for opensuse ISO
 $ torrench -d "solus" ## Search distrowatch for solus ISO
 $ torrench -x "fedora" ## Search XBit for fedora distros ISO
+$ torrench -l 'arch linux'  ## Search limetorrents for Arch linux disro ISO
 ```
 #### Linuxtracker
 ```bash
@@ -234,6 +269,12 @@ $ torrench -i "opensuse"
 ```
 ![illegal](images/screenshots/idope.png)
 
+#### LimeTorrents
+```bash
+$ torrench -l "arch linux"
+```
+![illegal](images/screenshots/idope.png)
+
 
 #### XBit[dot]pw
 ```bash
@@ -257,44 +298,45 @@ _(Dynamically-generated Torrent description HTML page)_
 ![illegal](images/screenshots/tpb.gif)
 _(Click to expand)_
 
-#### KAT Examples
-```bash
-$ torrench -k "doctor strange"
-$ torrench -k "guardians of the galaxy"
-```
-![illegal](images/screenshots/kat.png)
-
-#### RarBg Examples
-```bash
-$ torrench -r "mr robot"
-```
-![illegal](images/screenshots/rarbg.png)
-_(Click to expand)_
-
-#### SkyTorrents Examples
-```bash
-$ torrench -s "hannibal"
-$ torrench -s "narcos"
-```
-![illegal](images/screenshots/skyt.png)
-_(Click to expand)_
-
-#### Nyaa[dot]si Examples
-```bash
-$ torrench -n "naruto"
-```
-![illegal](images/screenshots/nyaa.png)
-
 #### LibGen Examples (Ebooks)
 ```bash
 $ torrench -g 1593272901
 ```
 ![illegal](images/screenshots/libgen.png)
 
+#### KAT Examples
+```bash
+$ torrench -k "doctor strange"
+$ torrench -k "guardians of the galaxy"
+```
+
+#### RarBg Examples
+```bash
+$ torrench -r "mr robot"
+```
+
+
+#### SkyTorrents Examples
+```bash
+$ torrench -s "hannibal"
+$ torrench -s "narcos"
+```
+
+
+#### Nyaa[dot]si Examples
+```bash
+$ torrench -n "naruto"
+```
+
 ---
 
 ## Disclaimer
 This tool fetches torrent and details from already existing torrent website(s). I do not take any responsibility for availability of any kind of torrent data, or/and hosting of any torrent website(s). Also, I am  not responsible for closing of any of the torrent website(s). As long as the website(s) (proxies) are available, data will be fetched.
+
+## Known issues
+* **Distorted results**: Some websites displaying non-english characters can distort the resulting table. To properly align tables which contain wide characters (typically fullwidth glyphs from Chinese, Japanese or Korean languages), the user should install `wcwidth` library.
+
+`$ sudo pip3 install wcwidth`
 
 ## Contributing (Bug reports/suggestions/feedbacks)
 Please see [CONTRIBUTING](https://github.com/kryptxy/torrench/blob/master/CONTRIBUTING.md)

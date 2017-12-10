@@ -17,15 +17,19 @@ class Torrench(Config):
 
     optional arguments:
         -h, --help            show this help message and exit
-        -i, --interactive     Enable interactive mode for searches
         -v, --version         Display version and exit.
+        -C, --cross_site      Enable cross-site search
+        -U, --update-config   Update config.ini file.
+        --interactive         Enable interactive mode for searches
+        --no-merge            (Cross-site) Do not merge results in one table
+        --sorted              (Cross-site) sort results on basis of Seeds.
 
     Main Sites:
-        [search]                Search LinuxTracker (default)
+        search                Search LinuxTracker (default)
         -d, --distrowatch     Search Distrowatch
 
     Optional Sites:
-        Requires configuration (disabled by default)
+    Requires configuration (disabled by default)
 
         -t, --thepiratebay    Search thepiratebay (TPB)
         -k, --kickasstorrent  Search KickassTorrent (KAT)
@@ -33,23 +37,23 @@ class Torrench(Config):
         -x, --x1337           Search 1337x
         -r, --rarbg           Search RarBg
         -n, --nyaa            Search Nyaa
+        -l, --limetorrents    Search LimeTorrents
         -i, --idope           Search Idope
         -b, --xbit            Search XBit.pw
         -g, --libgen          Search LibGen (Ebooks)
 
     Additional options:
-        --copy                Copy magnetic link to clipboard
-        --top                 Get TOP torrents [TPB/SkyTorrents]
+        -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
         -p LIMIT, --page-limit LIMIT
                                 Number of pages to fetch results from. [default: 1]
-                                [TPB/KAT/SkyT]
-        -c, --clear-html      Clear all [TPB] torrent description HTML files and exit.
+        --copy                Copy magnetic link to clipboard
+        --top                 Get TOP torrents [TPB/SkyTorrents]
     """
 
     def __init__(self):
         """Initialisations."""
         Config.__init__(self)
-        self.__version__ = "Torrench (1.0.58)"
+        self.__version__ = "Torrench (1.0.61)"
         self.logger = logging.getLogger('log1')
         self.args = None
         self.input_title = None

@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 import sys
 
@@ -10,7 +10,7 @@ except ImportError:
 
 DESCRIPTION = 'Command-line torrent search program for Windows, Linux and  MacOS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs.'
-VERSION = '1.0.58'
+VERSION = '1.0.61'
 
 setup(
     name="torrench",

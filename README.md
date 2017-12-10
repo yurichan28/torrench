@@ -16,6 +16,7 @@
 * [Features](https://github.com/kryptxy/torrench#features)
 * [Samples](https://github.com/kryptxy/torrench#samples)
 * [Disclaimer](https://github.com/kryptxy/torrench#disclaimer)
+* [Known Issues](https://github.com/kryptxy/torrench#known-issues)
 * [Contributing (Bugs/Suggestions/Feedback)](https://github.com/kryptxy/torrench#contributing-bug-reportssuggestionsfeedbacks)
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
@@ -213,7 +214,6 @@ It is possible to search multiple sites with a single command (Cross-site search
 `$ torrench -Ctisx 'ubuntu'`
 
 ![cross-site](images/screenshots/cross.gif)
-*(Click to expand)*
 
 **USAGE**
 -  Use `-C` argument to search multiple sites. Example: `$ torrench -Ctlxsb 'fedora'`
@@ -276,7 +276,7 @@ $ torrench -l "arch linux"
 ![illegal](images/screenshots/idope.png)
 
 
-#### XBit[dot]pw
+#### XBit
 ```bash
 $ torrench -x "fedora"
 ```
@@ -298,32 +298,32 @@ _(Dynamically-generated Torrent description HTML page)_
 ![illegal](images/screenshots/tpb.gif)
 _(Click to expand)_
 
-#### LibGen Examples (Ebooks)
+#### LibGen (Ebooks) (Search using ISBN-10)
 ```bash
 $ torrench -g 1593272901
 ```
 ![illegal](images/screenshots/libgen.png)
 
-#### KAT Examples
+#### KAT
 ```bash
 $ torrench -k "doctor strange"
 $ torrench -k "guardians of the galaxy"
 ```
 
-#### RarBg Examples
+#### RarBg
 ```bash
 $ torrench -r "mr robot"
 ```
 
 
-#### SkyTorrents Examples
+#### SkyTorrents
 ```bash
 $ torrench -s "hannibal"
 $ torrench -s "narcos"
 ```
 
 
-#### Nyaa[dot]si Examples
+#### Nyaa
 ```bash
 $ torrench -n "naruto"
 ```

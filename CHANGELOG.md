@@ -1,7 +1,7 @@
 ### [10/12/2017] v1.0.61
 
 * Added limetorrents
-* Added [cross-site search support]()
+* Added [cross-site search support](https://github.com/kryptxy/torrench/blob/master/README.md#cross-site-search)
 * Added ability to **update config.ini file from torrench** (Note that config.ini file should be available previously) [`$ torrench -U`] (Thanks @datafanatic for suggestion)
 * Re-designed post-index-selection options menu.
 * Added `browser` option for Linux/MacOS as torrent client (torrench.ini) (requested by users).

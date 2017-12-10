@@ -111,6 +111,17 @@ class Torrench(Config):
                             "--libgen",
                             action="store_true",
                             help="Search LibGen (Ebooks)")
+        misc.add_argument("-c",
+                            "--clear-html",
+                            action="store_true",
+                            default=False,
+                            help="Clear all [TPB] torrent description HTML files and exit.")
+        misc.add_argument("-p",
+                            "--page-limit",
+                            type=int,
+                            help="Number of pages to fetch results from. [default: 1]",
+                            default=1,
+                            dest="limit")
         misc.add_argument("--copy",
                             action="store_true",
                             default=False,
@@ -119,21 +130,6 @@ class Torrench(Config):
                             action="store_true",
                             default=False,
                             help="Get TOP torrents [TPB/SkyTorrents]")
-        misc.add_argument("-p",
-                            "--page-limit",
-                            type=int,
-                            help="Number of pages to fetch results from. [default: 1] [TPB/KAT/SkyT] ",
-                            default=1,
-                            dest="limit")
-        misc.add_argument("-c",
-                            "--clear-html",
-                            action="store_true",
-                            default=False,
-                            help="Clear all [TPB] torrent description HTML files and exit.")
-        parser.add_argument("--interactive",
-                            default=False,
-                            action="store_true",
-                            help="Enable interactive mode for searches")
         parser.add_argument("-v",
                             "--version",
                             action='version',
@@ -144,14 +140,23 @@ class Torrench(Config):
                             default=False,
                             action="store_true",
                             help="Enable cross-site search")
-        parser.add_argument("--sorted",
+        parser.add_argument("-U",
+                            "--update-config",
+                            action="store_true",
+                            default=False,
+                            help="Update config.ini file.")
+        parser.add_argument("--interactive",
                             default=False,
                             action="store_true",
-                            help="[Cross-site-only] sort results on basis of Seeds.")
+                            help="Enable interactive mode for searches")
         parser.add_argument("--no-merge",
                             default=False,
                             action="store_true",
                             help="(Cross-site) Do not merge results in one table")
+        parser.add_argument("--sorted",
+                            default=False,
+                            action="store_true",
+                            help="(Cross-site) sort results on basis of Seeds.")
 
         self.args = parser.parse_args()
 
@@ -307,6 +312,10 @@ def main():
     try:
         tr = Torrench()
         tr.define_args()
+        if tr.args.update_config:
+            import torrench.utilities.update_config as update
+            update.main()
+            sys.exit(2)
         if tr.args.cross_site:
             tr.logger.debug("Using cross-site")
             import torrench.utilities.cross_site as cs

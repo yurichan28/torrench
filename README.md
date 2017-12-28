@@ -21,9 +21,9 @@
 * [Contact](https://github.com/kryptxy/torrench#contact)
 * [Licence](https://github.com/kryptxy/torrench#licence)
 
-![linuxtackerv](images/screenshots/linuxtracker.gif)
+![cross-site](images/screenshots/cross.gif)
 
-_(Click to expand) ([More samples](https://github.com/kryptxy/torrench#samples))_
+_([More samples](https://github.com/kryptxy/torrench#samples))_
 
 ---
 

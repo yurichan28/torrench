@@ -1,7 +1,6 @@
 """nyaa.si module."""
 
 import logging
-import platform
 import sys
 
 from torrench.utilities.Config import Config
@@ -56,6 +55,11 @@ class Nyaa(Config):
                 search = "/?f=0&c=0_0&q={}&s=seeders&o=desc&p={}".format(self.title, self.page+1)
                 self.soup, time = self.http_request_time(self.proxy + search)
                 self.logger.debug("fetching page %d/%d" % (self.page+1, self.pages))
+                results_a = self.soup.findAll('tr', class_='success')
+                results_b = self.soup.findAll('tr', class_='default')
+                if results_a == [] and results_b == []:
+                    print("[No results]")
+                    break
                 print("[in %.2f sec]" % (time))
                 self.logger.debug("page fetched in %.2f sec!" % (time))
                 self.total_fetch_time += time
@@ -77,10 +81,10 @@ class Nyaa(Config):
         try:
             for page in self.soup_dict:
                 self.soup = self.soup_dict[page]
-                results = self.soup.findAll('tr', class_='success')
+                results = self.soup.find('table', class_='torrent-list').findAll('tr')
                 if results == []:
                     return
-                for result in results:
+                for result in results[1:]:
                     pre_data = result.findAll('a')
                     name = pre_data[-3].string
                     link = pre_data[-3]['href']

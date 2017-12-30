@@ -1,7 +1,6 @@
 """1337x Module."""
 
 import logging
-import platform
 import sys
 
 from torrench.utilities.Config import Config
@@ -114,6 +113,10 @@ class x1337(Config):
                 search = "/search/{}/{}/".format(self.title, self.page+1)
                 self.soup, time = self.http_request_time(self.proxy + search)
                 self.logger.debug("fetching page %d/%d" % (self.page+1, self.pages))
+                content = self.soup.find('table', class_='table-list')
+                if content is None:
+                    print("[No results]")
+                    break
                 print("[in %.2f sec]" % (time))
                 self.logger.debug("page fetched in %.2f sec!" % (time))
                 self.total_fetch_time += time

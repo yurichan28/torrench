@@ -111,6 +111,10 @@ class ThePirateBay(Config):
                 print("\nFetching from page: %d" % (self.page+1))
                 search = "/search/%s/%d/99/0" % (self.title, self.page)
                 self.soup, time = self.http_request_time(self.proxy + search)
+                content = self.soup.find('table', id="searchResult")
+                if content is None:
+                    print("[No results]")
+                    break
                 self.logger.debug("fetching page %d/%d" % (self.page+1, self.pages))
                 print("[in %.2f sec]" % (time))
                 self.logger.debug("page fetched in %.2f sec!" % (time))

@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import sys
+import os
 
 try:
     from setuptools import setup
@@ -11,6 +12,8 @@ except ImportError:
 DESCRIPTION = 'Command-line torrent search program for Windows, Linux and  MacOS'
 LONG_DESCRIPTION = 'Please visit https://github.com/kryptxy/torrench for docs.'
 VERSION = '1.0.61'
+CONFIG_DIR = os.getenv('XDG_CONFIG_HOME', os.path.expanduser(os.path.join('~', '.config')))
+FULL_CONFIG_DIR = os.path.join(CONFIG_DIR, 'torrench')
 
 setup(
     name="torrench",
@@ -24,6 +27,7 @@ setup(
     install_requires=['beautifulsoup4','lxml','requests','tabulate','colorama', 'pyperclip'],
     long_description=(LONG_DESCRIPTION),
     entry_points={'console_scripts': ['torrench = torrench.__main__:main']},
+    data_files=[(FULL_CONFIG_DIR, ['torrench.ini'])],
     zip_safe=False,
     keywords=['torrents', 'distrowatch', 'linuxtracker', 'linux', 'windows', 'cli', 'terminal'],
     classifiers=[

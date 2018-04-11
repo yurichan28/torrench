@@ -41,7 +41,7 @@ class RarBg(Config):
     def get_token(self):
         """To generate token."""
         self.logger.debug("Getting token")
-        get_token = "get_token=get_token"
+        get_token = "app_id=torrench&get_token=get_token"
         raw = requests.get(self.proxy+get_token).json()
         self.token = raw['token']
         self.logger.debug("Token generated - {}".format(self.token))
